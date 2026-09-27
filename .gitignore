@@ -1,0 +1,8 @@
+# Publikasikan hanya kode, tes, dan README produk.
+*
+!.gitignore
+!README.md
+!ronce.py
+!adapters.py
+!test_ronce.py
+!test_adapters.py
