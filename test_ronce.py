@@ -505,6 +505,282 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(packet["claims"][0]["entity"], "Bursa")
 
 
+class EditionTests(unittest.TestCase):
+    setUp = ReplayTests.setUp
+    run_replay = ReplayTests.run_replay
+
+    def test_review_render_approve_platform_specific_dry_run(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
+                article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
+        run = self.run_replay([page(rows)])
+        evidence = [{"source": r["source"], "quote": r["title"], "origin": origin}
+                    for r, origin in zip(rows, ("A", "B"))]
+        claims = [{"text": "BBCA mengumumkan dividen tunai.", "entity": "BBCA",
+                   "action": "pengumuman", "event_time": "2026-09-25", "evidence": evidence},
+                  {"text": "BBCA mengumumkan pembagian dividen.", "entity": "BBCA",
+                   "action": "pengumuman", "event_time": "2026-09-25", "evidence": evidence}]
+        ronce.review_claims(self.db, run["run_id"], "Editor", claims, reviewed=True)
+        x_posts = ronce.render_draft(self.db, run["run_id"], "edisi-1", "x", [0])
+        threads_posts = ronce.render_draft(self.db, run["run_id"], "edisi-1", "threads", [1, 0])
+        self.assertNotEqual(x_posts, threads_posts)
+        ronce.approve_edition(self.db, run["run_id"], "edisi-1", "x", "Editor", x_posts)
+        ronce.approve_edition(self.db, run["run_id"], "edisi-1", "threads", "Editor", threads_posts)
+        self.assertEqual(ronce.preview_edition(self.db, run["run_id"], "edisi-1", "x")["posts"], x_posts)
+        self.assertEqual(ronce.preview_edition(self.db, run["run_id"], "edisi-1", "threads")["posts"], threads_posts)
+
+    def test_edition_rejects_tampering_empty_claims_and_unreviewed_numbers(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
+                article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
+        run = self.run_replay([page(rows)])
+        claim = {"text": "BBCA mengumumkan dividen tunai.", "entity": "BBCA", "action": "pengumuman",
+                 "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin}
+                                                      for r, origin in zip(rows, ("A", "B"))]}
+        with self.assertRaisesRegex(ValueError, "klaim"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [], reviewed=True)
+        ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+        posts = ronce.render_draft(self.db, run["run_id"], "edisi-1", "x", [0])
+        with self.assertRaisesRegex(ValueError, "teks final"):
+            ronce.approve_edition(self.db, run["run_id"], "edisi-1", "x", "Editor", [posts[0] + " 100%"])
+        with self.assertRaisesRegex(ValueError, "enam"):
+            ronce.render_draft(self.db, run["run_id"], "edisi-1", "x", [0, 0])
+        original = ronce.approve_edition(self.db, run["run_id"], "edisi-1", "x", "Editor", posts)
+        self.assertEqual(original, ronce.approve_edition(self.db, run["run_id"], "edisi-1", "x", "Editor", posts))
+        with self.assertRaisesRegex(ValueError, "persetujuan baru"):
+            ronce.preview_edition(self.db, run["run_id"], "edisi-1", "x", posts=[posts[0] + "!"])
+        with closing(sqlite3.connect(self.db)) as con, con:
+            payload = json.loads(con.execute("SELECT payload FROM reviewed_claims WHERE run_id=?", (run["run_id"],)).fetchone()[0])
+            payload["claims"][0]["evidence"][0]["source"] = "https://fake.test/"
+            con.execute("UPDATE reviewed_claims SET payload=? WHERE run_id=?", (json.dumps(payload), run["run_id"]))
+        with self.assertRaisesRegex(ValueError, "kutipan|bukti|sumber"):
+            ronce.preview_edition(self.db, run["run_id"], "edisi-1", "x")
+
+    def test_review_rejects_abstain_and_after_cutoff(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen 100 rupiah", "https://one.test/a"),
+                article("BBCA umumkan dividen 120 rupiah", "https://two.test/b")]
+        run = self.run_replay([page(rows)])
+        with self.assertRaisesRegex(ValueError, "review"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [{"text": "BBCA"}], reviewed=True)
+
+    def test_review_rejects_unsupported_number_and_future_time(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
+                article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
+        run = self.run_replay([page(rows)])
+        claim = {"text": "BBCA mengumumkan dividen 100 rupiah.", "entity": "BBCA",
+                 "action": "pengumuman", "event_time": "2026-09-25",
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin}
+                              for r, origin in zip(rows, ("A", "B"))]}
+        with self.assertRaisesRegex(ValueError, "angka"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+        claim["text"] = "BBCA mengumumkan dividen tunai."
+        claim["event_time"] = "2026-09-25T23:00:00+07:00"
+        with self.assertRaisesRegex(ValueError, "cutoff"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_review_rejects_numeric_substring_and_wrong_event_action(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen 100 rupiah", "https://one.test/a"),
+                article("Dividen BBCA diumumkan 100 rupiah", "https://two.test/b")]
+        run = self.run_replay([page(rows)])
+        claim = {"text": "BBCA umumkan dividen 10 rupiah.", "entity": "BBCA", "action": "pengumuman",
+                 "event_time": "2026-09-25", "value": "10", "unit": "rupiah", "period": "2026",
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                              for r, o in zip(rows, ("A", "B"))]}
+        with self.assertRaisesRegex(ValueError, "angka"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+        claim["text"] = "BBCA umumkan dividen 100 rupiah."
+        claim["value"] = "100"
+        claim["action"] = "pembayaran"
+        with self.assertRaisesRegex(ValueError, "aksi"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_preview_rejects_edited_approval_editor(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
+                article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
+        run = self.run_replay([page(rows)])
+        claim = {"text": "BBCA mengumumkan dividen tunai.", "entity": "BBCA", "action": "pengumuman",
+                 "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                                                      for r, o in zip(rows, ("A", "B"))]}
+        ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+        posts = ronce.render_draft(self.db, run["run_id"], "edisi", "x", [0])
+        ronce.approve_edition(self.db, run["run_id"], "edisi", "x", "Editor", posts)
+        with closing(sqlite3.connect(self.db)) as con, con:
+            saved = json.loads(con.execute("SELECT payload FROM editions").fetchone()[0])
+            saved["approval"]["editor"] = "Penyusup"
+            con.execute("UPDATE editions SET payload=?", (json.dumps(saved),))
+        with self.assertRaisesRegex(ValueError, "integritas"):
+            ronce.preview_edition(self.db, run["run_id"], "edisi", "x")
+
+
+class ScoringTests(unittest.TestCase):
+    def test_scores_only_explicit_verified_rule_inputs(self):
+        from ronce import score_candidate
+        base = {"reviewed": True, "endpoint_available": True, "stale_repeat": False}
+        cases = [({"rule": "foreign_streak", "streak": 5}, 10),
+                 ({"rule": "foreign_streak", "streak": 6}, 12),
+                 ({"rule": "mover_persistent", "consecutive_days": 3}, 6),
+                 ({"rule": "mover_outlier", "ratio": "2.01"}, 5),
+                 ({"rule": "quarterly_new", "new_report": True}, 7),
+                 ({"rule": "news_two_large", "large_tickers": 2, "has_number": True}, 4),
+                 ({"rule": "news_one_ticker", "ticker_count": 1, "has_number": True}, 3)]
+        for inputs, expected in cases:
+            candidate = {**base, **inputs}
+            original = dict(candidate)
+            with self.subTest(inputs=inputs):
+                self.assertEqual(score_candidate(candidate), expected)
+                self.assertEqual(candidate, original)
+        for inputs in ({"rule": "foreign_streak", "streak": 4},
+                       {"rule": "mover_persistent", "consecutive_days": 2},
+                       {"rule": "mover_outlier", "ratio": "2"},
+                       {"rule": "quarterly_new", "new_report": False},
+                       {"rule": "news_two_large", "large_tickers": 2, "has_number": False},
+                       {"rule": "news_one_ticker", "ticker_count": 1, "has_number": False}):
+            self.assertIsNone(score_candidate({**base, **inputs}))
+        for gate in ({"reviewed": False}, {"endpoint_available": False}, {"stale_repeat": True}):
+            self.assertIsNone(score_candidate({**base, "rule": "quarterly_new", "new_report": True, **gate}))
+
+
+class DraftScheduleTests(unittest.TestCase):
+    def test_schedule_cli_runs_from_local_archive_without_publishing(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            pages = Path(tmp) / "pages.json"
+            sidecar = Path(tmp) / "interpretation.json"
+            db = Path(tmp) / "runs.sqlite"
+            rows = [article("BBCA umumkan dividen tunai", "https://one.test/a", "2026-09-25T05:00:00+07:00"),
+                    article("Dividen tunai BBCA diumumkan", "https://two.test/b", "2026-09-25T05:00:00+07:00")]
+            pages.write_text(json.dumps([page(rows, fetched_at="2026-09-25T05:30:00+07:00")]), encoding="utf-8")
+            sidecar.write_text(json.dumps(RULES), encoding="utf-8")
+            command = [sys.executable, "ronce.py", "schedule-once", str(pages), "--at", "2026-09-25T06:00:00+07:00",
+                       "--since", SINCE, "--db", str(db), "--interpretation", str(sidecar)]
+            first = subprocess.run(command, text=True, capture_output=True)
+            self.assertEqual(first.returncode, 0, first.stderr)
+            self.assertEqual(json.loads(first.stdout)["status"], "draft_only")
+            second = subprocess.run(command, text=True, capture_output=True)
+            self.assertEqual(second.returncode, 0, second.stderr)
+            self.assertEqual(json.loads(second.stdout), json.loads(first.stdout))
+
+    def test_weekday_jakarta_slot_runs_once_and_does_not_publish(self):
+        from ronce import draft_schedule
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            db = Path(tmp) / "runs.sqlite"
+            rows = [article("BBCA umumkan dividen tunai", "https://one.test/a", "2026-09-25T05:00:00+07:00"),
+                    article("Dividen tunai BBCA diumumkan", "https://two.test/b", "2026-09-25T05:00:00+07:00")]
+            now = "2026-09-25T06:00:00+07:00"
+            capture = [page(rows, fetched_at="2026-09-25T05:30:00+07:00")]
+            first = draft_schedule(capture, now, db, since=SINCE, interpretation=dict(RULES))
+            self.assertEqual(first["status"], "draft_only")
+            self.assertFalse(first["api_write"])
+            self.assertEqual(draft_schedule(capture, now, db, since=SINCE, interpretation=dict(RULES)), first)
+            with closing(sqlite3.connect(db)) as con:
+                self.assertEqual(con.execute("SELECT COUNT(*) FROM draft_schedules").fetchone()[0], 1)
+            with self.assertRaisesRegex(ValueError, "jadwal"):
+                draft_schedule(capture, "2026-09-25T05:59:00+07:00", db,
+                               since=SINCE, interpretation=dict(RULES))
+
+class DatabaseSafetyTests(unittest.TestCase):
+    def test_connection_rejects_ghost_run_and_sets_busy_timeout(self):
+        from ronce import _connect
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            db = Path(tmp) / "runs.sqlite"
+            with closing(_connect(db)) as con, con:
+                con.execute("CREATE TABLE runs (id TEXT PRIMARY KEY)")
+                con.execute("CREATE TABLE articles (run_id TEXT REFERENCES runs(id))")
+                self.assertEqual(con.execute("PRAGMA foreign_keys").fetchone()[0], 1)
+                self.assertGreater(con.execute("PRAGMA busy_timeout").fetchone()[0], 0)
+                with self.assertRaises(sqlite3.IntegrityError):
+                    con.execute("INSERT INTO articles VALUES ('ghost')")
+
+class AssumedTimeTests(unittest.TestCase):
+    def test_cli_assumed_timezone_works_only_with_explicit_flag(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            path = Path(tmp) / "pages.json"
+            path.write_text(json.dumps([page([article("BBCA umumkan dividen tunai", "https://one.test/a")])]), encoding="utf-8")
+            result = subprocess.run([sys.executable, "ronce.py", "replay", str(path),
+                                     "--since", SINCE, "--cutoff", CUTOFF, "--db", str(Path(tmp) / "runs.sqlite"),
+                                     "--assume-timezone", "+07:00"], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(json.loads(result.stdout)["time_basis"], "inferred_internal")
+
+    def test_assumed_run_cannot_be_approved_for_platform(self):
+        from ronce import replay_assumed, review_claims, approve_packet
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            db = Path(tmp) / "runs.sqlite"
+            rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
+                    article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
+            run = replay_assumed([page(rows)], CUTOFF, db, since=SINCE, assume_timezone="+07:00")
+            claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
+                     "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                                                          for r, o in zip(rows, ("A", "B"))]}
+            with self.assertRaisesRegex(ValueError, "asumsi"):
+                review_claims(db, run["run_id"], "Editor", [claim], reviewed=True)
+            with self.assertRaisesRegex(ValueError, "asumsi"):
+                approve_packet(db, run["run_id"], "Editor", claim["text"] + " Sumber: " +
+                               " ".join(r["source"] for r in rows), [claim], reviewed=True)
+
+    def test_inferred_sidecar_replay_always_watermarks_draft(self):
+        from ronce import replay
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            inferred = {**RULES, "time_basis": "inferred_internal",
+                        "evidence": "asumsi demo internal; bukan konfirmasi penyedia"}
+            result = replay([page([article("BBCA umumkan dividen tunai", "https://one.test/a")])],
+                            CUTOFF, Path(tmp) / "runs.sqlite", since=SINCE, interpretation=inferred)
+            self.assertIn("ASUMSI", result["draft"])
+            self.assertFalse(result["publishable"])
+
+    def test_inferred_sidecar_rejects_offset_other_than_approved_demo_offset(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            inferred = {**RULES, "source_timezone": "+08:00", "time_basis": "inferred_internal",
+                        "evidence": "asumsi demo internal; bukan konfirmasi penyedia"}
+            with self.assertRaisesRegex(ValueError, "asumsi"):
+                replay([page([article("BBCA umumkan dividen tunai", "https://one.test/a")])],
+                       CUTOFF, Path(tmp) / "runs.sqlite", since=SINCE, interpretation=inferred)
+
+    def test_assumed_timezone_is_watermarked_and_separate_from_archive(self):
+        from ronce import replay_assumed
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            db = Path(tmp) / "runs.sqlite"
+            raw = [page([article("BBCA umumkan dividen tunai", "https://one.test/a")])]
+            before = json.dumps(raw, sort_keys=True)
+            result = replay_assumed(raw, CUTOFF, db, since=SINCE, assume_timezone="+07:00")
+            self.assertEqual(result["time_basis"], "inferred_internal")
+            self.assertIn("ASUMSI", result["draft"])
+            self.assertFalse(result["publishable"])
+            self.assertEqual(json.dumps(raw, sort_keys=True), before)
+            with closing(sqlite3.connect(db)) as con:
+                self.assertEqual(json.loads(con.execute("SELECT interpretation_json FROM run_context").fetchone()[0])["time_basis"],
+                                 "inferred_internal")
+
+class PlatformLimitTests(unittest.TestCase):
+    def test_official_weighted_x_and_conservative_threads_limits(self):
+        from ronce import check_platform_text
+        x = check_platform_text("x", "Halo https://example.com/panjang/sekali 👨‍👩‍👧‍👦")
+        self.assertEqual(x["status"], "documented_rules_applied")
+        self.assertTrue(x["valid"])
+        self.assertEqual(check_platform_text("x", "漢" * 141)["valid"], False)
+        self.assertTrue(check_platform_text("threads", "a" * 500)["valid"])
+        self.assertFalse(check_platform_text("threads", "🚀" * 126)["valid"])
+        self.assertFalse(check_platform_text("threads", "a" * 501)["valid"])
+
+    def test_edition_preview_blocks_oversized_post(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
+                article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as temp:
+            db = Path(temp) / "runs.sqlite"
+            run = replay([page(rows)], CUTOFF, db, since=SINCE, interpretation=dict(RULES))
+            claim = {"text": "BBCA " + "a" * 501, "entity": "BBCA", "action": "pengumuman",
+                     "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                                                          for r, o in zip(rows, ("A", "B"))]}
+            ronce.review_claims(db, run["run_id"], "Editor", [claim], reviewed=True)
+            posts = ronce.render_draft(db, run["run_id"], "edisi", "threads", [0])
+            with self.assertRaisesRegex(ValueError, "batas"):
+                ronce.approve_edition(db, run["run_id"], "edisi", "threads", "Editor", posts)
+
+
 class TopicVocabularyTests(unittest.TestCase):
     """Leksikon tema dwibahasa (P0-1): tiap pola baru punya kasusnya; veto presisi diuji terpisah."""
 
@@ -680,6 +956,76 @@ class EnglishFlowReplayTests(unittest.TestCase):
 
 
 class FetchTests(unittest.TestCase):
+    def test_companion_cli_refuses_missing_key_without_archive(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            target = Path(tmp) / "capture.json"
+            env = dict(os.environ)
+            env.pop("SECTORS_API_KEY", None)
+            result = subprocess.run([sys.executable, "ronce.py", "fetch-companion", "--symbol", "BBCA",
+                                     "--start", "2026-09-24", "--end", "2026-09-25", "--out", str(target)],
+                                    text=True, capture_output=True, env=env)
+            self.assertIn("SECTORS_API_KEY", result.stderr)
+            self.assertFalse(target.exists())
+
+    def test_companion_endpoints_archive_synthetic_payloads_without_overwrite(self):
+        from ronce import fetch_companion
+        from urllib.parse import urlsplit
+        fixtures = {"top_changes": {"top_gainers": {"1d": [{"symbol": "BBCA.JK", "price_change": 0.02}]}, "top_losers": {}},
+                    "foreign_flow": {"symbol": "BBCA.JK", "data": [{"date": "2026-09-25", "net_foreign_inflow": None}]},
+                    "quarterly": [{"symbol": "BBCA.JK", "date": "2026-06-30", "revenue": None}]}
+        class Response:
+            def __init__(self, payload):
+                self.payload = payload
+            def __enter__(self):
+                return self
+            def __exit__(self, *_):
+                pass
+            def read(self):
+                return json.dumps(self.payload).encode()
+        requests = []
+        def fake_open(request, timeout):
+            requests.append(request)
+            self.assertEqual(request.get_header("Authorization"), "secret")
+            self.assertNotIn("secret", request.full_url)
+            kind = ("top_changes" if "top-changes" in request.full_url else
+                    "foreign_flow" if "foreign-flow" in request.full_url else "quarterly")
+            return Response(fixtures[kind])
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            target = Path(tmp) / "capture.json"
+            with patch("ronce.urlopen", side_effect=fake_open):
+                saved = fetch_companion("BBCA", "2026-09-24", "2026-09-25", target, api_key="secret")
+                self.assertEqual([x["endpoint"] for x in saved], ["top_changes", "foreign_flow", "quarterly"])
+                self.assertEqual([x["response"] for x in saved], list(fixtures.values()))
+                self.assertTrue(all(x["fetched_at"].endswith("+00:00") for x in saved))
+                with self.assertRaises(FileExistsError):
+                    fetch_companion("BBCA", "2026-09-24", "2026-09-25", target, api_key="secret")
+            self.assertEqual(json.loads(target.read_text(encoding="utf-8")), saved)
+            self.assertEqual(len(requests), 3)
+            self.assertEqual([urlsplit(r.full_url).path for r in requests],
+                             ["/v2/companies/top-changes/", "/v2/foreign-flow/BBCA/", "/v2/financials/quarterly/BBCA/"])
+
+    def test_companion_partial_error_leaves_no_archive(self):
+        from ronce import fetch_companion
+        class Response:
+            def __init__(self, payload):
+                self.payload = payload
+            def __enter__(self):
+                return self
+            def __exit__(self, *_):
+                pass
+            def read(self):
+                return json.dumps(self.payload).encode()
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            target = Path(tmp) / "capture.json"
+            with patch("ronce.urlopen", side_effect=[Response({"top_gainers": {}}), Response({"bad": 1})]):
+                with self.assertRaisesRegex(ValueError, "foreign_flow"):
+                    fetch_companion("BBCA", "2026-09-24", "2026-09-25", target, api_key="secret")
+            self.assertFalse(target.exists())
+            with patch("ronce.urlopen") as opened:
+                with self.assertRaisesRegex(ValueError, "90"):
+                    fetch_companion("BBCA", "2026-01-01", "2026-09-25", target, api_key="secret")
+                opened.assert_not_called()
+
     def test_archive_is_atomic_and_refuses_overwrite(self):
         with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as directory:
             target = Path(directory) / "pages.json"

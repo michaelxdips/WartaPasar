@@ -6,3 +6,6 @@
 !adapters.py
 !test_ronce.py
 !test_adapters.py
+!package.json
+!package-lock.json
+!x_length.mjs

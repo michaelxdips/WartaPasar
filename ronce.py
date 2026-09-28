@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import sqlite3
 import tempfile
 from contextlib import closing
@@ -86,6 +87,47 @@ def fetch_news(start, end, *, api_key, max_pages=100):
         offset = next_offset
     raise ValueError("batas max_pages tercapai sebelum halaman terakhir; arsip tidak disimpan")
 
+
+def fetch_companion(symbol, start, end, out, *, api_key):
+    """Capture three documented GET responses; no archive on partial failure."""
+    if not isinstance(api_key, str) or not api_key.strip():
+        raise ValueError("SECTORS_API_KEY wajib tersedia di lingkungan proses")
+    if not isinstance(symbol, str) or not re.fullmatch(r"[A-Za-z]{4}(?:\.[Jj][Kk])?", symbol):
+        raise ValueError("symbol IDX harus empat huruf, opsional .JK")
+    try:
+        if (not isinstance(start, str) or not isinstance(end, str)
+                or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", start)
+                or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", end)
+                or not 0 <= (date.fromisoformat(end) - date.fromisoformat(start)).days <= 90):
+            raise ValueError("rentang foreign-flow wajib 0–90 hari")
+    except ValueError as exc:
+        raise ValueError("rentang foreign-flow wajib tanggal valid 0–90 hari") from exc
+    target = Path(out)
+    if target.exists():
+        raise FileExistsError(f"arsip sudah ada: {target}")
+    specs = [("top_changes", "companies/top-changes/", {"classifications": "top_gainers,top_losers", "periods": "1d,7d"}),
+             ("foreign_flow", f"foreign-flow/{symbol.upper()}/", {"start": start, "end": end}),
+             ("quarterly", f"financials/quarterly/{symbol.upper()}/", {"n_quarters": 1})]
+    captured = []
+    for kind, path, params in specs:
+        request = Request("https://api.sectors.app/v2/" + path + "?" + urlencode(params),
+                          headers={"Authorization": api_key, "Accept": "application/json", "User-Agent": "Ronce-MVP/0.1"})
+        try:
+            with urlopen(request, timeout=25) as response:
+                payload = json.load(response)
+                fetched_at = datetime.now(timezone.utc).isoformat()
+        except HTTPError as exc:
+            raise ValueError(f"Sectors HTTP {exc.code}; arsip tidak disimpan") from exc
+        except (URLError, TimeoutError) as exc:
+            raise ValueError("Sectors tidak dapat dihubungi; arsip tidak disimpan") from exc
+        if ((kind == "top_changes" and (not isinstance(payload, dict) or not any(
+                isinstance(payload.get(k), dict) for k in ("top_gainers", "top_losers"))))
+                or (kind == "foreign_flow" and (not isinstance(payload, dict) or not isinstance(payload.get("data"), list)))
+                or (kind == "quarterly" and not isinstance(payload, list))):
+            raise ValueError(f"respons {kind} tidak sesuai bentuk dokumentasi; arsip tidak disimpan")
+        captured.append({"endpoint": kind, "request": params, "fetched_at": fetched_at, "response": payload})
+    save_archive(target, captured)
+    return captured
 
 def save_archive(path, pages):
     """Do not expose partial archives on fetch/write failure."""
@@ -300,10 +342,41 @@ def _candidates(rows):
     return sorted(candidates, key=lambda c: (-c["source_count"], -c["article_count"], c["topic"], c["symbol"], c["date"]))
 
 
+def score_candidate(candidate):
+    """Bab 8.2 per-rule score only; no ranking or inference from headlines."""
+    if not isinstance(candidate, dict) or any(candidate.get(k) is not v for k, v in
+            (("reviewed", True), ("endpoint_available", True), ("stale_repeat", False))):
+        return None
+    rule = candidate.get("rule")
+    if rule == "foreign_streak":
+        days = candidate.get("streak")
+        return days * 2 if type(days) is int and days >= 5 else None
+    if rule == "mover_persistent":
+        return 6 if type(candidate.get("consecutive_days")) is int and candidate["consecutive_days"] >= 3 else None
+    if rule == "mover_outlier":
+        try:
+            ratio = Decimal(str(candidate["ratio"]))
+        except (KeyError, ValueError, ArithmeticError):
+            return None
+        return 5 if ratio.is_finite() and ratio > 2 else None
+    if rule == "quarterly_new":
+        return 7 if candidate.get("new_report") is True else None
+    if rule == "news_two_large":
+        return 4 if candidate.get("has_number") is True and type(candidate.get("large_tickers")) is int and candidate["large_tickers"] >= 2 else None
+    if rule == "news_one_ticker":
+        return 3 if candidate.get("has_number") is True and type(candidate.get("ticker_count")) is int and candidate["ticker_count"] == 1 else None
+    return None
+
+def _connect(db):
+    con = sqlite3.connect(db, timeout=5)
+    con.execute("PRAGMA foreign_keys=ON")
+    con.execute("PRAGMA busy_timeout=5000")
+    return con
+
 def _store(db, run_id, cutoff, since, interpretation, rows, candidates):
     db = Path(db)
     db.parent.mkdir(parents=True, exist_ok=True)
-    with closing(sqlite3.connect(db)) as con, con:
+    with closing(_connect(db)) as con, con:
         con.execute("CREATE TABLE IF NOT EXISTS runs (id TEXT PRIMARY KEY, cutoff TEXT NOT NULL, saved_at TEXT NOT NULL, decision_json TEXT NOT NULL)")
         con.execute("CREATE TABLE IF NOT EXISTS articles (run_id TEXT NOT NULL REFERENCES runs(id), source TEXT NOT NULL, payload TEXT NOT NULL, PRIMARY KEY (run_id, source))")
         con.execute("CREATE TABLE IF NOT EXISTS run_context (run_id TEXT PRIMARY KEY REFERENCES runs(id), since TEXT NOT NULL, interpretation_json TEXT NOT NULL)")
@@ -327,12 +400,13 @@ def approve_packet(db, run_id, editor, text, claims, *, reviewed=False):
     if not isinstance(claims, list) or not claims:
         raise ValueError("klaim wajib ada")
     text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
-    with closing(sqlite3.connect(db)) as con, con:
+    with closing(_connect(db)) as con, con:
         con.execute("CREATE TABLE IF NOT EXISTS packets (run_id TEXT PRIMARY KEY REFERENCES runs(id), payload TEXT NOT NULL)")
 
         run = con.execute("SELECT cutoff, decision_json FROM runs WHERE id=?", (run_id,)).fetchone()
         if run is None:
             raise ValueError("run tidak ditemukan")
+        _require_confirmed_time(con, run_id)
         current = con.execute("SELECT payload FROM packets WHERE run_id=?", (run_id,)).fetchone()
         if current:
             previous = json.loads(current[0])
@@ -345,18 +419,52 @@ def approve_packet(db, run_id, editor, text, claims, *, reviewed=False):
             raise ValueError("kandidat review belum dinyatakan diverifikasi editor; lampirkan keputusan review eksplisit")
         if not eligible:
             raise ValueError("tidak ada kandidat review; abstain tidak bisa dinaikkan otomatis")
-        articles = {url: json.loads(body) for url, body in con.execute(
-            "SELECT source, payload FROM articles WHERE run_id=?", (run_id,))}
-        checked = []
-        for claim in claims:
+        checked = _validate_claims(con, run_id, claims, text)
+        fingerprint = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        packet = {"run_id": run_id, "cutoff": run[0], "claims": checked, "text": text,
+                  "text_hash": fingerprint, "approval": {"editor": editor,
+                  "approved_at": datetime.now(timezone.utc).isoformat()}}
+        con.execute("INSERT INTO packets VALUES (?, ?)",
+                    (run_id, json.dumps(packet, ensure_ascii=False, sort_keys=True)))
+        return packet
+
+def _validate_claims(con, run_id, claims, text=None, *, strict=False):
+    run = con.execute("SELECT cutoff, decision_json FROM runs WHERE id=?", (run_id,)).fetchone()
+    if run is None:
+        raise ValueError("run tidak ditemukan")
+    eligible = [c for c in json.loads(run[1]) if c["decision"] == "review"]
+    if not eligible:
+        raise ValueError("tidak ada kandidat review; abstain tidak bisa dinaikkan otomatis")
+    if not isinstance(claims, list) or not claims:
+        raise ValueError("klaim wajib ada")
+    articles = {url: json.loads(body) for url, body in con.execute(
+        "SELECT source, payload FROM articles WHERE run_id=?", (run_id,))}
+    checked = []
+    for claim in claims:
             if not isinstance(claim, dict) or any(not isinstance(claim.get(k), str) or not claim[k].strip()
                                                  for k in ("text", "entity", "action", "event_time")):
                 raise ValueError("klaim perlu teks, entitas, aksi, dan waktu")
-            if claim["text"] not in text:
+            if text is not None and claim["text"] not in text:
                 raise ValueError("teks klaim tidak ada pada teks final")
             if claim.get("value") is not None and any(not isinstance(claim.get(k), str) or not claim[k].strip()
                                                        for k in ("value", "unit", "period")):
                 raise ValueError("angka perlu nilai, satuan, dan periode")
+            if strict:
+                numeric = re.findall(r"(?<!\w)\d+(?:[.,]\d+)*(?!\w)", claim["text"])
+                if numeric and (not claim.get("value") or not claim.get("unit") or not claim.get("period")
+                                or any(number not in claim["value"] for number in numeric)):
+                    raise ValueError("angka pada teks perlu nilai, satuan, dan periode yang ditinjau")
+                if numeric and any(any(number not in re.findall(r"(?<!\w)\d+(?:[.,]\d+)*(?!\w)", item.get("quote", ""))
+                                       for number in numeric) for item in claim.get("evidence", [])):
+                    raise ValueError("angka pada teks tidak ada pada setiap kutipan sumber")
+                when_value = claim["event_time"].strip()
+                if "T" in when_value or " " in when_value:
+                    try:
+                        instant = _time(when_value)
+                    except ValueError as exc:
+                        raise ValueError("waktu klaim wajib zona waktu") from exc
+                    if instant > _time(run[0]):
+                        raise ValueError("waktu klaim setelah cutoff")
             evidence = claim.get("evidence")
             if not isinstance(evidence, list) or len(evidence) < 2:
                 raise ValueError("klaim perlu dua bukti laporan")
@@ -369,7 +477,7 @@ def approve_packet(db, run_id, editor, text, claims, *, reviewed=False):
                 row = articles.get(item["source"])
                 if row is None or item["quote"] not in ((row.get("title") or "") + "\n" + (row.get("body") or "")):
                     raise ValueError("kutipan tidak ada pada artikel arsip")
-                if item["source"] not in text:
+                if text is not None and item["source"] not in text:
                     raise ValueError("sumber bukti tidak ada pada teks final")
                 origin = item["origin"].strip().casefold()
                 origins.add(origin)
@@ -384,17 +492,162 @@ def approve_packet(db, run_id, editor, text, claims, *, reviewed=False):
             symbol_matched = [c for c in matched if c["symbol"] == "PASAR" or c["symbol"] == entity]
             if not symbol_matched:
                 raise ValueError("entity klaim tidak cocok dengan symbol kandidat review")
+            if strict and not any(c["action"] == "peristiwa belum dirinci" or
+                                  claim["action"].strip().casefold() in
+                                  ({"pengumuman", "umumkan", "mengumumkan"} if c["action"] == "pengumuman" else
+                                   {"pembayaran", "bayar", "membayar"} if c["action"] == "pembayaran" else
+                                   {c["action"]}) for c in symbol_matched):
+                raise ValueError("aksi klaim tidak cocok dengan kandidat review")
             if not any(when == c["date"] or when.startswith(c["date"] + "T") or when.startswith(c["date"] + " ")
                        for c in symbol_matched):
                 raise ValueError("event_time klaim tidak cocok dengan tanggal kandidat review")
             checked.append({**claim, "evidence": verified})
-        fingerprint = hashlib.sha256(text.encode("utf-8")).hexdigest()
-        packet = {"run_id": run_id, "cutoff": run[0], "claims": checked, "text": text,
-                  "text_hash": fingerprint, "approval": {"editor": editor,
-                  "approved_at": datetime.now(timezone.utc).isoformat()}}
-        con.execute("INSERT INTO packets VALUES (?, ?)",
-                    (run_id, json.dumps(packet, ensure_ascii=False, sort_keys=True)))
-        return packet
+    return checked
+
+def _edition_json(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+def _edition_hash(value):
+    return hashlib.sha256(_edition_json(value).encode("utf-8")).hexdigest()
+
+def _require_confirmed_time(con, run_id):
+    row = con.execute("SELECT interpretation_json FROM run_context WHERE run_id=?", (run_id,)).fetchone()
+    if row and json.loads(row[0]).get("time_basis") == "inferred_internal":
+        raise ValueError("run dengan asumsi waktu hanya untuk demo internal; approval ditahan")
+
+def check_platform_text(platform, text):
+    """Documented length checks, not a platform acceptance guarantee."""
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("teks post wajib ada")
+    if platform == "threads":
+        size = len(text.encode("utf-8"))
+        return {"valid": size <= 500, "length": size, "status": "documented_rules_applied"}
+    if platform != "x":
+        raise ValueError("platform tidak dikenal")
+    try:
+        result = subprocess.run(["node", str(Path(__file__).with_name("x_length.mjs"))],
+                                input=text, text=True, capture_output=True, timeout=10,
+                                cwd=Path(__file__).parent, check=True)
+        parsed = json.loads(result.stdout)
+    except (OSError, subprocess.SubprocessError, ValueError) as exc:
+        raise ValueError("twitter-text gagal: validasi X ditahan") from exc
+    if type(parsed.get("weighted_length")) is not int or type(parsed.get("valid")) is not bool:
+        raise ValueError("twitter-text mengembalikan hitungan tidak valid")
+    return {"valid": parsed["valid"] and parsed["weighted_length"] <= 280,
+            "length": parsed["weighted_length"], "status": "documented_rules_applied"}
+
+def review_claims(db, run_id, editor, claims, *, reviewed=False):
+    """Record editor's assertions, not verification of economic truth or identity."""
+    if not isinstance(editor, str) or not editor.strip() or not reviewed:
+        raise ValueError("review editor eksplisit wajib ada")
+    with closing(_connect(db)) as con, con:
+        _require_confirmed_time(con, run_id)
+        con.execute("CREATE TABLE IF NOT EXISTS reviewed_claims (run_id TEXT PRIMARY KEY REFERENCES runs(id), payload TEXT NOT NULL)")
+        checked = _validate_claims(con, run_id, claims, strict=True)
+        record = {"run_id": run_id, "editor": editor, "claims": checked,
+                  "reviewed_at": datetime.now(timezone.utc).isoformat()}
+        previous = con.execute("SELECT payload FROM reviewed_claims WHERE run_id=?", (run_id,)).fetchone()
+        if previous:
+            old = json.loads(previous[0])
+            if old["editor"] == editor and old["claims"] == checked:
+                return old
+            raise ValueError("revisi klaim perlu run baru dan review ulang")
+        con.execute("INSERT INTO reviewed_claims VALUES (?, ?)", (run_id, _edition_json(record)))
+        return record
+
+def _read_review(con, run_id):
+    row = con.execute("SELECT payload FROM reviewed_claims WHERE run_id=?", (run_id,)).fetchone()
+    if not row:
+        raise ValueError("klaim belum ditinjau")
+    record = json.loads(row[0])
+    if record.get("run_id") != run_id or not record.get("editor") or not record.get("reviewed_at"):
+        raise ValueError("integritas review rusak")
+    if _validate_claims(con, run_id, record["claims"], strict=True) != record["claims"]:
+        raise ValueError("integritas bukti review rusak")
+    return record
+
+def _edition_posts(claims, indexes):
+    if (not isinstance(indexes, list) or not 1 <= len(indexes) <= 6
+            or any(type(i) is not int or i < 0 or i >= len(claims) for i in indexes)
+            or len(set(indexes)) != len(indexes)):
+        raise ValueError("pilih satu sampai enam klaim berbeda")
+    return [claims[i]["text"] + "\nSumber: " + " ".join(
+        dict.fromkeys(item["source"] for item in claims[i]["evidence"])) for i in indexes]
+
+def render_draft(db, run_id, edition_id, platform, indexes):
+    """One post per selected reviewed claim; no fabricated connective prose."""
+    if platform not in ("x", "threads") or not isinstance(edition_id, str) or not edition_id.strip():
+        raise ValueError("platform dan edisi wajib valid")
+    with closing(_connect(db)) as con:
+        record = _read_review(con, run_id)
+        return _edition_posts(record["claims"], indexes)
+
+def approve_edition(db, run_id, edition_id, platform, editor, posts):
+    """Bind one platform's exact posts and reviewed sources to one edition."""
+    if (platform not in ("x", "threads") or not isinstance(edition_id, str) or not edition_id.strip()
+            or not isinstance(editor, str) or not editor.strip()):
+        raise ValueError("edisi, platform, dan editor wajib valid")
+    with closing(_connect(db)) as con, con:
+        review = _read_review(con, run_id)
+        if not isinstance(posts, list):
+            raise ValueError("teks final harus daftar post")
+        matches = []
+        for post in posts:
+            indexes = [i for i in range(len(review["claims"])) if _edition_posts(review["claims"], [i])[0] == post]
+            if len(indexes) != 1:
+                raise ValueError("teks final bukan klaim ditinjau beserta sumber persis")
+            matches.append(indexes[0])
+        if _edition_posts(review["claims"], matches) != posts:
+            raise ValueError("post kosong, duplikat, atau melebihi enam bagian")
+        if any(not check_platform_text(platform, post)["valid"] for post in posts):
+            raise ValueError("post melewati batas konservatif platform")
+        con.execute("CREATE TABLE IF NOT EXISTS editions (run_id TEXT NOT NULL REFERENCES runs(id), edition_id TEXT NOT NULL, platform TEXT NOT NULL, payload TEXT NOT NULL, PRIMARY KEY (run_id, edition_id, platform))")
+        bound = {"run_id": run_id, "edition_id": edition_id, "platform": platform,
+                 "posts": posts, "indexes": matches, "review_hash": _edition_hash(review)}
+        previous = con.execute("SELECT payload FROM editions WHERE run_id=? AND edition_id=? AND platform=?",
+                               (run_id, edition_id, platform)).fetchone()
+        if previous:
+            old = json.loads(previous[0])
+            if old.get("bound") == bound and old.get("approval", {}).get("editor") == editor:
+                return old
+            raise ValueError("edisi terkunci; revisi perlu edisi baru")
+        approval = {"editor": editor, "approved_at": datetime.now(timezone.utc).isoformat()}
+        saved = {"bound": bound, "hash": _edition_hash({"bound": bound, "approval": approval}),
+                 "approval": approval}
+        con.execute("INSERT INTO editions VALUES (?, ?, ?, ?)", (run_id, edition_id, platform, _edition_json(saved)))
+        return saved
+
+def preview_edition(db, run_id, edition_id, platform, *, posts=None):
+    """Fail closed on text, order, provenance, or approval changes; no API write."""
+    if platform not in ("x", "threads"):
+        raise ValueError("platform tidak dikenal")
+    with closing(_connect(db)) as con:
+        try:
+            row = con.execute("SELECT payload FROM editions WHERE run_id=? AND edition_id=? AND platform=?",
+                              (run_id, edition_id, platform)).fetchone()
+        except sqlite3.OperationalError as exc:
+            raise ValueError("edisi belum disetujui") from exc
+        if row is None:
+            raise ValueError("edisi belum disetujui")
+        saved = json.loads(row[0])
+        bound = saved.get("bound")
+        if (not isinstance(bound, dict) or saved.get("hash") != _edition_hash(
+                {"bound": bound, "approval": saved.get("approval")})
+                or any(bound.get(k) != v for k, v in (("run_id", run_id), ("edition_id", edition_id), ("platform", platform)))
+                or not saved.get("approval", {}).get("editor") or not saved["approval"].get("approved_at")):
+            raise ValueError("integritas persetujuan rusak")
+        review = _read_review(con, run_id)
+        if (bound["review_hash"] != _edition_hash(review)
+                or _edition_posts(review["claims"], bound["indexes"]) != bound["posts"]
+                or (posts is not None and posts != bound["posts"])):
+            raise ValueError("teks, urutan, atau sumber berubah; persetujuan baru diperlukan")
+        checks = [check_platform_text(platform, post) for post in bound["posts"]]
+        if any(not check["valid"] for check in checks):
+            raise ValueError("post melewati batas konservatif platform")
+        return {"run_id": run_id, "edition_id": edition_id, "platform": platform,
+                "posts": bound["posts"], "approval": saved["approval"],
+                "hash": saved["hash"], "limit_check": "documented_rules_applied",
+                "lengths": [check["length"] for check in checks], "api_write": False}
 
 def approve_revision(db, run_id, editor, text, claims):
     """Append explicitly approved revision; never replace prior approval evidence."""
@@ -409,7 +662,7 @@ def _source_page(con, run_id, source):
 
 def preview_packet(db, run_id, *, text=None):
     """Conservative dry run; no platform requests or platform access claims."""
-    with closing(sqlite3.connect(db)) as con:
+    with closing(_connect(db)) as con:
         try:
             saved = con.execute("SELECT payload FROM packets WHERE run_id=?", (run_id,)).fetchone()
         except sqlite3.OperationalError as exc:
@@ -423,7 +676,7 @@ def preview_packet(db, run_id, *, text=None):
         raise ValueError("teks tidak disetujui atau integritas berubah")
     if not packet.get("approval", {}).get("editor") or not packet["approval"].get("approved_at"):
         raise ValueError("paket belum disetujui")
-    with closing(sqlite3.connect(db)) as con:
+    with closing(_connect(db)) as con:
         stored = con.execute("SELECT payload FROM packets WHERE run_id=?", (run_id,)).fetchone()
         archived = {url: json.loads(body) for url, body in con.execute(
             "SELECT source, payload FROM articles WHERE run_id=?", (run_id,))}
@@ -464,7 +717,7 @@ def record_mock_attempt(db, run_id, platform, account, outcome, *, external_id=N
     if outcome not in ("timeout", "expired_token", "partial_failure", "created"):
         raise ValueError("hasil mock tidak dikenal")
     preview = preview_packet(db, run_id)
-    with closing(sqlite3.connect(db)) as con, con:
+    with closing(_connect(db)) as con, con:
         con.execute("CREATE TABLE IF NOT EXISTS mock_posts (run_id TEXT NOT NULL, platform TEXT NOT NULL, ordinal INTEGER NOT NULL, account TEXT NOT NULL, text_hash TEXT NOT NULL, status TEXT NOT NULL, external_id TEXT, readback_json TEXT, PRIMARY KEY (run_id, platform, ordinal))")
         previous = con.execute("SELECT status FROM mock_posts WHERE run_id=? AND platform=? AND ordinal=1",
                                (run_id, platform)).fetchone()
@@ -488,6 +741,17 @@ def record_mock_attempt(db, run_id, platform, account, outcome, *, external_id=N
                 "external_id": external_id, "simulation_only": True}
 
 
+def replay_assumed(pages, cutoff, db, *, since, assume_timezone):
+    """Internal demonstration only; the assumed offset is not provider evidence."""
+    if assume_timezone != "+07:00":
+        raise ValueError("mode asumsi internal hanya +07:00 yang diputuskan pemilik")
+    interpretation = {"source_timezone": assume_timezone, "timestamp_meaning": "unknown",
+                      "filter_timezone": assume_timezone, "start_inclusive": True,
+                      "end_inclusive": True, "evidence": "asumsi demo internal; bukan konfirmasi penyedia",
+                      "time_basis": "inferred_internal"}
+    result = replay(pages, cutoff, db, since=since, interpretation=interpretation)
+    return result
+
 def replay(pages, cutoff, db, *, since, interpretation=None):
     """Return draft and decision trail; never assert causality or numeric claims."""
     if not isinstance(pages, list) or not pages:
@@ -510,6 +774,11 @@ def replay(pages, cutoff, db, *, since, interpretation=None):
             _time("2026-01-01T00:00:00", interpretation[key])
         if any(type(interpretation.get(k)) is not bool for k in ("start_inclusive", "end_inclusive")):
             raise ValueError("batas inklusif start/end perlu dinyatakan")
+        if interpretation.get("time_basis") == "inferred_internal" and (
+                interpretation.get("evidence") != "asumsi demo internal; bukan konfirmasi penyedia"
+                or interpretation["source_timezone"] != "+07:00"
+                or interpretation["filter_timezone"] != "+07:00"):
+            raise ValueError("mode asumsi tidak menerima zona lain atau bukti penyedia palsu")
     rows = _ingest(pages, moment, beginning, interpretation)
     candidates = _candidates(rows)
     selected = next((c for c in candidates if c["decision"] == "review"), None)
@@ -517,7 +786,7 @@ def replay(pages, cutoff, db, *, since, interpretation=None):
                                         "interpretation": interpretation},
                                     ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
     _store(db, digest, moment, beginning, interpretation, rows, candidates)
-    with closing(sqlite3.connect(db)) as con, con:
+    with closing(_connect(db)) as con, con:
         con.execute("CREATE TABLE IF NOT EXISTS article_pages (run_id TEXT NOT NULL, source TEXT NOT NULL, page_index INTEGER NOT NULL, page_hash TEXT NOT NULL, fetched_at TEXT NOT NULL, PRIMARY KEY (run_id, source))")
         included = {a["source"] for a, _ in rows}
         for i, page in enumerate(pages):
@@ -535,11 +804,41 @@ def replay(pages, cutoff, db, *, since, interpretation=None):
     else:
         draft = "TIDAK ADA DRAF: belum ada tema dengan bukti penerbit berbeda yang layak ditinjau."
         notes = "Abstain. Tidak ada headline otomatis."
+    inferred = interpretation is not None and interpretation.get("time_basis") == "inferred_internal"
+    if inferred:
+        draft = "ASUMSI ZONA WAKTU +07:00 — DEMO INTERNAL; JANGAN PUBLIKASIKAN\n" + draft
     return {"run_id": digest, "time_interpretation": interpretation,
+            **({"time_basis": "inferred_internal", "publishable": False} if inferred else {}),
             "status": "review" if selected else "abstain",
             "eligible_articles": len(rows), "candidates": candidates,
             "draft": draft, "editorial_notes": notes}
 
+
+def draft_schedule(pages, now, db, *, since, interpretation=None):
+    """Explicit offline business slot; caller owns invocation, not an unattended daemon."""
+    moment = _time(now)
+    local = moment.astimezone(JAKARTA)
+    if local.weekday() >= 5 or (local.hour, local.minute, local.second, local.microsecond) != (6, 0, 0, 0):
+        raise ValueError("jadwal draft hanya hari kerja 06:00 WIB")
+    if (not isinstance(interpretation, dict)
+            or interpretation.get("time_basis") == "inferred_internal"
+            or not isinstance(interpretation.get("evidence"), str)
+            or not interpretation["evidence"].strip()):
+        raise ValueError("interpretasi waktu belum dikonfirmasi; jadwal ditahan")
+    result = replay(pages, now, db, since=since, interpretation=interpretation)
+    slot = local.date().isoformat()
+    with closing(_connect(db)) as con, con:
+        con.execute("CREATE TABLE IF NOT EXISTS draft_schedules (slot TEXT PRIMARY KEY, run_id TEXT NOT NULL REFERENCES runs(id), payload TEXT NOT NULL)")
+        previous = con.execute("SELECT run_id, payload FROM draft_schedules WHERE slot=?", (slot,)).fetchone()
+        if previous:
+            if previous[0] != result["run_id"]:
+                raise ValueError("slot jadwal sudah memiliki run berbeda; tahan edisi")
+            return json.loads(previous[1])
+        output = {"slot": slot, "run_id": result["run_id"], "status": "draft_only",
+                  "review_status": result["status"], "api_write": False}
+        con.execute("INSERT INTO draft_schedules VALUES (?, ?, ?)",
+                    (slot, result["run_id"], _edition_json(output)))
+        return output
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -548,12 +847,24 @@ def main():
     fetch.add_argument("--start", required=True, help="YYYY-MM-DD inclusive")
     fetch.add_argument("--end", required=True, help="YYYY-MM-DD inclusive")
     fetch.add_argument("--out", type=Path, required=True, help="archive path")
+    companion = sub.add_parser("fetch-companion", help="archive three companion endpoint responses")
+    companion.add_argument("--symbol", required=True)
+    companion.add_argument("--start", required=True)
+    companion.add_argument("--end", required=True)
+    companion.add_argument("--out", type=Path, required=True)
+    scheduled = sub.add_parser("schedule-once", help="offline draft-only invocation at explicit WIB business slot")
+    scheduled.add_argument("pages", type=Path)
+    scheduled.add_argument("--at", required=True, help="explicit ISO 8601 instant")
+    scheduled.add_argument("--since", required=True)
+    scheduled.add_argument("--db", type=Path, required=True)
+    scheduled.add_argument("--interpretation", type=Path, required=True)
     command = sub.add_parser("replay", help="replay archived Sectors /v2/news/ JSON pages")
     command.add_argument("pages", type=Path, help="JSON list of {fetched_at, request, response} pages")
     command.add_argument("--cutoff", required=True, help="ISO 8601 timestamp; include timezone")
     command.add_argument("--since", required=True, help="ISO 8601 earliest editorial timestamp; include timezone")
     command.add_argument("--db", type=Path, default=Path("ronce.sqlite"))
     command.add_argument("--interpretation", type=Path, help="separate JSON sidecar, only after authoritative written provider confirmation")
+    command.add_argument("--assume-timezone", choices=["+07:00"], help="internal demo only; blocks approval and publication")
     args = parser.parse_args()
     try:
         if args.command == "fetch":
@@ -563,11 +874,28 @@ def main():
             save_archive(args.out, pages)
             print(json.dumps({"archive": str(args.out), "pages": len(pages),
                               "articles": sum(len(p["response"]["results"]) for p in pages)}, ensure_ascii=False))
+        elif args.command == "fetch-companion":
+            captured = fetch_companion(args.symbol, args.start, args.end, args.out,
+                                       api_key=os.environ.get("SECTORS_API_KEY"))
+            print(json.dumps({"archive": str(args.out), "endpoints": [row["endpoint"] for row in captured]}, ensure_ascii=False))
+        elif args.command == "schedule-once":
+            payload = json.loads(args.pages.read_text(encoding="utf-8"))
+            interpretation = json.loads(args.interpretation.read_text(encoding="utf-8"))
+            outcome = draft_schedule(payload, args.at, args.db, since=args.since,
+                                     interpretation=interpretation)
+            print(json.dumps(outcome, ensure_ascii=False))
         else:
             payload = json.loads(args.pages.read_text(encoding="utf-8"))
-            interpretation = json.loads(args.interpretation.read_text(encoding="utf-8")) if args.interpretation else None
-            print(json.dumps(replay(payload, args.cutoff, args.db, since=args.since,
-                                    interpretation=interpretation), ensure_ascii=False, indent=2))
+            if args.assume_timezone and args.interpretation:
+                raise ValueError("mode asumsi dan sidecar tidak boleh dipakai bersamaan")
+            if args.assume_timezone:
+                outcome = replay_assumed(payload, args.cutoff, args.db, since=args.since,
+                                         assume_timezone=args.assume_timezone)
+            else:
+                interpretation = json.loads(args.interpretation.read_text(encoding="utf-8")) if args.interpretation else None
+                outcome = replay(payload, args.cutoff, args.db, since=args.since,
+                                 interpretation=interpretation)
+            print(json.dumps(outcome, ensure_ascii=False, indent=2))
     except (ValueError, OSError, sqlite3.Error) as exc:
         parser.error(str(exc))
 

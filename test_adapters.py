@@ -65,6 +65,68 @@ class RequestBuilderTests(unittest.TestCase):
         self.assertEqual(adapters.auth_headers("tok")["Authorization"], "Bearer tok")
 
 
+class ValidateThreadsTextTests(unittest.TestCase):
+    """Unit tests untuk validasi UTF-8 Threads (500 byte limit)."""
+
+    def test_valid_short_text_returns_text(self):
+        valid, result = adapters.validate_threads_text("Halo pasar")
+        self.assertTrue(valid)
+        self.assertEqual(result, "Halo pasar")
+
+    def test_valid_exactly_500_bytes(self):
+        text = "a" * 500  # ASCII 'a' = 1 byte per char
+        valid, result = adapters.validate_threads_text(text)
+        self.assertTrue(valid)
+        self.assertEqual(result, text)
+
+    def test_invalid_empty_string(self):
+        valid, reason = adapters.validate_threads_text("")
+        self.assertFalse(valid)
+        self.assertEqual(reason, "teks kosong")
+
+    def test_invalid_whitespace_only(self):
+        valid, reason = adapters.validate_threads_text("   ")
+        self.assertFalse(valid)
+        self.assertEqual(reason, "teks kosong")
+
+    def test_invalid_non_string(self):
+        valid, reason = adapters.validate_threads_text(12345)
+        self.assertFalse(valid)
+        self.assertEqual(reason, "text harus string")
+
+    def test_invalid_501_bytes_fails(self):
+        text = "a" * 501
+        valid, reason = adapters.validate_threads_text(text)
+        self.assertFalse(valid)
+        self.assertTrue("exceeds" in reason and "UTF-8 bytes" in reason)
+
+    def test_utf8_multiple_byte_characters_counted_correctly(self):
+        # Emoji dan karakter non-ASCII menggunakan >1 byte UTF-8
+        # 😊 = 4 bytes UTF-8
+        text = "😊" * 125  # 125 × 4 = 500 bytes exactly
+        valid, result = adapters.validate_threads_text(text)
+        self.assertTrue(valid)
+        self.assertEqual(result, text)
+
+    def test_utf8_exceeds_500_with_emoji(self):
+        # 126 emojis = 504 bytes → invalid
+        text = "😊" * 126
+        valid, reason = adapters.validate_threads_text(text)
+        self.assertFalse(valid)
+        self.assertTrue("exceeds" in reason and "504" in reason)
+
+    def test_build_threads_create_rejects_overlimit(self):
+        text = "a" * 501
+        with self.assertRaisesRegex(ValueError, "exceeds.*UTF-8 bytes"):
+            adapters.build_threads_create(text, user_id="u1")
+
+    def test_build_threads_create_accepts_valid(self):
+        # Valid dengan emoji: 250 chars + 1 URL ≈ ~254 bytes
+        text = "Update terbaru! " + "😊" * 10 + " https://example.com"
+        request = adapters.build_threads_create(text, user_id="u1")
+        self.assertEqual(request["json"]["text"], text)
+
+
 class ClassifyTests(unittest.TestCase):
     def test_success_with_id_is_created(self):
         result = adapters.classify_response(201, {"id": "55"})
@@ -170,3 +232,7 @@ class ModuleGuardTests(unittest.TestCase):
 
     def test_live_publishing_is_off_by_default(self):
         self.assertFalse(adapters.LIVE_PUBLISHING)
+
+
+if __name__ == "__main__":
+    unittest.main()

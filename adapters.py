@@ -32,9 +32,15 @@ Dokumen resmi diperiksa 2026-09-27:
   https://developers.facebook.com/docs/threads/retrieve-and-discover-posts/retrieve-posts
   https://developers.facebook.com/docs/threads/threads-media
 
-Catatan batas: replika balasan berantai (thread) untuk Threads memerlukan field
-`reply_to_id` pada container; field itu belum terverifikasi di dokumen yang
-diperiksa, jadi belum dimasukkan ke modul ini. Verifikasi dulu sebelum dipakai.
+Catatan batas: replika balasan berantai (thread) Threads memakai parameter
+`reply_to_id` pada container POST .../threads; diverifikasi di dokumen resmi
+2026-09-28 (syarat: pemilik thread root atau scope threads_keyword_search/
+threads_manage_mentions), tetapi alur balasan berantai belum diimplementasikan
+atau diuji di modul ini. Quota publikasi 250 post/24 jam per profil (carousel
+dihitung satu post); cek kuota via GET /{threads-user-id}/threads_publishing_limit.
+https://developers.facebook.com/documentation/threads/retrieve-and-manage-replies/create-replies
+https://developers.facebook.com/documentation/threads/overview
+Label: documented_rules_applied, bukan platform_verified.
 """
 
 LIVE_PUBLISHING = False
@@ -54,6 +60,25 @@ def _nonempty(value, label):
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{label} tidak boleh kosong")
     return value
+
+
+def validate_threads_text(text):
+    """Validasi teks Threads: max 500 byte UTF-8, non-kosong.
+
+    Return (valid=True/False, reason_or_id). Valid selalu True kecuali ada alasan rejection.
+    Label: documented_rules_applied, bukan platform_verified.
+    """
+    if not isinstance(text, str):
+        return False, "text harus string"
+    stripped = text.strip()
+    if not stripped:
+        return False, "teks kosong"
+    utf8_bytes = len(stripped.encode('utf-8'))
+    if utf8_bytes == 0:
+        return False, "teks kosong"
+    if utf8_bytes > 500:
+        return False, f"text exceeds {utf8_bytes} UTF-8 bytes (limit 500)"
+    return True, stripped
 
 
 def auth_headers(token):
@@ -76,6 +101,11 @@ def build_x_readback(post_id):
 
 
 def build_threads_create(text, *, user_id, graph=THREADS_GRAPH):
+    """Build Threads container request with UTF-8 validation (500 byte limit)."""
+    valid, result = validate_threads_text(text)
+    if not valid:
+        raise ValueError(result)
+    text = result
     body = {"media_type": "TEXT", "text": _nonempty(text, "teks")}
     return {"platform": "threads", "method": "POST",
             "url": f"{graph}/{_nonempty(user_id, 'user_id')}/threads",
