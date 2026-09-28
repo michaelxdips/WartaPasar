@@ -127,6 +127,34 @@ class ValidateThreadsTextTests(unittest.TestCase):
         self.assertEqual(request["json"]["text"], text)
 
 
+class ReplyBuilderTests(unittest.TestCase):
+    """Builder kontrak offline balasan berantai Threads (reply_to_id)."""
+
+    def test_threads_reply_shape(self):
+        request = adapters.build_threads_reply("Lanjutan", user_id="u1", reply_to_id="parent-1")
+        self.assertEqual(request["platform"], "threads")
+        self.assertEqual(request["method"], "POST")
+        self.assertEqual(request["url"], "https://graph.threads.com/v1.0/u1/threads")
+        self.assertEqual(request["json"],
+                         {"media_type": "TEXT", "text": "Lanjutan", "reply_to_id": "parent-1"})
+
+    def test_threads_reply_requires_reply_to_id(self):
+        for bad in ("", "   "):
+            with self.assertRaisesRegex(ValueError, "reply_to_id"):
+                adapters.build_threads_reply("Lanjutan", user_id="u1", reply_to_id=bad)
+
+    def test_threads_reply_validates_text_limits(self):
+        with self.assertRaisesRegex(ValueError, "teks"):
+            adapters.build_threads_reply("   ", user_id="u1", reply_to_id="parent-1")
+        with self.assertRaisesRegex(ValueError, "exceeds.*UTF-8 bytes"):
+            adapters.build_threads_reply("a" * 501, user_id="u1", reply_to_id="parent-1")
+
+    def test_threads_reply_graph_host_configurable(self):
+        request = adapters.build_threads_reply("Lanjutan", user_id="u1", reply_to_id="parent-1",
+                                               graph="https://graph.threads.net/v1.0")
+        self.assertTrue(request["url"].startswith("https://graph.threads.net/v1.0/"))
+
+
 class ClassifyTests(unittest.TestCase):
     def test_success_with_id_is_created(self):
         result = adapters.classify_response(201, {"id": "55"})

@@ -35,8 +35,9 @@ Dokumen resmi diperiksa 2026-09-27:
 Catatan batas: replika balasan berantai (thread) Threads memakai parameter
 `reply_to_id` pada container POST .../threads; diverifikasi di dokumen resmi
 2026-09-28 (syarat: pemilik thread root atau scope threads_keyword_search/
-threads_manage_mentions), tetapi alur balasan berantai belum diimplementasikan
-atau diuji di modul ini. Quota publikasi 250 post/24 jam per profil (carousel
+threads_manage_mentions). Builder `build_threads_reply` menyediakan kontrak
+offline balasan; orkestrasi rantai dan uji akun nyata belum ada. Quota
+publikasi 250 post/24 jam per profil (carousel
 dihitung satu post); cek kuota via GET /{threads-user-id}/threads_publishing_limit.
 https://developers.facebook.com/documentation/threads/retrieve-and-manage-replies/create-replies
 https://developers.facebook.com/documentation/threads/overview
@@ -107,6 +108,23 @@ def build_threads_create(text, *, user_id, graph=THREADS_GRAPH):
         raise ValueError(result)
     text = result
     body = {"media_type": "TEXT", "text": _nonempty(text, "teks")}
+    return {"platform": "threads", "method": "POST",
+            "url": f"{graph}/{_nonempty(user_id, 'user_id')}/threads",
+            "params": None, "json": body}
+
+
+def build_threads_reply(text, *, user_id, reply_to_id, graph=THREADS_GRAPH):
+    """Kontrak offline balasan berantai Threads: container dengan `reply_to_id`.
+
+    Penerbitan memakai alur threads_publish yang sama; uji pada akun nyata dan
+    orkestrasi rantai belum dilakukan.
+    https://developers.facebook.com/documentation/threads/retrieve-and-manage-replies/create-replies
+    """
+    valid, result = validate_threads_text(text)
+    if not valid:
+        raise ValueError(result)
+    body = {"media_type": "TEXT", "text": result,
+            "reply_to_id": _nonempty(reply_to_id, "reply_to_id")}
     return {"platform": "threads", "method": "POST",
             "url": f"{graph}/{_nonempty(user_id, 'user_id')}/threads",
             "params": None, "json": body}

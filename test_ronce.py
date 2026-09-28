@@ -681,6 +681,62 @@ class DraftScheduleTests(unittest.TestCase):
                 draft_schedule(capture, "2026-09-25T05:59:00+07:00", db,
                                since=SINCE, interpretation=dict(RULES))
 
+    def test_schedule_corrupt_archive_or_sidecar_fails_without_database(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            pages = Path(tmp) / "pages.json"
+            sidecar = Path(tmp) / "interpretation.json"
+            db = Path(tmp) / "runs.sqlite"
+            command = [sys.executable, "ronce.py", "schedule-once", str(pages), "--at", "2026-09-25T06:00:00+07:00",
+                       "--since", SINCE, "--db", str(db), "--interpretation", str(sidecar)]
+            pages.write_text("{ bukan json", encoding="utf-8")
+            sidecar.write_text(json.dumps(RULES), encoding="utf-8")
+            result = subprocess.run(command, text=True, capture_output=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse(db.exists())
+            rows = [article("BBCA umumkan dividen tunai", "https://one.test/a", "2026-09-25T05:00:00+07:00"),
+                    article("Dividen tunai BBCA diumumkan", "https://two.test/b", "2026-09-25T05:00:00+07:00")]
+            pages.write_text(json.dumps([page(rows, fetched_at="2026-09-25T05:30:00+07:00")]), encoding="utf-8")
+            sidecar.write_text("{ rusak", encoding="utf-8")
+            result = subprocess.run(command, text=True, capture_output=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse(db.exists())
+
+    def test_schedule_conflicting_slot_holds_existing_run(self):
+        from ronce import draft_schedule
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            db = Path(tmp) / "runs.sqlite"
+            now = "2026-09-25T06:00:00+07:00"
+            first_rows = [article("BBCA umumkan dividen tunai", "https://one.test/a", "2026-09-25T05:00:00+07:00"),
+                          article("Dividen tunai BBCA diumumkan", "https://two.test/b", "2026-09-25T05:00:00+07:00")]
+            first = draft_schedule([page(first_rows, fetched_at="2026-09-25T05:30:00+07:00")], now, db,
+                                   since=SINCE, interpretation=dict(RULES))
+            other_rows = [article("ASII umumkan dividen tunai", "https://one.test/c", "2026-09-25T05:00:00+07:00"),
+                          article("Dividen tunai ASII diumumkan", "https://two.test/d", "2026-09-25T05:00:00+07:00")]
+            with self.assertRaisesRegex(ValueError, "slot jadwal"):
+                draft_schedule([page(other_rows, fetched_at="2026-09-25T05:45:00+07:00")], now, db,
+                               since=SINCE, interpretation=dict(RULES))
+            with closing(sqlite3.connect(db)) as con:
+                stored = con.execute("SELECT run_id FROM draft_schedules").fetchall()
+            self.assertEqual(stored, [(first["run_id"],)])
+
+    def test_schedule_rejects_weekend_and_unconfirmed_interpretation(self):
+        from ronce import draft_schedule
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            db = Path(tmp) / "runs.sqlite"
+            rows = [article("BBCA umumkan dividen tunai", "https://one.test/a", "2026-09-25T05:00:00+07:00"),
+                    article("Dividen tunai BBCA diumumkan", "https://two.test/b", "2026-09-25T05:00:00+07:00")]
+            capture = [page(rows, fetched_at="2026-09-25T05:30:00+07:00")]
+            with self.assertRaisesRegex(ValueError, "jadwal"):
+                draft_schedule(capture, "2026-09-26T06:00:00+07:00", db, since=SINCE, interpretation=dict(RULES))
+            with self.assertRaisesRegex(ValueError, "ditahan"):
+                draft_schedule(capture, "2026-09-25T06:00:00+07:00", db, since=SINCE,
+                               interpretation=dict(RULES, time_basis="inferred_internal"))
+            with self.assertRaisesRegex(ValueError, "ditahan"):
+                draft_schedule(capture, "2026-09-25T06:00:00+07:00", db, since=SINCE,
+                               interpretation=dict(RULES, evidence="  "))
+            self.assertFalse(db.exists())
+
+
 class DatabaseSafetyTests(unittest.TestCase):
     def test_connection_rejects_ghost_run_and_sets_busy_timeout(self):
         from ronce import _connect
