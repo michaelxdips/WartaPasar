@@ -1,0 +1,1769 @@
+[
+  {
+    "fetched_at": "2026-09-28T10:16:26.340042+00:00",
+    "request": {
+      "extension": "idx",
+      "start": "2026-09-28",
+      "end": "2026-09-28",
+      "limit": 30,
+      "offset": 0
+    },
+    "response": {
+      "results": [
+        {
+          "title": "GoTo, MNC Group Shares Fall Below Rp50 as IDX Lowers Minimum Share Price to Rp1",
+          "body": "Indonesian stocks fell sharply on Monday after the Indonesia Stock Exchange (IDX) lowered its minimum share price to Rp1 from Rp50, effective the same day. MNC Kapital Indonesia (BCAP), MDTV Media Technologies (NETV), Lippo Karawaci (LPKR), MNC Tourism Indonesia (KPIG), Bank MNC Internasional (BABP), and GoTo Gojek Tokopedia (GOTO) each dropped 14% to Rp43 in the first session. The Jakarta Composite Index fell 0.97% to 6,181.43 by midday, led by a 4.1% decline in technology stocks, while energy and industrial stocks each gained 0.79%. Under the new rules, stocks priced between Rp1 and Rp10 face a Rp1 auto-rejection limit on both sides, the asymmetric 15% Auto Reject Bottom (ARB) applies to stocks above Rp10 through Dec. 31, 2026, and 92 stocks previously on the Special Monitoring Board returned to their original listing boards.",
+          "source": "https://jakartaglobe.id/business/how-low-can-they-go-goto-mnc-group-shares-fall-below-rp50",
+          "thumbnail": "https://jakartaglobe.id/img/jakartaglobe-logo.webp",
+          "timestamp": "2026-09-28T14:36:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services",
+            "holding-investment-companies",
+            "media-entertainment",
+            "properties-real-estate",
+            "consumer-services",
+            "banks"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Market Sentiment",
+            "Bearish"
+          ],
+          "symbols": [
+            "GOTO.JK",
+            "BCAP.JK",
+            "NETV.JK",
+            "LPKR.JK",
+            "KPIG.JK",
+            "BABP.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "MNC Sekuritas Raises PT Antam Tbk (ANTM) 2026 Net Profit Projection and Sets New Price Target",
+          "body": "MNC Sekuritas raised its 2026 net profit projection for PT Antam Tbk (ANTM) to Rp 9.2 trillion from Rp 8.9 trillion, followed by a higher price target. Antam's H1-2026 net profit jumped 36% year-on-year to Rp 6.4 trillion, reaching 71.4% of MNC Sekuritas' projection and 62.3% of consensus, while Q2-2026 net profit of Rp 3 trillion fell 12.5% quarter-on-quarter but grew 16.2% year-on-year, with net profit margin easing to 8.9% from 11.6% on weakening gold prices. The broker cut Antam's 2026 gold sales volume estimate by 9.5% to 36.2 tons but raised the average selling price assumption to US$4,535 per ounce from US$4,205. Supporting factors include an additional 900,000-ton nickel ore quota, bringing estimated 2026 total quota to 19 million tons, and the Mempawah smelter grade alumina (SGA) facility reaching 100% utilization in June 2026 with a 2026 production target of 700,000 tons versus 350,000 tons realized in H1.",
+          "source": "https://investor.id/market/455791/antam-antm-gali-laba-lebih-dalam-ada-target-harga-baru",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2026/09/1790497285-1600x1066.webp",
+          "timestamp": "2026-09-28T14:34:00",
+          "sector": "basic-materials",
+          "sub_sector": [
+            "basic-materials"
+          ],
+          "tags": [
+            "Analyst Ratings",
+            "Financial Metrics",
+            "Commodities",
+            "Bullish"
+          ],
+          "symbols": [
+            "ANTM.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 2,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Ketrosden Triasmitra Tbk (KETR) Records Rp520 Billion Jumbo Stock Crossing Amid Sinar Mas Affiliate Tender Offer",
+          "body": "PT Ketrosden Triasmitra Tbk (KETR) recorded a jumbo self-crossing transaction worth around Rp520.06 billion on the negotiated market in session I on Monday (28/9/2026), involving 9.94 million lots at an execution price of Rp523 per share, roughly half its market price of Rp1,040 per share. The crossing aligns with a voluntary tender offer by PT Inti Mas Bangun Sejahtera (IMBS), an affiliate of Sinar Mas Group, to acquire up to 994,442,000 KETR shares, equivalent to 35% of fully placed and paid-up shares, at Rp523 per share. IMBS stated it has no plans to change KETR's business direction as a telecommunications network infrastructure provider or to take the company private. KETR shares have risen 90.48% over the past three months amid the takeover by the Sinar Mas group, with current controller Fajar Sejahtera Mandiri Nusantara holding 56.53%, followed by Gema Lintas Benua at 9.64%, Lyly Ekastuti at 1.77%, Jos Parengkuan at 1.16%, Rudy Susanto at 1.04%, and UBS AG Singapore Branch at 1.02%.",
+          "source": "https://www.bloombergtechnoz.com/detail-news/122906/di-balik-crossing-saham-rp520-miliar-ketrosden-triasmitra-ketr",
+          "thumbnail": "https://images.bloombergtechnoz.com/data/2026/08/image-20260814105646.jpeg",
+          "timestamp": "2026-09-28T14:30:00",
+          "sector": "infrastructures",
+          "sub_sector": [
+            "telecommunication"
+          ],
+          "tags": [
+            "Ownership",
+            "Mergers & Acquisitions",
+            "Institutional Investor",
+            "Neutral"
+          ],
+          "symbols": [
+            "KETR.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Indosat Tbk (ISAT) Restructures Fiber Optic Transaction, Booking Rp1.64 Trillion Gain",
+          "body": "PT Indosat Tbk (ISAT) announced a change in the structure of its fiber optic transaction with PT Aplikanusa Lintasarta and PT Ainfrastruktur Indonesia Raya, shifting from a public company route to a private company route to simplify the transaction structure and process. As part of the deal, Indosat sold 11,707,828 shares of PT Infra Fiber Teknologi (IFT), equal to 84.9% of total paid-up capital, to PT Nusantara Fiber Teknologi (NFT), while Indosat and Lintasarta also contributed 2,083,223 IFT shares (15.1%) to NFT via inbreng in exchange for NFT shares. The investor holds 50.1% of NFT, while Indosat and Lintasarta jointly hold 49.9%, with NFT holding nearly all IFT shares, preserving their indirect interest in IFT. The IFT deconsolidation generated a non-recurring net gain of Rp1.64 trillion recognized upon transaction completion, and a subsequent sale-and-leaseback of fiber optic assets will affect Indosat's financials through lease expense recognition.",
+          "source": "https://www.cnbcindonesia.com/market/20260928130033-17-771437/indosat--isat--rombak-transaksi-fiber-optik-ada-cuan-rp164-triliun",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2025/06/24/im3-indosat-ooredoo-hutchison-1750755807030_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T14:26:32",
+          "sector": "infrastructures",
+          "sub_sector": [
+            "telecommunication"
+          ],
+          "tags": [
+            "Asset Purchase",
+            "Mergers & Acquisitions",
+            "Subsidiaries",
+            "Financial Metrics",
+            "Bullish"
+          ],
+          "symbols": [
+            "ISAT.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 0,
+            "valuation": 1,
+            "financials": 2,
+            "management": 1,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "28 Stocks Fall Below Rp50 as Indonesia Stock Exchange Lowers Minimum Price to Rp1",
+          "body": "On Monday (28/9), the first day of the Indonesia Stock Exchange (BEI)'s new rule lowering the minimum stock price from Rp50 to Rp1 per share in the regular and cash markets, 28 stocks fell below Rp50. Falling to Rp43, down 14 percent, were PT MNC Tourism Indonesia Tbk (KPIG), PT Buyung Poetra Sembada Tbk (HOKI), PT Hensel Davest Indonesia Tbk (HDIT), PT GoTo Gojek Tokopedia Tbk (GOTO), PT Megalestari Epack Sentosaraya Tbk (EPAC), PT Diamond Citra Propertindo Tbk (DADA), PT Central Proteina Prima Tbk (CPRO), PT Wulandari Bangun Laksana Tbk (BSBK), PT MNC Kapital Indonesia Tbk (BCAP), PT Bank KB Indonesia Tbk (BBKP), PT Bank MNC Internasional Tbk (BABP), PT Atlantis Subsea Indonesia Tbk (ATLA), PT Cilacap Samudera Fishing Industry Tbk (ASHA), PT Widodo Makmur Unggas Tbk (WMUU), PT Wijaya Karya Bangunan Gedung Tbk (WEGE), PT Repower Asia Indonesia Tbk (REAL), PT Ristia Bintang Mahkotasejati Tbk (RBMS), PT Bank Panin Dubai Syariah Tbk (PNBS), PT Minna Padi Investama Sekuritas Tbk (PADI), PT MDTV Media Technologies Tbk (NETV), PT Modernland Realty Tbk (MDLN), PT Maxindo Karya Anugerah Tbk (MAXI), and PT Lippo Karawaci Tbk (LPKR). PT Lovina Beach Brewery Tbk (STRK), PT MNC Sky Vision Tbk (MSKY), and PT Bangun Karya Perkasa Jaya Tbk (KRYA) each fell to Rp46, while PT Pikko Land Development Tbk (RODA) and PT Mitra Pack Tbk (PTMP) reached Rp45. The change, set under BEI Director Decree Number Kep-00136/BEI/09-2026, aims to widen trading price ranges, improve price discovery, and boost liquidity, and is accompanied by revised Auto Rejection Top (ARA) and Auto Rejection Bottom (ARB) limits: during a transition period until 31 December 2026, stocks priced Rp1-Rp10 have ARA and ARB of Rp1, stocks above Rp10 to Rp200 have ARA of 35 percent and ARB of 15 percent, stocks above Rp200 to Rp5,000 have ARA of 25 percent and ARB of 15 percent, and stocks above Rp5,000 have ARA of 20 percent and ARB of 15 percent; from 1 January 2027, ARB becomes 35 percent for stocks above Rp10 to Rp200, 25 percent for stocks above Rp200 to Rp5,000, and both ARA and ARB become 20 percent for stocks above Rp5,000.",
+          "source": "https://www.cnnindonesia.com/ekonomi/20260928125122-92-1409000/28-saham-nyungsep-ke-bawah-level-gocap-ini-daftarnya",
+          "thumbnail": "https://akcdn.detik.net.id/visual/2026/04/24/pergerakan-indeks-harga-saham-gabungan-1777037178716_169.jpeg?w=280&q=90",
+          "timestamp": "2026-09-28T14:17:32",
+          "sector": "consumer-cyclicals",
+          "sub_sector": [
+            "consumer-services",
+            "food-beverage",
+            "software-it-services",
+            "basic-materials",
+            "properties-real-estate",
+            "holding-investment-companies",
+            "banks",
+            "oil-gas-coal",
+            "heavy-constructions-civil-engineering",
+            "investment-service",
+            "media-entertainment",
+            "industrial-goods"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Market Sentiment",
+            "Bearish"
+          ],
+          "symbols": [
+            "KPIG.JK",
+            "HOKI.JK",
+            "HDIT.JK",
+            "GOTO.JK",
+            "EPAC.JK",
+            "DADA.JK",
+            "CPRO.JK",
+            "BSBK.JK",
+            "BCAP.JK",
+            "BBKP.JK",
+            "BABP.JK",
+            "ATLA.JK",
+            "ASHA.JK",
+            "WMUU.JK",
+            "WEGE.JK",
+            "REAL.JK",
+            "RBMS.JK",
+            "PNBS.JK",
+            "PADI.JK",
+            "NETV.JK",
+            "MDLN.JK",
+            "MAXI.JK",
+            "LPKR.JK",
+            "STRK.JK",
+            "MSKY.JK",
+            "KRYA.JK",
+            "RODA.JK",
+            "PTMP.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Low Tuck Kwong to Remain Controlling Shareholder of PT Bayan Resources Tbk (BYAN) as PT Jhonlin Baratama Acquires 30% Stake",
+          "body": "PT Bayan Resources Tbk (BYAN) stated that Low Tuck Kwong will remain its main shareholder and controlling party after PT Jhonlin Baratama, owned by Haji Isam, completes its planned acquisition of 10 billion Bayan shares, equivalent to 30% of the company's fully paid-up shares. Following the transaction, Low Tuck Kwong will hold 6,951,170,541 shares (about 20.8%) and his daughter Elaine Low will hold 3,799,584,529 shares (about 11.4%), under a Conditional Share Purchase Agreement signed on 16 September 2026. Bayan said it has no plans to change its board of directors or commissioners and was not involved in the negotiations, other than Low Tuck Kwong, who is Bayan's President Director. Separately, Bayan confirmed that approval of the 2026 RKAB changes for subsidiaries PT Tiwa Abadi, PT Tanur Jaya, and PT Fajar Sakti Prima was obtained on 23 September 2026 and their mining operations have resumed, with the quota approval process unrelated to the share transaction.",
+          "source": "https://www.cnnindonesia.com/ekonomi/20260928130459-92-1409012/low-tuck-kwong-tetap-pengendali-bayan-meski-haji-isam-caplok-30-saham",
+          "thumbnail": "https://akcdn.detik.net.id/visual/2026/09/23/pemilik-jhonlin-group-andi-syamsuddin-arsyad-dan-pendiri-bayan-resources-datok-low-tuck-kwong-1790121349465_169.png?w=280&q=90",
+          "timestamp": "2026-09-28T14:17:32",
+          "sector": "energy",
+          "sub_sector": [
+            "oil-gas-coal"
+          ],
+          "tags": [
+            "Ownership",
+            "Mergers & Acquisitions",
+            "Production & Operations",
+            "Neutral"
+          ],
+          "symbols": [
+            "BYAN.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 0,
+            "management": 1,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "GoTo Gojek Tokopedia (GOTO) Shares Fall 14% to Rp 43 After IDX Removes Rp 50 Minimum Price",
+          "body": "Shares of PT GoTo Gojek Tokopedia Tbk (GOTO) fell 14% to Rp 43 on Monday, September 28, 2026, after the Indonesia Stock Exchange (IDX) removed the Rp 50 minimum share price, a floor that had held the stock for nearly four months. GoTo management, through Head of Corporate Affairs Audrey Petriny, said the price movement was technical and does not reflect the company's strengthening fundamentals. The company reported a net profit of Rp 252 billion in Q2-2026, its second consecutive quarterly profit, on net revenue of Rp 5.7 trillion and adjusted EBITDA of over Rp 1 trillion. GoTo affirmed it remains on track to meet its full-year adjusted EBITDA guidance of Rp 3.2 trillion to Rp 3.4 trillion.",
+          "source": "https://investasi.kontan.co.id/news/saham-goto-anjlok-ke-rp-43-begini-kata-manajemen-goto-gojek-tokopedia",
+          "thumbnail": "https://foto.kontan.co.id/Sj6hsxyEoamxKSpIAYRAg7Qao7I=/smart/2026/07/28/1825387209t.jpg",
+          "timestamp": "2026-09-28T14:07:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Market Sentiment",
+            "Financial Metrics",
+            "Neutral"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Merdeka Copper Gold Tbk (MDKA) Swings to US$101.56 Million Net Profit in H1 2026",
+          "body": "PT Merdeka Copper Gold Tbk (MDKA), a gold mining issuer owned by Edwin Soeryadjaya and Winato Kartono, posted a net profit of US$101.57 million in the first half of 2026, reversing a US$15.8 million loss in the same period last year. Revenue rose 64.10% year-on-year to US$1.4 billion, driven by the company's nickel and gold operations. Domestic sales of gold, silver, copper cathode, NPI, nickel matte, and limonite nickel ore reached US$959 million (68.44% of revenue), while exports totaled US$385.85 million, with top customers including PT Indonesia Tsingshan Stainless Steel (US$308 million), Mercuria Dry Bulk Pte. Ltd. (US$289 million), PT Aneka Tambang Tbk (ANTM) (US$197 million), and PT Huayue Nickel Cobalt (US$143 million). Despite the positive results, MDKA shares opened down more than 3% at Rp2,960, lowering its annualized P/E to 20.8x, with PT Saratoga Investama Tbk (SRTG) holding 19.36% as the largest shareholder.",
+          "source": "https://www.idnfinancials.com/id/news/69528/balikkan-kerugian-merdeka-copper-gold-raup-laba-us101-56-juta",
+          "thumbnail": "https://photo2.idnfinancials.com/fly/idn/test/arif/MDKA-25062026.jpg",
+          "timestamp": "2026-09-28T13:50:00",
+          "sector": "basic-materials",
+          "sub_sector": [
+            "basic-materials"
+          ],
+          "tags": [
+            "Financial Metrics",
+            "Commodities",
+            "Production & Operations",
+            "Export",
+            "Ownership",
+            "Bullish"
+          ],
+          "symbols": [
+            "MDKA.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Kalbe Farma Tbk (KLBF) Buyback Seen as Catalyst as Earnings Projected to Recover from 2027",
+          "body": "PT Kalbe Farma Tbk (KLBF) is conducting a share buyback using up to Rp 500 billion of internal funds from September 17 to December 17, 2026, which UBS Sekuritas Indonesia analyst Permada Darmono says could positively impact earnings per share by around 1.1% based on 2025 performance, despite an estimated Rp 8.4 billion reduction in interest income. For 2026, revenue is projected at Rp 40.42 trillion, up from Rp 35.33 trillion in 2025, while net profit is expected to fall to Rp 3.56 trillion from Rp 3.67 trillion as the EBIT margin declines to 11.1% from 13.2% due to rising imported raw material costs amid a weakening rupiah. 2026 is seen as the margin trough, with profitability improving gradually from 2027 on higher average selling prices and product mix changes, lifting net profit to Rp 3.75 trillion in 2027 and Rp 3.97 trillion in 2028, with EPS rising from Rp 78 to Rp 82 and Rp 87, below UBS consensus of Rp 79, Rp 86 and Rp 93. Longer term, revenue is projected to reach Rp 54.07 trillion and net profit Rp 4.46 trillion by 2030, and UBS maintains a Buy rating with a 12-month target price of Rp 1,100 per share.",
+          "source": "https://investasi.kontan.co.id/news/buyback-klbf-jadi-katalis-prospek-laba-diproyeksi-membaik",
+          "thumbnail": "https://foto.kontan.co.id/Me73gbHLR2IZrefuifG9BLsKDdk=/smart/2022/02/10/1994126255t.jpg",
+          "timestamp": "2026-09-28T13:44:00",
+          "sector": "healthcare",
+          "sub_sector": [
+            "pharmaceuticals-health-care-research"
+          ],
+          "tags": [
+            "Stock Buyback",
+            "Analyst Ratings",
+            "Undervalued",
+            "Financial Metrics",
+            "Bullish"
+          ],
+          "symbols": [
+            "KLBF.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 0,
+            "valuation": 2,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Megalestari Epack Sentosaraya Tbk (EPAC) Prepares Rights Issue of Up to 2 Billion Shares and Rp 20 Billion Buyback",
+          "body": "PT Megalestari Epack Sentosaraya Tbk (EPAC) plans two corporate actions to support business development and manage its capital structure. Through Pre-Emptive Rights I (PMHMETD I), the company will issue up to 2 billion new shares, with the exercise price, ratio, and proceeds not yet set and to be detailed in the prospectus; proceeds, net of issuance costs, are earmarked for capital expenditure, partial repayment of debt mainly bank loans, and working capital for raw material procurement, flexible plastic packaging production, customer orders, and distribution. EPAC also seeks shareholder approval for a buyback of up to 10% of its fully paid placed capital with a maximum budget of Rp 20 billion including transaction costs, to be executed gradually within 12 months after approval. Both actions will be put to an Extraordinary General Meeting of Shareholders scheduled for 3 November 2026, with the rights issue also requiring an effective statement from the Financial Services Authority (OJK).",
+          "source": "https://investasi.kontan.co.id/news/megalestari-epack-epac-siapkan-rights-issue-2-miliar-saham-dan-buyback-rp-20-miliar",
+          "thumbnail": "https://foto.kontan.co.id/NJcuMQoxGfUO0feJs42eDA92I1g=/smart/2021/09/14/46798668t.jpg",
+          "timestamp": "2026-09-28T13:22:00",
+          "sector": "basic-materials",
+          "sub_sector": [
+            "basic-materials"
+          ],
+          "tags": [
+            "Rights Issue",
+            "Stock Buyback",
+            "Capital & Funding",
+            "Shareholders General Meeting",
+            "Neutral"
+          ],
+          "symbols": [
+            "EPAC.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 0,
+            "valuation": 1,
+            "financials": 1,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "HPM Revision Boosts PT Merdeka Battery Materials Tbk (MBMA) EBITDA; Indo Premier Sekuritas Maintains Buy with Rp 745 Target",
+          "body": "PT Indo Premier Sekuritas (IPOT) maintained its Buy recommendation on PT Merdeka Battery Materials Tbk (MBMA) with an unchanged target price of Rp 745 per share, implying roughly 49% upside from the closing price of Rp 500 on 25 September 2026. MBMA posted semester I 2026 EBITDA of US$313 million, up about 300% year-on-year, driven mainly by higher SCM contribution and improved nickel ore margins after the April 2026 HPM (Mineral Benchmark Price) formula revision. However, first-half net profit of US$54 million, including US$24 million in Q2 2026, came in below IPOT and consensus estimates at 29% and 33% of full-year projections, pressured by a US$32 million foreign exchange loss in Q2 and weaker joint venture contribution, with MIA, the parent of ESG HPAL, posting a Q2 net loss of US$37 million possibly linked to a temporary halt after a tailing facility landslide. The HPM revision also cut NPI cash margin 50% quarter-on-quarter to US$1,900 per ton and turned HGNM margin negative at minus US$542 per ton, while IPOT expects additional limonite ore volumes from Q4 2026 following RKAB quota approval and the start of SLNC HPAL operations.",
+          "source": "https://investasi.kontan.co.id/news/revisi-hpm-dongkrak-ebitda-merdeka-battery-mbma-cek-rekomendasi-saham-dari-ipot",
+          "thumbnail": "https://foto.kontan.co.id/7G8oR7PcfpHMc75xYlPy_klnhfg=/smart/2026/05/01/886842996t.jpg",
+          "timestamp": "2026-09-28T13:11:00",
+          "sector": "basic-materials",
+          "sub_sector": [
+            "basic-materials"
+          ],
+          "tags": [
+            "Analyst Ratings",
+            "Financial Metrics",
+            "Commodities",
+            "Government Policy",
+            "Bullish"
+          ],
+          "symbols": [
+            "MBMA.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 2,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 1
+          }
+        },
+        {
+          "title": "IHSG Weakens 0.97% to 6,181 in Session I as PT GoTo Gojek Tokopedia Tbk (GOTO) Hits Auto Reject Bottom After Rp50 Floor Price Removal",
+          "body": "The Jakarta Composite Index (IHSG) fell 0.97% to 6,181 in Session I trading on Monday (28/9/2026), dragged down by PT GoTo Gojek Tokopedia Tbk (GOTO), which entered Auto Reject Bottom (ARB) after the Indonesia Stock Exchange (BEI) opened the Rp50 minimum share price limit, allowing prices to move down to Rp1 to improve liquidity and price discovery. The floor removal triggered significant selling pressure of 1 billion lots in GOTO shares, pulling the index into the red throughout the session, which traded in a range of 6,227 to a low of 6,174. Trading value reached Rp6.41 trillion on 23.38 billion shares with 1.02 million transactions, as 193 stocks advanced, 496 declined, and 102 were unchanged. Technology, non-primary consumer, and infrastructure stocks weighed on the index, falling 4.09%, 2.71%, and 1.61% respectively, while Panin Sekuritas attributed the weakness partly to heightened geopolitical tension after US President Donald Trump rejected Iran's ceasefire proposal, pushing crude oil back to US$107 per barrel.",
+          "source": "https://www.bloombergtechnoz.com/detail-news/122891/penyebab-ihsg-turun-nyaris-1-diperberat-saham-gocap",
+          "thumbnail": "https://images.bloombergtechnoz.com/data/2026/06/image-20260604121604.jpeg",
+          "timestamp": "2026-09-28T13:10:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Market Sentiment",
+            "Politics & Regulation",
+            "Bearish"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Kalbe Farma Tbk (KLBF) Margins Under Pressure, Recovery Projected from 2027",
+          "body": "PT Kalbe Farma Tbk (KLBF) faces margin pressure in 2026, but analysts project profitability will gradually recover starting in 2027. In semester I-2026, KLBF posted revenue of Rp 19.48 trillion, up 14.05% YoY, led by Distribution and Logistics (+26.62% to Rp 7.20 trillion), Prescription Drugs (+7.27% to Rp 5.30 trillion), Nutrition (+6.49% to Rp 4.26 trillion), and Health Products (+10.85% to Rp 2.71 trillion), yet net profit fell 2.74% to Rp 1.97 trillion as gross profit margin dropped to 37.56% from 41.14%, pressured by rising imported raw material costs amid rupiah weakness. Analysts from BRI Danareksa Sekuritas, Sinarmas Sekuritas, and Phintraco Sekuritas view 2026 as the margin trough, projecting 2027 revenue of Rp 41.4-41.76 trillion and net profit of Rp 4.12-4.78 trillion, with GPM recovering to 40.70% in 2027 per Phintraco. All three maintain Buy recommendations with target prices of Rp 1,000, Rp 900, and Rp 1,500 per share, respectively.",
+          "source": "https://investasi.kontan.co.id/news/margin-saham-klbf-tertekan-kinerja-diproyeksi-pulih-pada-2027",
+          "thumbnail": "https://foto.kontan.co.id/bv7z4UadMuoOm2HE6HYp-xMfL7M=/smart/2025/10/06/106943862t.jpg",
+          "timestamp": "2026-09-28T13:00:00",
+          "sector": "healthcare",
+          "sub_sector": [
+            "pharmaceuticals-health-care-research"
+          ],
+          "tags": [
+            "Financial Metrics",
+            "Analyst Ratings",
+            "Currency & FX",
+            "Neutral"
+          ],
+          "symbols": [
+            "KLBF.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 2,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "ELPI secures Rp837.2 billion in contracts and builds new crewboat targeting the Middle East market",
+          "body": "ELPI reported additional contracts worth Rp20.94 billion from mid-July to late September 2026, bringing total contracts to Rp837.2 billion as of the end of September 2026. New contracts include Jawara 3402 and Jawara 3403 for domestic operations in Bintuni valued at USD 2.25 million and a Jawara 24-meter vessel contract with a K3S contractor in Cepu worth USD 4.86 million. The company is building the Jawara 3404 crewboat for Middle East opportunities, where its vessels Kazo Agility 2 and Kazo Agility 3 already operate at Saudi Aramco, and is preparing six vessels worth Rp2.39 trillion for Genting Group's project through PT Layar Nusantara Gas in Teluk Bintuni, scheduled for June 2027. Despite H1 2026 revenue falling 20.8% year-on-year to Rp430.35 billion and net profit dropping 58.3% to Rp56.95 billion, ELPI remains optimistic about Q3 2026 with potential contracts of around USD 10.75 million.",
+          "source": "https://www.idnfinancials.com/id/news/69526/kontrak-rp837-2-miliar-elpi-bangun-kapal-bidik-pasar-timur-tengah",
+          "thumbnail": "https://photo2.idnfinancials.com/fly/idn/adhy-2026/elpi/elpi.jpg",
+          "timestamp": "2026-09-28T12:50:00",
+          "sector": "transportation-logistic",
+          "sub_sector": [
+            "transportation"
+          ],
+          "tags": [
+            "Business Expansion",
+            "Financial Metrics",
+            "Partnerships & Agreements",
+            "Production & Operations",
+            "Neutral"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Market Still Volatile, Check IPOT's Stock Picks",
+          "body": "PT Indo Premier Sekuritas equity analyst David Kurniawan recommends three stocks for the trading week of September 28 to October 2, 2026, amid a still-volatile JCI, which weakened 0.97% to 6,181.43 in the first session on September 28, 2026. The picks are Buy-rated PT Merdeka Copper Gold Tbk (MDKA) with entry at Rp3,070, target Rp3,300 and stop loss Rp2,980; Buy-rated PT Astra Otoparts Tbk (AUTO) with entry at Rp3,380, target Rp3,610 and stop loss Rp3,290; and PT Ketrosden Triasmitra Tbk (KETR) with entry at Rp975, target Rp1,080 and stop loss Rp925. Indo Premier also highlights the Premier ETF IDX High Dividend 20 equity mutual fund (XIHD) as an alternative for investors seeking yield amid JCI volatility. The recommendations come as foreign outflow in the regular market reached about Rp3.5 trillion, the rupiah traded around Rp17,903 per US dollar, and Bank Indonesia held the BI-Rate at 5.75%.",
+          "source": "https://investasi.kontan.co.id/news/pasar-masih-volatil-simak-rekomendasi-saham-pilihan-ipot",
+          "thumbnail": "https://foto.kontan.co.id/wCGPQAe9dqMpT6fVMkS79h6Jz6I=/smart/2026/03/03/991456472t.jpg",
+          "timestamp": "2026-09-28T12:38:00",
+          "sector": "basic-materials",
+          "sub_sector": [
+            "basic-materials",
+            "automobiles-components",
+            "telecommunication"
+          ],
+          "tags": [
+            "Analyst Ratings",
+            "Market Sentiment",
+            "Central Bank",
+            "Commodities",
+            "Bearish"
+          ],
+          "symbols": [
+            "MDKA.JK",
+            "AUTO.JK",
+            "KETR.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Indonesia Stock Exchange (BEI) Implements New Auto Rejection Top (ARA) and Auto Rejection Bottom (ARB) Rules Starting Today",
+          "body": "The Indonesia Stock Exchange (BEI) begins enforcing revised Auto Rejection Top (ARA) and Auto Rejection Bottom (ARB) rules today, Monday (28/9/2026), following the removal of the minimum stock price floor from Rp 50 to Rp 1. Until 31 December 2026, stocks priced Rp 1-10 have ARA and ARB limits of Rp 1 each, while stocks above Rp 10 retain an asymmetric ARB of 15%, with ARA set at 35% for prices above Rp 10 to below Rp 200, 25% for above Rp 200 to Rp 5,000, and 20% above Rp 5,000. From 1 January 2027, ARB returns to a symmetric basis by price range: 35% for Rp 11-200, 25% for above Rp 200 to Rp 5,000, and 20% above Rp 5,000. For DINFRA participation units, prices of Rp 1-10 carry ARA and ARB limits of Rp 1 each, while units above Rp 10 have limits of 10% each. The changes are set out in two BEI Board of Directors decrees, SK Number Kep-00136/BEI/09-2026 for equity securities trading and SK Number Kep-000137/BEI/09-2026 for DINFRA trading, and aim to improve price discovery, liquidity, and portfolio management flexibility.",
+          "source": "https://finance.detik.com/bursa-dan-valas/d-8682336/bei-ubah-aturan-ara-arb-mulai-hari-ini-cek-rinciannya",
+          "thumbnail": "https://awsimages.detik.net.id/community/media/visual/2022/04/08/ihsg-ditutup-menguat-1_43.jpeg?w=210&q=90",
+          "timestamp": "2026-09-28T12:05:00",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Politics & Regulation"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Pukul Rata Kanan to Launch Voluntary Tender Offer for Guna Timur Raya (TRUK) Shares as Stock Suspended After Repeated Auto Rejection Top Hits",
+          "body": "Pukul Rata Kanan (PRK), a company 99.9 percent owned by Gabriel Rey, plans a voluntary tender offer (VTO) for up to 65.25 million Guna Timur Raya (TRUK) shares at Rp740 per share, with a maximum budget of Rp48.3 billion. If the tender proceeds as planned, PRK's stake in TRUK will rise from 15 percent to 30 percent, valued at approximately Rp336.69 billion. The tender statement is expected to be effective on November 4, 2026, with the offer period running from November 6 to December 7, 2026, allocation on December 10, payment on December 15, and return of unpurchased shares on December 14, 2026. PRK stated it has no plan to take TRUK private and believes the new controlling ownership can support TRUK's financial and operational growth, including benefits for minority shareholders. Separately, the Indonesia Stock Exchange (BEI) suspended trading of TRUK shares after the stock hit auto rejection top (ARA) eight consecutive times following its release from the full-period Call Auction (FCA) on September 25, 2026.",
+          "source": "https://emitennews.com/news/saham-truk-beku-gabriel-rey-gaspol-tender-sukarela",
+          "thumbnail": "https://ap-south-1.linodeobjects.com/emitennews-02/uploads/news/thumb_1790571275.webp?25119ab",
+          "timestamp": "2026-09-28T11:57:00",
+          "sector": "transportation-logistic",
+          "sub_sector": [
+            "logistics-deliveries"
+          ],
+          "tags": [
+            "Ownership",
+            "Suspension",
+            "Mergers & Acquisitions",
+            "Capital & Funding",
+            "Neutral"
+          ],
+          "symbols": [
+            "TRUK.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) Slumps 14% to Auto Reject Bottom as Minimum Price Rule Takes Effect",
+          "body": "Shares of PT GoTo Gojek Tokopedia Tbk (GOTO) fell 14% and hit Auto Reject Bottom (ARB) at Rp 43 in the first trading session on Monday (28/9/2026), coinciding with the implementation of the minimum share price change from Rp 50 to Rp 1. Sell queues at Rp 43 exceeded 1 billion shares, worth around Rp 4.3 trillion. Pluang Maju Sekuritas Head of Research Jason Gozali said the move is a real test of whether the price reflects fundamental changes or remains held back by limited real buying interest. Kiwoom Sekuritas Head of Research Liza Camelia Suryanata expects selling pressure to continue, with technical support in the Rp 36-27 range within a parallel channel pattern.",
+          "source": "https://investor.id/market/455770/goto-di-turunan-panjang-dan-curam",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2024/09/1725444805-720x454.webp",
+          "timestamp": "2026-09-28T11:49:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Market Sentiment",
+            "Politics & Regulation",
+            "Bearish"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Folago Global Nusantara Tbk (IRSX) Prepares Rights Issue of Up to 12.39 Billion New Shares",
+          "body": "PT Folago Global Nusantara Tbk (IRSX), formerly PT Aviana Sinar Abadi Tbk, is preparing a rights issue (PMHMETD) of up to 12,390,094,754 new shares, equal to about 66.67% of its fully paid-up capital, plus up to 1,858,514,214 Series II Warrants. Shareholders approved the plan at an extraordinary general meeting on 24 September 2026, and the company awaits OJK effectiveness expected by late October 2026, with proceeds earmarked for capital expenditure, operating expenses, and business expansion. The company, which shifted to a creator economy, media commerce, entertainment, and AI business model after a change of control in September 2025, operates units including Folago Social Commerce, Folago Live Entertainment, Folago Go, Folago Pictures, and Folago AI Commerce & Digital Twin through its subsidiary PT Folago Artificial Intelligence Commerce (FAIC), and recently partnered with iQIYI International as a content provider and advertising partner. In the first half of 2026, IRSX posted revenue of Rp275.1 billion, up about 174% year-on-year, and net profit of Rp7.7 billion, reversing from a net loss of Rp1.6 billion a year earlier.",
+          "source": "https://investasi.kontan.co.id/news/irsx-right-issue-1239-miliar-saham-baru-intip-profil-lini-bisnis-dan-kinerjanya",
+          "thumbnail": "https://foto.kontan.co.id/PwiBraGpZXFsXud7TIRhjm5KbIY=/smart/2025/10/08/1687953799t.jpg",
+          "timestamp": "2026-09-28T11:43:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Rights Issue",
+            "Capital & Funding",
+            "Business Expansion",
+            "Financial Metrics",
+            "Neutral"
+          ],
+          "symbols": [
+            "IRSX.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 1,
+            "valuation": 1,
+            "financials": 1,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Indonesia Stock Exchange Revises Special Monitoring Board Criteria and Full Call Auction Rules, Removing 92 Stocks from PPK Effective 28 September 2026",
+          "body": "Bursa Efek Indonesia (BEI) is overhauling the Special Monitoring Board (Papan Pemantauan Khusus, PPK) and Full Call Auction (FCA) mechanism under Exchange Regulations I-X and II-X, effective 28 September 2026, by deleting Criteria 1, 6, 7, and 10 related to low price and liquidity, free float, and trading suspensions. As a result, 92 stocks exit the PPK and no longer trade via FCA, with 67 returned to the Development Board, 22 to the Main Board, and 3 to the Acceleration Board, including PT Waskita Karya (Persero) Tbk (WSKT), PT Wijaya Karya (Persero) Tbk (WIKA), PT PP Properti Tbk (PPRO), PT Pan Brothers Tbk (PBRX), PT Berlian Laju Tanker Tbk (BLTA), PT Intikeramik Alamasri Industri Tbk (IKAI), and PT Agung Semesta Sejahtera Tbk (TARA), while 42 stocks remain on the PPK. Separately, PT Bakrie Sumatera Plantations Tbk (UNSP) returned to the Development Board effective 23 September 2026 after its equity turned positive, having previously been on the PPK under Criterion 5 on negative equity. BEI is also introducing a Non-Cancellation Period in the FCA mechanism and lowering the minimum stock price from Rp50 to Rp1 starting 28 September 2026. Of the 92 stocks exiting the PPK, 44 were still actively traded as of 25 September while 48 remained suspended.",
+          "source": "https://investasi.kontan.co.id/news/apa-itu-papan-fca-yang-diubah-bei-cek-perubahan-kriteria-saham-pemantauan-khusus",
+          "thumbnail": "https://foto.kontan.co.id/4ZnWvZF-StjsYsSfy-G58j10gbo=/smart/2026/09/15/888696368t.jpg",
+          "timestamp": "2026-09-28T11:43:00",
+          "sector": "infrastructures",
+          "sub_sector": [
+            "heavy-constructions-civil-engineering",
+            "properties-real-estate",
+            "apparel-luxury-goods",
+            "logistics-deliveries",
+            "industrial-goods",
+            "food-beverage"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Suspension"
+          ],
+          "symbols": [
+            "WSKT.JK",
+            "WIKA.JK",
+            "PPRO.JK",
+            "PBRX.JK",
+            "BLTA.JK",
+            "IKAI.JK",
+            "TARA.JK",
+            "UNSP.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 1,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "US Treasury Yield Breaches 5.20%, Pressuring Indonesian Financial Markets",
+          "body": "The 10-year US Treasury yield rose to 5.20% on Monday (28/9), its first such level in 19 years, pressuring the rupiah, bond, and equity markets in Indonesia. The rupiah weakened 0.85% over the past week to Rp 17,914 per US dollar as the dollar index (DXY) strengthened to 101.03, while the 10-year SBN yield stood at 7.08% and the bond market still recorded a foreign outflow of Rp 2.27 trillion. The Jakarta Composite Index (IHSG) fell 3.1% to 6,242 with foreign selling of Rp 2.59 trillion, even as Bank Indonesia held the BI Rate at 5.75% on 23 September 2026 and raised FX hedging incentives. Additional pressures include rising oil prices (WTI around US$92, Brent around US$104 per barrel) amid Middle East tensions and the approved 2027 RAPBN with a 2.4% deficit target, while markets await Indonesia's Global Manufacturing PMI, trade balance, and inflation data on 1 October 2026.",
+          "source": "https://investasi.kontan.co.id/news/yield-us-treasury-tembus-520-pasar-keuangan-indonesia-tertekan",
+          "thumbnail": "https://foto.kontan.co.id/HDwPjigbHNE1dAVAQXH9KNCcglU=/smart/2026/09/22/602347554t.jpg",
+          "timestamp": "2026-09-28T11:38:00",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Interest Rate",
+            "Currency & FX",
+            "Central Bank",
+            "Government Policy",
+            "Commodities",
+            "Bearish"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Rupiah Slides Toward Rp 18,000 as Asian Currencies Weaken",
+          "body": "The rupiah weakened toward Rp 18,000 per US dollar as pressure on Asian currencies persisted amid heightened global financial uncertainty. Bloomberg data showed the rupiah fell 61 points, or 0.34%, to Rp 17,964 per US dollar in the spot market as of 9:23 a.m. Jakarta time, while most major Asian currencies also weakened, including the Thai baht down 0.42%, the South Korean won down 0.47%, and the Japanese yen down 0.26%. Bank Indonesia (BI) Governor Destry Damayanti said the central bank would strengthen rupiah stabilization measures, including foreign exchange interventions through non-deliverable forwards (NDFs) in offshore markets and spot transactions and domestic non-deliverable forwards (DNDFs) domestically. BI is also expanding hedging incentives, previously limited to portfolio investments, to cover banks' offshore borrowings and foreign direct investment (FDI), and raised the premium discount on swap-based foreign exchange purchases to 15% for three-month tenors, 20% for six-month tenors, and 25% for 12-month tenors, up from a flat 12.5%.",
+          "source": "https://jakartaglobe.id/business/rupiah-slides-toward-rp-18000-as-asian-currencies-weaken",
+          "thumbnail": "https://jakartaglobe.id/img/jakartaglobe-logo.webp",
+          "timestamp": "2026-09-28T11:32:00",
+          "sector": "financials",
+          "sub_sector": [
+            "banks"
+          ],
+          "tags": [
+            "Currency & FX",
+            "Central Bank",
+            "Foreign Investment",
+            "Global Economy",
+            "Neutral"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Hana Hasanah Appointed President Commissioner as PT Folago Global Nusantara Tbk (IRSX) Shareholders Approve First Rights Issue",
+          "body": "Shareholders of PT Folago Global Nusantara Tbk (IRSX) approved changes to the company's board of commissioners and directors and its first rights issue plan at a General Meeting of Shareholders held last week. Hana Hasanah, a former member of Indonesia's Regional Representative Council (DPD RI) for 2014-2019, was appointed President Commissioner, replacing Adhie M. Masardi, while Megah Supratiwi became independent commissioner, replacing Benny. Benny was appointed as a Director of IRSX and Adhie M. Masardi joined the board of commissioners. Under the approved capital increase, IRSX will issue up to 12.39 billion new shares with an exercise price to be determined by management, expected to raise up to Rp3.7 trillion, with most of the proceeds to be injected as capital into several subsidiaries.",
+          "source": "https://www.idnfinancials.com/id/news/69523/hana-hasanah-jadi-komisaris-utama-irsx-dapat-restu-rights-issue",
+          "thumbnail": "https://photos.idnfinancials.com/static/web/_DESIGN%20GRAFIS/ARTIKEL%20IMAGE%20%28ARIF%29/IRSX-15012026.jpg",
+          "timestamp": "2026-09-28T11:30:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Rights Issue",
+            "Shareholders General Meeting",
+            "Executive Changes",
+            "Capital & Funding",
+            "Subsidiaries",
+            "Neutral"
+          ],
+          "symbols": [
+            "IRSX.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 0,
+            "valuation": 1,
+            "financials": 1,
+            "management": 2,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Export Expansion to Australia and New Zealand Seen as Growth Driver for PT Impack Pratama Industri Tbk (IMPC), Analysts Recommend Buy on Weakness",
+          "body": "PT Impack Pratama Industri Tbk (IMPC) is strengthening its export market expansion, particularly to Australia and New Zealand, to support growth through 2026 and 2027, with exports contributing about 32% of revenue in the first half of 2026. The company is preparing capital expenditure of around Rp 500 billion for additional machinery and factory buildings. In the first half of 2026, IMPC's net profit grew about 51% to Rp 446.5 billion, with net profit margin rising to about 18.1%, while its full-year revenue target stands at Rp 5.1 trillion and analysts see a net profit target above Rp 800 billion as realistic. Analysts from Mirae Asset Sekuritas and Panin Sekuritas view the stock as attractive, citing Rp 1,630 to Rp 1,700 per share as a buy-on-weakness area with a near-term target of Rp 1,825 per share and potential toward Rp 1,900 to Rp 2,000.",
+          "source": "https://investasi.kontan.co.id/news/ekspansi-ekspor-jadi-motor-pertumbuhan-impack-pratama-impc-ini-rekomendasi-analis",
+          "thumbnail": "https://foto.kontan.co.id/C99Fh25T-UsF3MLI2uMjJeECzH8=/smart/2025/11/24/907952354t.jpg",
+          "timestamp": "2026-09-28T11:25:00",
+          "sector": "industrials",
+          "sub_sector": [
+            "industrial-goods"
+          ],
+          "tags": [
+            "Analyst Ratings",
+            "Export",
+            "Business Expansion",
+            "Financial Metrics",
+            "Bullish"
+          ],
+          "symbols": [
+            "IMPC.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 2,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "23 Stocks Hit Auto Reject Bottom as Indonesia Stock Exchange Lowers Floor Price to Rp1",
+          "body": "The Indonesia Stock Exchange (BEI) officially lowered the minimum stock price floor from Rp50 to Rp1 in the regular and cash markets starting 28 September 2026, under Director Decision Number Kep-00136/BEI/09-2026. On the first trading day of the new rule, 23 stocks fell to Auto Reject Bottom (ARB), with the Jakarta Composite Index (IHSG) dropping as much as 1.05% to 6,174, while 501 stocks weakened, 187 gained, and 99 were unchanged. Trading volume reached 17.96 billion shares worth Rp4.45 trillion across 792 thousand transactions by 10:45 local time. For stocks priced Rp1 to Rp10, the Auto Reject Top and Auto Reject Bottom limits are set at Rp1, while the asymmetric 15% ARB rule for stocks above Rp10 remains until 31 December 2026 before returning to symmetric limits on 1 January 2027; BEI also removed four FCA criteria, returning 92 stocks to their original listing boards. BRI Danareksa Sekuritas (BRIDS) and Mirae Asset Sekuritas noted the policy could raise volatility in low-priced stocks and trigger repricing.",
+          "source": "https://www.bloombergtechnoz.com/detail-news/122870/daftar-23-saham-yang-arb-usai-harga-bisa-rp1",
+          "thumbnail": "https://images.bloombergtechnoz.com/data/2026/07/image-20260727155332.jpeg",
+          "timestamp": "2026-09-28T11:25:00",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Market Sentiment",
+            "Neutral"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "President Director Amitav Nandy Resigns from PT Sepatu Bata Tbk (BATA)",
+          "body": "PT Sepatu Bata Tbk (BATA) announced that its President Director, Amitav Nandy, submitted his resignation on 23 September 2026. The resignation was made in the context of a rotation of positions within the Bata Group and will be decided at an upcoming General Meeting of Shareholders in accordance with OJK Regulation No. 33/POJK.04/2014 and the company’s articles of association. The company stated that the resignation has no material impact on its operations, legal matters, financial condition, or business continuity.",
+          "source": "https://www.cnnindonesia.com/ekonomi/20260928094235-92-1408907/bos-sepatu-bata-mengundurkan-diri-ada-apa",
+          "thumbnail": "https://akcdn.detik.net.id/visual/2015/05/28/422897b1-0d6d-4cca-94bf-8a0a09f50fbe_169.jpg?w=280&q=90",
+          "timestamp": "2026-09-28T11:02:17",
+          "sector": "consumer-cyclicals",
+          "sub_sector": [
+            "apparel-luxury-goods"
+          ],
+          "tags": [
+            "Executive Changes",
+            "Neutral"
+          ],
+          "symbols": [
+            "BATA.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 0,
+            "management": 2,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Energi Mega Persada Tbk (ENRG) announces Rp4.1 trillion rights issue of 13.3 billion new shares",
+          "body": "PT Energi Mega Persada Tbk (ENRG) updated its rights issue to raise up to Rp4.1 trillion by issuing 13.3 billion new shares at Rp310 each with a 2:1 ratio, resulting in a maximum dilution of 33.33%. Controlling shareholder PT Shima Global Kapital (17.55%) will transfer its 2.33 billion unsubscribed rights to PT Bakrie Kalila Investment, which will exercise 2.8 billion rights worth Rp869.3 billion, while PT Bakrie Kalila Investment and PT Bakrie Capital Indonesia act as standby buyers for up to 9.92 billion shares valued at Rp3 trillion; cum rights date is 2 Oct 2026 and the exercise period runs 8‑21 Oct 2026. Earlier, ENRG injected US$64.67 million (≈Rp1.16 trillion) into its subsidiaries Energi Maju Abadi (EMA), Imbang Tata Alam (ITA) and EMP Bentu Limited (EMP Bentu) as loans of US$9.59 million, US$49.69 million and US$5.37 million respectively for debt repayment to Bank Mandiri (BMRI) and working capital, at 8.60% interest for up to five years. The net proceeds from the rights issue will be loaned to the same subsidiaries to fund exploration, development, production facilities and working capital.",
+          "source": "https://www.cnbcindonesia.com/market/20260928104207-17-771378/emiten-energi-bakrie--enrg--rights-issue-jumbo-cari-duit-rp41-t",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2020/06/02/1346f48d-7878-4a41-b6b6-0b512c03dfbc_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T11:00:17",
+          "sector": "energy",
+          "sub_sector": [
+            "oil-gas-coal"
+          ],
+          "tags": [
+            "Capital & Funding",
+            "Ownership",
+            "Neutral"
+          ],
+          "symbols": [
+            "ENRG.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 0,
+            "valuation": 1,
+            "financials": 1,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) stock falls below new floor price as company issues statement",
+          "body": "PT GoTo Gojek Tokopedia Tbk (GOTO) shares hit the Auto Reject Bottom (ARB) at Rp 43, a 14% drop below the new floor price after Bursa Efek Indonesia removed the Rp 50 minimum on 28 Sep 2026, leading the company to issue a statement. GoTo reported Q2‑2026 net profit of Rp 252 billion on revenue of Rp 5.7 trillion and adjusted EBITDA exceeding Rp 1 trillion, and it reaffirmed its full‑year adjusted EBITDA target of Rp 3.2‑3.4 trillion despite a 14% three‑month and 32.81% YTD share decline.",
+          "source": "https://finance.detik.com/bursa-dan-valas/d-8682160/harga-saham-nyungsep-di-bawah-gocap-goto-buka-suara",
+          "thumbnail": "https://awsimages.detik.net.id/community/media/visual/2026/08/13/tanggapi-msci-goto-tegaskan-fokus-pada-fundamental-bisnis-dan-target-2026-1786600068906_43.jpeg?w=210&q=90",
+          "timestamp": "2026-09-28T10:43:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Neutral",
+            "Financial Metrics",
+            "Market Sentiment"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 2,
+            "management": 1,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "BEI removes the Rp50 minimum stock price, prompting the IHSG to fall about 1%",
+          "body": "BEI announced that the minimum price for stocks on the regular and cash markets will be lowered from Rp50 to Rp1 effective 28 September 2026. Following the announcement, the Indonesia Composite Index (IHSG) slipped 1% (62.19 points) to 6,179.71 at 10:27 WIB. Trading volume was 15.16 billion shares (totaling 151.65 million lots) with a transaction value of Rp3,437.17 billion, below the average daily volume of 17.44 billion shares. The market decline occurred amid continued foreign net selling of Rp559.08 billion on the day and a cumulative 2026 net outflow of Rp77.52 trillion, while the rupiah weakened 0.85% against the dollar.",
+          "source": "https://www.cnbcindonesia.com/market/20260928103418-17-771373/bei-hapus-minimun-harga-saham-ihsg-anjlok-1",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2019/04/30/6cc064fa-3ea4-477b-b38f-e09f153713f0_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T10:37:17",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Market Sentiment",
+            "Foreign Investment",
+            "Currency & FX"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "BEI suspends trading of PT Guna Timur Raya Tbk (TRUK) after stock jumps 216% on jumbo investor buying",
+          "body": "The Indonesia Stock Exchange (BEI) temporarily halted trading of PT Guna Timur Raya Tbk (TRUK) following a sharp price increase. The suspension started at the pre‑opening session on 28 September 2026 and applies to both the regular and cash markets. Over the past five days the share price rose 50.44% and 216.5% over the month, reaching Rp 2,580 per share and giving the company a market capitalization of roughly Rp 1.1 trillion. Investors Gabriel Rey (through PT Pukul Rata Kanan) bought 65.25 million shares (15% of the company) for Rp 27.9 billion, Andri Hakim (through Hakimson Growth Capital) purchased 21.75 million shares (5%) for Rp 9.3 billion, and Catur Dharma Anugerah Surya acquired 87 million shares (20%) at the same price.",
+          "source": "https://www.cnbcindonesia.com/market/20260928095942-17-771364/usai-diborong-investor-jumbo-saham-truk-meroket-216-sebelum-digembok",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2020/02/27/d8de9063-d0f8-453a-a44d-ec3e024c2767_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T10:21:17",
+          "sector": "transportation-logistic",
+          "sub_sector": [
+            "logistics-deliveries"
+          ],
+          "tags": [
+            "Ownership"
+          ],
+          "symbols": [
+            "TRUK.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        }
+      ],
+      "pagination": {
+        "total_count": 57,
+        "showing": 30,
+        "limit": 30,
+        "offset": 0,
+        "has_next": true,
+        "has_previous": false,
+        "next_offset": 30,
+        "previous_offset": null
+      }
+    }
+  },
+  {
+    "fetched_at": "2026-09-28T10:16:26.598963+00:00",
+    "request": {
+      "extension": "idx",
+      "start": "2026-09-28",
+      "end": "2026-09-28",
+      "limit": 30,
+      "offset": 30
+    },
+    "response": {
+      "results": [
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) responds to BEI’s floor‑price removal as shares trade at Rp43",
+          "body": "PT GoTo Gojek Tokopedia Tbk (GOTO) issued a statement after the Indonesia Stock Exchange (BEI) officially lowered the floor price for regular and cash markets from Rp50 to Rp1 per share on 28 September 2026. On that morning the stock opened at Rp43, down about 14% with a transaction value of roughly Rp2.5 billion and volume of 58 million shares, while the composite index fell 0.5% to 6,210. Management emphasized that the price movement reflects technical effects of the new rule, noting that the company posted Q2‑2026 net profit of Rp252 billion, net revenue of Rp5.7 trillion and adjusted EBITDA above Rp1 trillion, and remains on track for full‑year adjusted EBITDA of Rp3.2‑3.4 trillion. The firm also reaffirmed its plan to cancel more than 32 billion treasury shares, about 2.7% of the outstanding share count, pending shareholder approval at the RUPSLB on 14 October 2026, and referenced BEI’s adjustments to Auto Rejection Atas (ARA) and Auto Rejection Bawah (ARB) under the new floor‑price regime.",
+          "source": "https://www.cnbcindonesia.com/market/20260928093247-17-771353/begini-tanggapan-goto-usai-gembok-saham-resmi-dibuka",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2026/08/04/dok-goto-1785833212922_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T10:17:17",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Stock Buyback",
+            "Neutral"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 1,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Foreign investor sells 4.05 million PT Charoen Pokphand Indonesia Tbk (CPIN) shares at Rp3,132 each",
+          "body": "UBS AG LDN Branch A/C Client sold 4.05 million (0.02%) shares of PT Charoen Pokphand Indonesia Tbk (CPIN) at Rp3,132 per share on 21 September 2026, reducing its stake to 6% and valuing the transaction at roughly Rp13 billion. In the first half of 2026 CPIN reported net profit of Rp3.71 trillion (+95.1% YoY), revenue of Rp39.41 trillion (+19.21% YoY), EPS of Rp226, total assets of Rp52.38 trillion and cash and cash equivalents of Rp5.06 trillion.",
+          "source": "https://www.cnbcindonesia.com/market/20260928093613-17-771361/ada-investor-asing-yang-jual-405-juta-saham-cpin-di-harga-rp3132",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2022/07/12/company-profile-pengolahan-ayam-siap-ekspor-di-pt-charoen-pokphand-indonesia-tbk-tangkapan-layar-youtubetiara-studio-4_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T10:17:17",
+          "sector": "consumer-non-cyclicals",
+          "sub_sector": [
+            "food-beverage"
+          ],
+          "tags": [
+            "Foreign Investment",
+            "Ownership",
+            "Bullish"
+          ],
+          "symbols": [
+            "CPIN.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 0,
+            "valuation": 1,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "BEI amends Full Call Auction rules, removing 92 stocks from the Special Monitoring Board",
+          "body": "BEI announced amendments to the Full Call Auction (FCA) regulations governing the Special Monitoring Board, effective 28 September 2026. The changes, published on 25 September 2026, eliminate criteria 1, 6, 7 and 10 related to price and liquidity and introduce a Non‑Cancellation Period to improve price discovery. As a result, 92 securities no longer meet the revised criteria and are removed from the Special Monitoring Board, while 42 securities remain under monitoring. BEI stated the adjustments aim to keep the board’s placement criteria aligned with market conditions and to enhance transparency and liquidity in secondary market trading.",
+          "source": "https://www.cnbcindonesia.com/market/20260928100210-17-771366/bei-ubah-aturan-fca-92-saham-keluar-papan-dari-pemantauan-khusus",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2026/06/30/layar-menampilkan-pergerakan-indeks-harga-saham-gabungan-ihsg-di-bursa-efek-indonesia-bei-jakarta-selasa-3062026-1782797019138_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T10:17:17",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Politics & Regulation"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Harum Energy Tbk (HRUM) announces 111-million-share buyback",
+          "body": "PT Harum Energy Tbk (HRUM) announced a share buyback of 111 million shares. The company allocated Rp120 billion, representing 0.82% of its outstanding shares, to be repurchased between 25 September and 24 December 2026 using internal cash, which it says will not significantly affect its financial capacity. Following the announcement, HRUM’s share price opened 1.71% higher at Rp890, reflecting a price‑earnings multiple of 9.52×, below the sector average of about 12×. The majority of HRUM’s shares (79.79%) are controlled by PT Karunia Bara Perkasa, while beneficiaries Lawrence Barki and Steven Scott Barki each hold less than 0.1% directly.",
+          "source": "https://www.idnfinancials.com/id/news/69521/harum-energy-milik-keluarga-barki-gelar-buyback-111-juta-saham",
+          "thumbnail": "https://photo2.idnfinancials.com/fly/idn/test/arif/HRUM-03062026.jpg",
+          "timestamp": "2026-09-28T10:10:00",
+          "sector": "energy",
+          "sub_sector": [
+            "oil-gas-coal"
+          ],
+          "tags": [
+            "Stock Buyback",
+            "Bullish"
+          ],
+          "symbols": [
+            "HRUM.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 1,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) says share weakness does not reflect strengthening fundamentals",
+          "body": "PT GoTo Gojek Tokopedia Tbk (GOTO) issued a statement after its shares weakened again on Monday, 28 September 2026. The stock touched the auto reject bottom (ARB) at Rp43 per share with a sell queue of 1 billion lot, following the new Bursa Efek Indonesia rule that removed the Rp50 lower price bound. Despite the price pressure, GOTO reported Q2 2026 net profit of Rp252 billion, net revenue of Rp5.7 trillion and adjusted EBITDA exceeding Rp1 trillion, and reaffirmed its full‑year adjusted EBITDA target of Rp3.2‑3.4 trillion. The decline also contributed to the composite index (IHSG) falling 12.9 points, reflecting GOTO’s sizable weight in the index.",
+          "source": "https://www.bloombergtechnoz.com/detail-news/122855/tanggapan-goto-usai-saham-kembali-melemah",
+          "thumbnail": "https://images.bloombergtechnoz.com/data/2026/07/image-20260729184551.jpg",
+          "timestamp": "2026-09-28T10:10:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Financial Metrics",
+            "Bullish"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 2,
+            "management": 1,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Indonesia's Composite Index Weakens as BEI Implements Rp1 Minimum Share Price",
+          "body": "The Jakarta Composite Index (IHSG) fell 32.14 points, or 0.51%, to 6,209.75 after the Indonesia Stock Exchange (BEI) reduced the minimum share price from Rp50 to Rp1, prompting short‑term bearish sentiment. The LQ45 index also slipped 4.17 points (‑0.67%) to 616.94, with analysts noting support around 6,186‑6,113 and a rebound target above 6,290.",
+          "source": "https://www.antaranews.com/berita/5761164/ihsg-melemah-seiring-sentimen-jangka-pendek-penerapan-harga-saham-rp1",
+          "thumbnail": "https://cdn.antaranews.com/cache/350x233/2026/04/24/pergerakan-indeks-harga-saham-gabungan-2778139.jpg",
+          "timestamp": "2026-09-28T09:58:00",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Market Sentiment",
+            "Global Economy"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) shares forecast to continue sliding",
+          "body": "The article predicts that PT GoTo Gojek Tokopedia Tbk (GOTO) shares will keep falling in the near term. On Monday 28 September 2026 the stock dropped 14 % to the Auto Reject Bottom (ARB) level of Rp 43 after the floor‑price limit was lowered from Rp 50 to Rp 1. At 09:41 WIB the sell queue at Rp 43 exceeded one billion lots, valued at about Rp 4.3 trillion, while regular‑market trading volume was only around Rp 3.19 billion. Analysts from Kiwoom Sekuritas and MNC Sekuritas note that the price may test the 36‑27 Rp support range within a parallel‑channel pattern, and that the floor‑price change could ease trading constraints but does not immediately reflect deteriorating fundamentals.",
+          "source": "https://investor.id/market/455753/saham-goto-diramal-longsor-kesini",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2025/07/1752890746-905x583.webp",
+          "timestamp": "2026-09-28T09:51:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Bearish",
+            "Market Sentiment",
+            "Analyst Ratings"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) and PT Diamond Citra Propertindo Tbk (DADA) plunge to Auto Reject Bottom following BEI’s removal of the floor‑price lock",
+          "body": "GOTO and DADA stocks fell to the Auto Reject Bottom (ARB) after the Indonesia Stock Exchange opened the floor‑price restriction for gocap shares. The move coincided with the Jakarta Composite Index (IHSG) slipping about 1% to 6,179.85, with GOTO alone pulling the index down 12.9 points. GOTO traded at Rp43, generating sell orders exceeding 1 billion lots, while DADA also hit Rp43 with roughly 4.85 million lots sold, both reflecting large sell queues after the floor price was reduced from Rp50 to Rp1 per share. The floor‑price change was implemented under BEI Decision No. Kep‑00136/BEI/09‑2026 dated 21 September 2026, allowing price formation down to Rp1.",
+          "source": "https://www.bloombergtechnoz.com/detail-news/122851/goto-dan-dada-langsung-arb-usai-gembok-saham-gocap-dibuka",
+          "thumbnail": "https://images.bloombergtechnoz.com/data/2026/01/image-20260129130239.jpeg",
+          "timestamp": "2026-09-28T09:43:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services",
+            "properties-real-estate"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Bearish"
+          ],
+          "symbols": [
+            "GOTO.JK",
+            "DADA.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "GOTO, DADA and BABP stocks plunge 14% after BEI removes Rp50 minimum price limit",
+          "body": "On Monday 28 September 2026, PT GoTo Gojek Tokopedia Tbk (GOTO), PT Diamond Citra Propertindo Tbk (DADA) and PT Bank MNC International Tbk (BABP) each fell about 14% to Rp43 after the Indonesia Stock Exchange (BEI) eliminated the Rp50 minimum price (gocap) and set it at Rp1. GOTO reached an Auto Reject Bottom (ARB) of 14% at 09:15 WIB, with a trading volume of 59.45 million shares, total transactions of Rp2.56 billion and 2,562 trades; the stock has declined 14% over the past three months and 32.81% year‑to‑date, while DADA and BABP also recorded 14% declines for the day and year. BEI said the removal aims to improve liquidity and price discovery for previously illiquid Rp50‑priced stocks, as quoted by Jeffrey.",
+          "source": "https://finance.detik.com/bursa-dan-valas/d-8682083/saham-goto-dada-anjlok-usai-batas-saham-gocap-dihapus",
+          "thumbnail": "https://awsimages.detik.net.id/community/media/visual/2025/04/08/dibuka-usai-libur-lebaran-ihsg-anjlok-9-1744082618172_43.jpeg?w=210&q=90",
+          "timestamp": "2026-09-28T09:38:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services",
+            "properties-real-estate",
+            "banks"
+          ],
+          "tags": [
+            "Bearish",
+            "Politics & Regulation",
+            "Market Sentiment"
+          ],
+          "symbols": [
+            "GOTO.JK",
+            "DADA.JK",
+            "BABP.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) shares plunge 14% to Rp 43",
+          "body": "PT GoTo Gojek Tokopedia Tbk (GOTO) shares fell 14% to Rp 43 in early trading on 28 Sept 2026. The decline followed the Bursa Efek Indonesia’s removal of the Rp 50 minimum price floor, a rule that had previously limited trading of low‑priced stocks and triggered broader sell pressure across more than 100 IHSG constituents. GOTO, supported by Alibaba Group Holding Ltd and valued at over US$32 billion, had recently posted two consecutive quarterly profits in July, yet the regulatory change and competitive pressure from rivals such as Grab Holding Ltd have dampened investor sentiment.",
+          "source": "https://investasi.kontan.co.id/news/saham-goto-gojek-tokopedia-goto-anjlok-14-jadi-rp-43-hari-ini-289",
+          "thumbnail": "https://foto.kontan.co.id/fxSv8iNIQLdEgjJ_vGupJryl-TI=/smart/2026/05/21/1788623023t.jpg",
+          "timestamp": "2026-09-28T09:29:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Bearish"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 1,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) drops 14% to Rp43 as BEI’s Rp1 minimum price rule takes effect",
+          "body": "PT GoTo Gojek Tokopedia Tbk (GOTO) fell 14% (seven points) to Rp43 in morning trade after the Indonesia Stock Exchange applied the new minimum price rule of Rp1. The drop reduced GOTO’s market capitalization from Rp57.02 trillion on Friday to about Rp49.04 trillion, a loss of roughly Rp8 trillion. At the same time, other former Rp50 “gocap” stocks – PT Bank KB Indonesia Tbk (BBKP), PT MNC Tourism Indonesia Tbk (KPIG), PT Diamond Citra Propertindo Tbk (DADA) and PT Megalestari Epack Sentosaraya Tbk (EPAC) – each slipped 14% to Rp43, leaving market caps of Rp8.07 trillion, Rp4.61 trillion, Rp319.56 billion and Rp142.05 billion respectively. GOTO’s session recorded a volume of 48.78 million shares, turnover of Rp2.10 billion and 1,455 trades, with the price remaining flat at Rp43.",
+          "source": "https://emitennews.com/news/jebol-gocap-harga-rp1-berlaku-goto-anjlok-14-ke-rp43",
+          "thumbnail": "https://ap-south-1.linodeobjects.com/emitennews-02/uploads/news/thumb_1790561874.png?25119ab",
+          "timestamp": "2026-09-28T09:22:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services",
+            "banks",
+            "consumer-services",
+            "properties-real-estate",
+            "basic-materials"
+          ],
+          "tags": [
+            "Politics & Regulation",
+            "Bearish"
+          ],
+          "symbols": [
+            "GOTO.JK",
+            "BBKP.JK",
+            "KPIG.JK",
+            "DADA.JK",
+            "EPAC.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 2,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Rp 1 Minimum Stock Price Takes Effect, Causing Immediate Decline in the Jakarta Composite Index (IHSG)",
+          "body": "The Jakarta Stock Exchange implemented a new minimum share price of Rp 1, replacing the previous Rp 50 floor, effective 28 September 2026. In the opening trade the Indonesia Composite Index (IHSG) fell to 6,210, down 31.2 points (0.50%), trading within a range of 6,180‑6,227 with a transaction value of Rp 862 billion across 4.36 billion shares and 168,916 trades; 207 stocks rose, 383 fell and 151 were unchanged. Bursa Efek Indonesia director Irvan Susandy explained that stocks meeting criteria 1, 6, 7, 10 without other criteria will be moved to the continuous auction market as of the effective date.",
+          "source": "https://finance.detik.com/bursa-dan-valas/d-8682070/harga-terendah-saham-rp-1-mulai-berlaku-ihsg-langsung-merah",
+          "thumbnail": "https://awsimages.detik.net.id/community/media/visual/2026/01/28/bei-terapkan-trading-halt-imbas-ihsg-anjlok-1769587530913_43.jpeg?w=210&q=90",
+          "timestamp": "2026-09-28T09:21:00",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Politics & Regulation"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Bursa Efek Indonesia revises FCA rules and removes 92 stocks from the Special Monitoring Board",
+          "body": "Bursa Efek Indonesia (BEI) announced changes to the Full Call Auction (FCA) rules and the removal of 92 stocks from the Special Monitoring Board effective 28 September 2026. The revision eliminates criteria 1, 6, 7, and 10 related to price and liquidity, while retaining fundamental criteria such as financial health, negative equity, and bankruptcy status. BEI also introduced a Non‑Cancellation Period in the FCA mechanism to improve price discovery. After the delisting, 42 stocks remain on the Special Monitoring Board.",
+          "source": "https://finance.detik.com/bursa-dan-valas/d-8682062/bursa-ubah-aturan-fca-92-saham-keluar-dari-papan-pemantauan-khusus",
+          "thumbnail": "https://awsimages.detik.net.id/community/media/visual/2026/01/30/ihsg-rebound-usai-dua-hari-anjlok-seiring-pengunduran-diri-dirut-bei-1769748663323_43.jpeg?w=210&q=90",
+          "timestamp": "2026-09-28T09:16:00",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Risk & Compliance"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT GoTo Gojek Tokopedia Tbk (GOTO) shares plunge 14% to Rp 43 as floor price is cut to Rp 1",
+          "body": "PT GoTo Gojek Tokopedia Tbk (GOTO) shares experienced a sharp sell‑off on Monday 28 Sep 2026. The stock fell 14% to the auto reject bottom (ARB) level of Rp 43 after the Bursa Efek Indonesia lowered the floor price from Rp 50 to Rp 1 effective that day. Sell orders at Rp 43 accumulated to about 1 billion lots, worth roughly Rp 4.3 trillion, while buy orders were absent and regular‑market turnover was only around Rp 1.88 billion. MNC Sekuritas analyst Christian said the floor‑price change removes a trading barrier and may enable more normal institutional rebalancing, but the pressure is viewed as technical rather than a sign of weakening fundamentals.",
+          "source": "https://investor.id/market/455749/saham-goto-gojek-goto-diobral-calon-pembeli-masih-pikirpikir",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2025/10/1761743804-1178x658.webp",
+          "timestamp": "2026-09-28T09:12:00",
+          "sector": "technology",
+          "sub_sector": [
+            "software-it-services"
+          ],
+          "tags": [
+            "Market Sentiment",
+            "Global Index",
+            "Ownership",
+            "Neutral"
+          ],
+          "symbols": [
+            "GOTO.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "End of the gocap era as BEI lowers the minimum price floor, leaving the IHSG more vulnerable to weakening",
+          "body": "BEI will lower the minimum price floor to Rp1 per share for all listed stocks starting Monday 28 September, ending the era of the Rp50 “gocap” floor. Analysts at Phintraco Sekuritas and CGS International anticipate the IHSG to remain under pressure, with the index closing at 6,241.89 on 25 September (‑0.90%) and weekly down 3.09%, and they project support around 6,186‑6,200 and resistance near 6,290‑6,345. The new regime introduces Auto Rejection Top (ARA) and Auto Rejection Bottom (ARB) mechanisms, applying a Rp1 ARA‑ARB band for stocks priced between Rp1 and Rp10, while stocks above Rp10 retain an asymmetric 15 % ARB until a symmetric rule begins in early 2027. Additionally, BEI removed criteria 1, 6, 7, 10 from the Full Call Auction monitoring board and stripped FCA status from 92 stocks, further reshaping market dynamics.",
+          "source": "https://www.idnfinancials.com/id/news/69512/era-saham-gocap-berakhir-ihsg-semakin-rentan-melemah",
+          "thumbnail": "https://photos.idnfinancials.com/_idn/2024/Ilustrasi%20adhy/IHSG.JPG",
+          "timestamp": "2026-09-28T08:50:00",
+          "sector": "financials",
+          "sub_sector": [
+            "investment-service"
+          ],
+          "tags": [
+            "Market Sentiment",
+            "Politics & Regulation",
+            "Bearish"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "HRUM allocates up to Rp120 billion for share buyback, schedule set from 28 Sept to 24 Dec 2026",
+          "body": "HRUM will conduct a share buyback of up to 111 million shares, representing 0.82 % of its paid‑up capital, funded by up to Rp120 billion from internal cash. If fully executed, total assets and equity will each decline by US$6.74 million, earnings per share will rise from US$0,00278 to US$0,00280, and the program runs from 28 Sept to 24 Dec 2026 under OJK No. S‑112/D.04/2026 and POJK 13/2023.",
+          "source": "https://finance.detik.com/bursa-dan-valas/d-8682025/hrum-gelontorkan-rp-120-miliar-untuk-buyback-saham-ini-jadwalnya",
+          "thumbnail": "https://awsimages.detik.net.id/community/media/visual/2026/09/28/bursa-dan-valas-1790558689-1790558689469_43.jpeg?w=210&q=90",
+          "timestamp": "2026-09-28T08:45:00",
+          "sector": "energy",
+          "sub_sector": [
+            "oil-gas-coal"
+          ],
+          "tags": [
+            "Stock Buyback",
+            "Bullish"
+          ],
+          "symbols": [
+            "HRUM.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 0,
+            "valuation": 1,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "BEI suspends trading of Guna Timur Raya (TRUK) after eight consecutive Auto Reject Top (ARA) events",
+          "body": "BEI suspended trading of Guna Timur Raya (TRUK) after the stock recorded eight consecutive Auto Reject Top (ARA) hits, ending its ARA run that resumed following its release from a full‑period call auction on 25 September 2026. Prior to the halt, TRUK’s price had risen 24.64% to Rp2,580 (a 900% gain over six months and 578.95% over a year, market cap Rp1.12 trillion) and the company saw Gabriel Rey and Andry Hakim acquire a total 20 % (87 million shares) from Batur Dharma Anugerah Surya for roughly Rp37.2 billion.",
+          "source": "https://emitennews.com/news/ara-brutal-bei-bungkam-saham-truk",
+          "thumbnail": "https://ap-south-1.linodeobjects.com/emitennews-02/uploads/news/thumb_1790559840.jpg?25119ab",
+          "timestamp": "2026-09-28T08:44:00",
+          "sector": "transportation-logistic",
+          "sub_sector": [
+            "logistics-deliveries"
+          ],
+          "tags": [
+            "Ownership",
+            "Neutral"
+          ],
+          "symbols": [
+            "TRUK.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "BEI suspends trading of PT Guna Timur Raya Tbk (TRUK) halting Andry Hakim’s portfolio exposure",
+          "body": "BEI announced the suspension of PT Guna Timur Raya Tbk (TRUK) shares starting 28 September 2026, which pauses the movement of Andry Hakim’s holdings acquired through Hakimson Growth Capital. The suspension follows a sharp cumulative price increase, with TRUK having risen 538% over the past three months and trading solid green from 16‑25 September. PT Pukul Rata Kanan launched a voluntary tender offer for up to 65,250,000 (15%) TRUK shares at Rp 740 per share, potentially raising its ownership to 30% (130,500,000 shares) after the tender period of 6 November‑7 December 2026. Earlier on 18 September 2026, PT Pukul Rata Kanan purchased 65,250,000 shares at Rp 428 (Rp 27.92 bn), Hakimson Growth Capital bought 21,750,000 shares at the same price (Rp 9.3 bn), and Catur Dharma Anugerah Surya sold 87,000,000 shares at Rp 428 (Rp 37.23 bn).",
+          "source": "https://investor.id/market/455742/nasib-portofolio-andry-hakim",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2026/07/1782840003-2000x1333.webp",
+          "timestamp": "2026-09-28T08:32:00",
+          "sector": "transportation-logistic",
+          "sub_sector": [
+            "logistics-deliveries"
+          ],
+          "tags": [
+            "Suspension",
+            "Ownership",
+            "Mergers & Acquisitions"
+          ],
+          "symbols": [
+            "TRUK.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 2,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Global Mediacom Tbk (BMTR) reports trillion‑rupiah revenue as PBV drops to 0.09",
+          "body": "PT Global Mediacom Tbk (BMTR) saw its price‑to‑book ratio fall to 0.09 despite reporting revenue of Rp4.4 trillion in the first half of 2026. Its shares declined 22.52% over the past week, closing at Rp86 on 25 September 2026 and briefly touching a five‑year low of Rp85. The company’s market capitalisation is now Rp1.43 trillion, its PER is 3.98, and net profit attributable to the parent was Rp179.34 billion. The stock is a perusahaan yang terafiliasi dengan Hary Tanoesoedibjo and salah satu pemegang saham BMTR ialah investor kawakan Lo Kheng Hong, who holds 1,067,633,500 shares (6.53%).",
+          "source": "https://investor.id/market/455738/omzet-emiten-triliunan-pbv-mendadak-tinggal-009",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2024/04/1712030360-697x434.webp",
+          "timestamp": "2026-09-28T08:14:00",
+          "sector": "consumer-cyclicals",
+          "sub_sector": [
+            "media-entertainment"
+          ],
+          "tags": [
+            "Financial Metrics",
+            "Ownership",
+            "Bearish"
+          ],
+          "symbols": [
+            "BMTR.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 2,
+            "valuation": 2,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "George Oetomo Buy Shares of Triputra Agro Persada",
+          "body": "Insider George Oetomo purchased a total of 350,000 Triputra Agro Persada shares at an average price of IDR 2,028.57 per share, spending IDR 710,000,000. The buy raised his holding to 50,806,100 shares, or 0.256% of the company, up from 0.254%, and continues a pattern of accumulation this year that included a 250,000‑share purchase on Sep 14 and several buys in April‑June.",
+          "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-28092026-4055-00.pdf-0.pdf",
+          "thumbnail": null,
+          "timestamp": "2026-09-28T07:58:33",
+          "sector": "consumer-non-cyclicals",
+          "sub_sector": [
+            "food-beverage"
+          ],
+          "tags": [
+            "Insider Trading"
+          ],
+          "symbols": [
+            "TAPG.JK"
+          ],
+          "dimension": null
+        },
+        {
+          "title": "PT Guna Timur Raya Tbk (TRUK) stock suspended after 382% YTD surge",
+          "body": "PT Bursa Efek Indonesia (BEI) suspended trading of PT Guna Timur Raya Tbk (TRUK) starting the first session on Monday 28 September 2026. The suspension was imposed because the share price experienced an abnormal cumulative increase, rising 218.5% over the past month and 382.2% year‑to‑date. BEI described the action as a cooling‑down measure to protect investors. Yulianto Aji Sadono, Head of Transaction Supervision at BEI, said the temporary halt gives investors time to consider decisions based on available information.",
+          "source": "https://investor.id/market/455736/saham-melesat-382-kena-suspensi",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2025/04/1744378418-4464x2976.webp",
+          "timestamp": "2026-09-28T07:58:00",
+          "sector": "transportation-logistic",
+          "sub_sector": [
+            "logistics-deliveries"
+          ],
+          "tags": [
+            "Suspension"
+          ],
+          "symbols": [
+            "TRUK.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 0,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "BEI opens Rp50 floor price for gocap stocks, putting PT Diamond Citra Propertindo Tbk (DADA) at risk of falling to Rp1",
+          "body": "BEI has opened the Rp50 floor price for penny‑stock (gocap) shares in the regular and cash markets, allowing those stocks to trade down to as low as Rp1. PT Diamond Citra Propertindo Tbk (DADA) faces a sell queue of 2.48 million lots at Rp50 with only Rp28 million of daily turnover, while PT Lippo Karawaci Tbk (LPKR) has over 2 million lots queued at the same level as of 25 September 2026 and PT Bank KB Indonesia Tbk (BBKP), with a market capitalisation of Rp9.29 trillion, shows a 1.35 million‑lot queue at Rp50. The floor price operates together with the auto‑reject top (ARA) and auto‑reject bottom (ARB) mechanisms, which constrain price movements beyond the floor. Consequently, stocks with large sell queues could see prices approach Rp1, though reaching that level is not guaranteed on the same trading day.",
+          "source": "https://www.bloombergtechnoz.com/detail-news/122835/batas-saham-gocap-dibuka-dada-cs-bisa-menuju-rp1",
+          "thumbnail": "https://images.bloombergtechnoz.com/data/2026/08/image-20260814105708.jpeg",
+          "timestamp": "2026-09-28T07:50:00",
+          "sector": "properties-real-estate",
+          "sub_sector": [
+            "properties-real-estate",
+            "banks"
+          ],
+          "tags": [
+            "Bearish",
+            "Politics & Regulation",
+            "Market Sentiment"
+          ],
+          "symbols": [
+            "DADA.JK",
+            "LPKR.JK",
+            "BBKP.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 0,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "BRI Danareksa Sekuritas recommends HRTA, UVCR and ENRG on Monday, citing technical levels and upcoming share issuances",
+          "body": "BRI Danareksa Sekuritas issued a recommendation for three stocks—HRTA, UVCR and ENRG—on 28 September 2026. HRTA is trading around 2,290, above its MA200 of 2,240, with support at 2,180‑2,000, resistance at 2,350‑2,460, and plans a private placement of up to 460.5 million shares (about 10% of new equity) ahead of an independent shareholders meeting on 16 October 2026. UVCR broke out above a neckline of 159, faces resistance at 188 and a potential rise to the Fibonacci zone of 204‑212, while it intends to issue up to 200 million new shares at Rp135 each for operations and product development. ENRG rebounded to 1,325 from support of 1,165‑1,250 but remains below its MA200 of 1,436, with resistance at 1,385‑1,460; the HMETD rights held by Shima Global Kapital were transferred to Bakrie Kalila Investment (BKI), and Bakrie Capital Indonesia (BCI) committed to absorb 8.8 billion new shares as a standby buyer.",
+          "source": "https://investor.id/market/455733/rekomendasi-saham-hari-ini-senin-28-september-2026-hrta-uvcr-enrg",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2025/10/1761551010-2000x1333.webp",
+          "timestamp": "2026-09-28T07:48:00",
+          "sector": "properties-real-estate",
+          "sub_sector": [
+            "properties-real-estate"
+          ],
+          "tags": [
+            "Analyst Ratings",
+            "Capital & Funding",
+            "Bullish"
+          ],
+          "symbols": [],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 1,
+            "technical": 2,
+            "valuation": 1,
+            "financials": 1,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Sepatu Bata Tbk (BATA) President Director Amitav Nandy Resigns, Letter Received 23 September 2026",
+          "body": "PT Sepatu Bata Tbk (BATA) announced that President Director Amitav Nandy submitted his resignation, with the resignation letter received on 23 September 2026. The resignation is attributed to a rotation of positions within the Bata Group and will be decided at the upcoming General Meeting of Shareholders; Amitav Nandy had been appointed on 25 September 2025.",
+          "source": "https://www.cnbcindonesia.com/market/20260928070613-17-771299/presiden-direktur-bata-mundur-ini-alasannya",
+          "thumbnail": "https://awsimages.detik.net.id/visual/2024/05/08/suasana-lengang-toko-sepatu-bata-di-pasar-kebayoran-lama-jakarta-selatan-rabu-852024-tetap-beroperasi-pascapenutupan-pabrik-se-5_43.jpeg?w=200&q=90",
+          "timestamp": "2026-09-28T07:10:45",
+          "sector": "consumer-cyclicals",
+          "sub_sector": [
+            "apparel-luxury-goods"
+          ],
+          "tags": [
+            "Executive Changes",
+            "Neutral"
+          ],
+          "symbols": [
+            "BATA.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 0,
+            "management": 2,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Merdeka Battery Materials reports strong first‑half 2026 performance and expresses optimism for the second half",
+          "body": "Merdeka Battery Materials (MBMA) entered the second semester of 2026 with a broader revenue base and stronger operational momentum, reaffirming its optimistic outlook. Up to mid‑2026 the company produced 15.2 million wet metric tonnes of nickel ore, a 121 % increase year‑on‑year, and sold 12.4 million wmt, up 60 %, while Nickel Pig Iron output rose 20 % and High‑Grade Nickel Matte more than doubled. These volume gains, together with higher realized nickel ore prices and contributions from Acid, Iron, Metal (AIM) operations and Merdeka Tsingshan Indonesia (MTI), lifted net profit to USD 54 million (up 830 %), revenue to USD 1.05 billion (up 67 %) and EBITDA to USD 311 million (up 306 %). The company also advanced production ramp‑up of Mixed Hydroxide Precipitate at PT ESG New Energy Material and continued commissioning of Sulawesi Nickel Cobalt (SLNC), which is slated to start full‑year operations by the end of 2026. MBMA said it will maintain cost discipline, operational efficiency and project execution to sustain its competitive position in the integrated nickel and battery‑material value chain.",
+          "source": "https://emitennews.com/news/kawal-momentum-mbma-optimistis-jalani-semester-ii",
+          "thumbnail": "https://ap-south-1.linodeobjects.com/emitennews-02/uploads/news/thumb_1790550560.jpg?25119ab",
+          "timestamp": "2026-09-28T06:11:00",
+          "sector": "basic-materials",
+          "sub_sector": [
+            "basic-materials"
+          ],
+          "tags": [
+            "Business Expansion",
+            "Bullish"
+          ],
+          "symbols": [
+            "MBMA.JK"
+          ],
+          "dimension": {
+            "future": 1,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "Mirae Asset says faster credit growth versus slower deposit growth tightens Indonesian bank liquidity",
+          "body": "The article reports that national bank credit grew 13.3% year‑on‑year in August 2026 while deposits (DPK) rose only 7.7% year‑on‑year, indicating tightening liquidity. Total credit reached IDR 9,019 trillion and DPK IDR 9,733 trillion, with the CASA ratio at 64.6% and headline LDR at 92.7%, which would rise to about 97.2% after removing SAL liquidity of IDR 451 trillion. Mirae Asset Sekuritas remains selective, maintaining a positive outlook on PT Bank Central Asia Tbk (BBCA) and PT Bank Syariah Indonesia Tbk (BRIS) but cautioning larger state‑owned banks as tighter funding may pressure margins and asset quality. On 25 September 2026 the stocks of PT Bank Central Asia Tbk (BBCA), PT Bank Rakyat Indonesia Tbk (BBRI) and PT Bank Mandiri Tbk (BMRI) rose modestly, while PT Bank Negara Indonesia Tbk (BBNI) and PT Bank Syariah Indonesia Tbk (BRIS) fell, reflecting market reaction to the liquidity environment.",
+          "source": "https://keuangan.kontan.co.id/news/kredit-tumbuh-133-dpk-hanya-77-mirae-sebut-likuiditas-bank-makin-ketat",
+          "thumbnail": "https://foto.kontan.co.id/SNR4VJtKGW9EVeofiLopmUM-M5s=/smart/2024/08/21/679920958t.jpg",
+          "timestamp": "2026-09-28T05:55:00",
+          "sector": "financials",
+          "sub_sector": [
+            "banks"
+          ],
+          "tags": [
+            "Credit",
+            "Capital & Funding",
+            "Financial Metrics",
+            "Risk & Compliance",
+            "Neutral"
+          ],
+          "symbols": [
+            "BBCA.JK",
+            "BBRI.JK",
+            "BMRI.JK",
+            "BBNI.JK",
+            "BRIS.JK"
+          ],
+          "dimension": {
+            "future": 0,
+            "dividend": 0,
+            "ownership": 0,
+            "technical": 0,
+            "valuation": 0,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        },
+        {
+          "title": "PT Bank Central Asia Tbk (BBCA) records net foreign buying of IDR 103.17 bn after weeks of net selling",
+          "body": "PT Bank Central Asia Tbk (BBCA) experienced a dramatic reversal in foreign investor flow, posting a net foreign buy of IDR 103.17 bn on 25 Sept 2026 after a prior net sell of IDR 2.59 tn during 9‑23 Sept and a monthly net sell of IDR 1.52 tn for September. UOB Kay Hian Sekuritas kept a buy rating with a target price of IDR 8,150 (≈30% upside), citing solid funding, capital and liquidity, while BBCA reported August 2026 net profit of IDR 4.92 tn (+13.1% YoY), cumulative profit of IDR 40.17 tn (+2.85%), forecasts profit of IDR 60 tn in 2026 and IDR 65 tn in 2027 with dividend yields of 5.7% and 6.1% respectively, and denied social‑media rumors of an acquisition.",
+          "source": "https://investor.id/market/455728/perubahan-dramatis-bbca",
+          "thumbnail": "https://img2.beritasatu.com/cache/investor/253x142-2/2026/03/1773268069-872x526.webp",
+          "timestamp": "2026-09-28T05:52:00",
+          "sector": "financials",
+          "sub_sector": [
+            "banks"
+          ],
+          "tags": [
+            "Analyst Ratings",
+            "Ownership",
+            "Dividend Announcement",
+            "Financial Metrics",
+            "Capital & Funding",
+            "Bullish"
+          ],
+          "symbols": [
+            "BBCA.JK"
+          ],
+          "dimension": {
+            "future": 2,
+            "dividend": 2,
+            "ownership": 1,
+            "technical": 1,
+            "valuation": 2,
+            "financials": 2,
+            "management": 0,
+            "sustainability": 0
+          }
+        }
+      ],
+      "pagination": {
+        "total_count": 57,
+        "showing": 27,
+        "limit": 30,
+        "offset": 30,
+        "has_next": false,
+        "has_previous": true,
+        "next_offset": null,
+        "previous_offset": 0
+      }
+    }
+  }
+]

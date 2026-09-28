@@ -1,0 +1,37 @@
+[
+  {
+    "platform": "threads",
+    "content": "📊 BEI turunkan gocap ke Rp1\n\n- Minimum saham turun dari Rp50 ke Rp1 mulai 28/9/2026\n- 6 saham anjlok ke level baru termasuk GoTo (GOTO.JK)\n\nSource: https://jakartaglobe.id/business/how-low-can-they-go-goto-mnc-group-shares-fall-below-rp50",
+    "topic": "gocap_idx",
+    "symbols": [
+      "LPKR.JK",
+      "BCAP.JK",
+      "BABP.JK",
+      "GOTO.JK",
+      "NETV.JK",
+      "KPIG.JK"
+    ],
+    "hash": -4532816656607577048,
+    "source_title": "GoTo, MNC Group Shares Fall Below Rp50 as IDX Lowers Minimum Share Price to Rp1"
+  },
+  {
+    "platform": "threads",
+    "content": "💼 Akuisisi 30% saham Bayan Resources (BYAN)\n\n- PT Jhonlin Baratama caplok 10 miliar saham (~30%) dari Low Tuck Kwong\n- Low Tuck tetap controlling shareholder setelah transaksi\n- RKAB Tambang Tiwa Abadi, Tanur Jaya & Fajar Sakti sudah approved 23/9\n\nSource: https://www.cnnindonesia.com/ekonomi/20260928130459-92-1409012/low-tuck-kwong-tetap-pengendali-bayan-meski-haji-isam-caplok-30-saham",
+    "topic": "bayan_stake_transfer",
+    "symbols": [
+      "BYAN.JK"
+    ],
+    "hash": -9046998857855643906,
+    "source_title": "Low Tuck Kwong to Remain Controlling Shareholder of PT Bayan Resources Tbk (BYAN) as PT Jhonlin Baratama Acquires 30% Stake"
+  },
+  {
+    "platform": "threads",
+    "content": "🏥 Kalbe Farma (KLBF): margin tertekan, proyeksi pulih 2027\n\n- H1-2026 revenue +14.05% jadi Rp19.48T\n- Laba neto turun 2.74% jadi Rp1.97T; gross margin drop ke 37.56%\n- BRI Danareksa target Rp1,000 | Phintraco Rp1,500 | Sinarmas Rp900\n\nSource: https://investasi.kontan.co.id/news/buyback-klbf-jadi-katalis-prospek-laba-diproyeksi-membaik",
+    "topic": "kalbe_earnings_recovery",
+    "symbols": [
+      "KLBF.JK"
+    ],
+    "hash": 4115342358601861115,
+    "source_title": "PT Kalbe Farma Tbk (KLBF) Buyback Seen as Catalyst as Earnings Projected to Recover from 2027"
+  }
+]
