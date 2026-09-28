@@ -525,9 +525,15 @@ def check_platform_text(platform, text):
     if platform != "x":
         raise ValueError("platform tidak dikenal")
     try:
+        import os
+        env = os.environ.copy()
+        # Force UTF-8 on Windows by avoiding text=True (which uses cp1252)
         result = subprocess.run(["node", str(Path(__file__).with_name("x_length.mjs"))],
-                                input=text, text=True, capture_output=True, timeout=10,
-                                cwd=Path(__file__).parent, check=True)
+                                input=text.encode('utf-8'), stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, timeout=10, cwd=Path(__file__).parent,
+                                env=env)
+        if result.returncode != 0:
+            raise ValueError(f"twitter-text gagal: {result.stderr.decode('utf-8')}")
         parsed = json.loads(result.stdout)
     except (OSError, subprocess.SubprocessError, ValueError) as exc:
         raise ValueError("twitter-text gagal: validasi X ditahan") from exc

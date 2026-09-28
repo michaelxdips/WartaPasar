@@ -1,11 +1,32 @@
 import twitterText from 'twitter-text';
+import {Readable} from 'stream';
 
-const text = await new Promise((resolve, reject) => {
-  let input = '';
-  process.stdin.setEncoding('utf8');
-  process.stdin.on('data', chunk => { input += chunk; });
-  process.stdin.on('end', () => resolve(input));
-  process.stdin.on('error', reject);
+// Read all stdin as binary buffer, then decode to UTF-8 string
+const chunks = [];
+const readable = Readable.from(process.stdin);
+
+readable.on('data', (chunk) => {
+  chunks.push(chunk);
 });
-const result = twitterText.parseTweet(text);
-process.stdout.write(JSON.stringify({ weighted_length: result.weightedLength, valid: result.valid }));
+
+readable.on('end', () => {
+  const buffer = Buffer.concat(chunks);
+  const text = buffer.toString('utf8');
+
+  try {
+    const result = twitterText.parseTweet(text);
+    process.stdout.write(JSON.stringify({
+      weighted_length: result.weightedLength,
+      valid: result.valid
+    }));
+    process.exit(0);
+  } catch (err) {
+    process.stderr.write(JSON.stringify({ error: err.message }));
+    process.exit(1);
+  }
+});
+
+readable.on('error', (err) => {
+  process.stderr.write(JSON.stringify({ error: err.message }));
+  process.exit(1);
+});
