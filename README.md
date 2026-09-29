@@ -134,7 +134,6 @@ WartaPasar/
 ├── x_length.mjs          # Twitter length validator (utf-8 byte counting)
 ├── package.json          # twitter-text@3.1.0 dependency
 ├── README.md             # This file
-├── MEGA_PROMPT_FINALIZATION.md  # Internal handoff (gitignored, not pushed)
 ├── data/                 # Read-only archives (gitignored, never committed)
 │   └── idx-2026-09-24_27.json
 ├── draft/                # Workspace drafts (gitignored, generated files)
@@ -298,7 +297,6 @@ git -c user.name="Stephen Michael S" \
 **Last Updated**: 2026-09-29 12:30 WIB Western Indonesia Time
 
 ### Documentation Files
-- **MEGA_PROMPT_FINALIZATION.md**: Internal handoff document (gitignored, not pushed)
 - **ARCHITECTURE.md**: Planned future addition for system design docs
 - **CONTRIBUTING.md**: Planned future addition for external contributors
 
@@ -317,9 +315,10 @@ This project is private/internal-use only. No license granted for external redis
 
 ### v2.0 (2026-09-29)
 - ✅ Fix Windows subprocess Unicode encoding for x_length.mjs
-- ✅ Add MEGA_PROMPT_FINALIZATION.md and draft content from live fetch
+- ✅ Add draft content from live fetch (3 posts ready: GOCAP, BAYAN, KLBF)
 - ✅ Add offline Threads reply builder and scheduler robustness tests
-- ✅ Clean up git history (remove internal docs from public repo)
+- ✅ Complete README rewrite with modern structure and comprehensive CLI reference
+- ✅ Remove all internal documentation traces from public repository
 
 ### v1.0 (2026-09-28)
 - Initial MVP: fetch/archive/replay/editorial pipeline
