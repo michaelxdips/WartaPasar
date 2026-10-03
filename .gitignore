@@ -1,10 +1,49 @@
+# Explicit public allowlist for a PUBLIC repository.
+# Everything not listed below is private by default (the leading * ignores it).
 *
-!.gitignore
-!README.md
-!ronce.py
-!adapters.py
-!test_ronce.py
-!test_adapters.py
-!package.json
-!package-lock.json
-!x_length.mjs
+!/.gitignore
+!/README.md
+!/ronce.py
+!/adapters.py
+!/companion.py
+!/export.py
+!/outbox.py
+!/workbench.py
+!/workbench_page.html
+!/test_ronce.py
+!/test_adapters.py
+!/test_companion.py
+!/test_export.py
+!/test_outbox.py
+!/test_workbench.py
+!/package.json
+!/package-lock.json
+!/x_length.mjs
+!/scripts/
+!/scripts/**
+!/web/
+!/web/**
+# Web build output, dependency trees and the exported data are never published.
+/web/node_modules/
+/web/.next/
+/web/out/
+/web/.data/
+/web/public/data/
+/web/tsconfig.tsbuildinfo
+
+# Byte-compiled and dependency trees never publish.
+__pycache__/
+*.pyc
+
+# Credential guards (defence in depth; already excluded by the leading *).
+.env*
+*.pem
+*.key
+*.p12
+id_rsa*
+.mcp.json
+
+# Tracked legacy exceptions pending an owner decision (NOT allowlisted):
+#   draft/generate_drafts.py, draft/generate_drafts_v2.py,
+#   draft/news-2026-09-28-direct.json, draft/posts-draft.json, draft/posts-draft-v2.json
+# scripts/check_public_tree.py encodes these and fails on any other drift.

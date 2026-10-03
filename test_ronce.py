@@ -1,6 +1,7 @@
 """Offline editorial replay checks; all articles here are synthetic, not market facts."""
 import json
 import os
+import re
 import sqlite3
 import subprocess
 import sys
@@ -83,7 +84,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         packet = approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -229,7 +230,7 @@ class ReplayTests(unittest.TestCase):
         claim = {"text": "BBCA mengumumkan dividen tunai.", "entity": "BBCA",
                  "action": "pengumuman dividen", "event_time": "2026-09-25",
                  "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": rows[0]["source"], "quote": rows[0]["title"], "origin": "laporan-A"},
+                 "evidence": [{"source": rows[0]["source"], "quote": rows[0]["title"], "origin": "laporan-A", "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."},
                               {"source": rows[1]["source"], "quote": rows[1]["title"], "origin": "laporan-B"}]}
         text = "BBCA mengumumkan dividen tunai. Sumber: https://one.test/a https://two.test/b"
         self.assertEqual(run["status"], "review")
@@ -251,7 +252,7 @@ class ReplayTests(unittest.TestCase):
 
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, origin in zip(rows, ("A", "B"))]}
         text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -277,7 +278,7 @@ class ReplayTests(unittest.TestCase):
         claim = {"text": "BBCA mengumumkan dividen.", "entity": "BBCA",
                  "action": "pengumuman dividen", "event_time": "2026-09-25",
                  "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = claim["text"] + " Sumber: https://one.test/a https://two.test/b"
         with self.assertRaisesRegex(ValueError, "tidak ada kandidat review"):
@@ -289,7 +290,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = claim["text"] + " Sumber: https://one.test/a https://two.test/b"
         approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -303,7 +304,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = claim["text"] + " Sumber: https://one.test/a https://two.test/b"
         approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -324,7 +325,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = claim["text"] + " Sumber: https://one.test/a https://two.test/b"
         approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -407,7 +408,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -437,7 +438,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -449,10 +450,10 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "TLKM umumkan dividen.", "entity": "TLKM", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "TLKM umumkan dividen. Sumber: https://one.test/a https://two.test/b"
-        with self.assertRaisesRegex(ValueError, "entity"):
+        with self.assertRaisesRegex(ValueError, "entitas|entity"):
             approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
 
     def test_claim_event_time_must_match_candidate_date(self):
@@ -461,7 +462,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-26", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         with self.assertRaisesRegex(ValueError, "tanggal|event_time"):
@@ -473,7 +474,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen.", "entity": "bbca.jk", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         packet = approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -486,7 +487,7 @@ class ReplayTests(unittest.TestCase):
         claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
                  "event_time": "2026-09-25T09:00:00+07:00", "value": None, "unit": None,
                  "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         packet = approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -498,7 +499,7 @@ class ReplayTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "IDX umumkan dividen.", "entity": "Bursa", "action": "umumkan",
                  "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         text = "IDX umumkan dividen. Sumber: https://one.test/a https://two.test/b"
         packet = approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
@@ -514,7 +515,7 @@ class EditionTests(unittest.TestCase):
         rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
                 article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
         run = self.run_replay([page(rows)])
-        evidence = [{"source": r["source"], "quote": r["title"], "origin": origin}
+        evidence = [{"source": r["source"], "quote": r["title"], "origin": origin, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                     for r, origin in zip(rows, ("A", "B"))]
         claims = [{"text": "BBCA mengumumkan dividen tunai.", "entity": "BBCA",
                    "action": "pengumuman", "event_time": "2026-09-25", "evidence": evidence},
@@ -535,7 +536,7 @@ class EditionTests(unittest.TestCase):
                 article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA mengumumkan dividen tunai.", "entity": "BBCA", "action": "pengumuman",
-                 "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin}
+                 "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                                                       for r, origin in zip(rows, ("A", "B"))]}
         with self.assertRaisesRegex(ValueError, "klaim"):
             ronce.review_claims(self.db, run["run_id"], "Editor", [], reviewed=True)
@@ -571,7 +572,7 @@ class EditionTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA mengumumkan dividen 100 rupiah.", "entity": "BBCA",
                  "action": "pengumuman", "event_time": "2026-09-25",
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin}
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": origin, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, origin in zip(rows, ("A", "B"))]}
         with self.assertRaisesRegex(ValueError, "angka"):
             ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
@@ -587,7 +588,8 @@ class EditionTests(unittest.TestCase):
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA umumkan dividen 10 rupiah.", "entity": "BBCA", "action": "pengumuman",
                  "event_time": "2026-09-25", "value": "10", "unit": "rupiah", "period": "2026",
-                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "scale": "unit", "metric": "dividen tunai",
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                               for r, o in zip(rows, ("A", "B"))]}
         with self.assertRaisesRegex(ValueError, "angka"):
             ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
@@ -603,7 +605,7 @@ class EditionTests(unittest.TestCase):
                 article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
         run = self.run_replay([page(rows)])
         claim = {"text": "BBCA mengumumkan dividen tunai.", "entity": "BBCA", "action": "pengumuman",
-                 "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                 "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                                                       for r, o in zip(rows, ("A", "B"))]}
         ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
         posts = ronce.render_draft(self.db, run["run_id"], "edisi", "x", [0])
@@ -769,7 +771,7 @@ class AssumedTimeTests(unittest.TestCase):
                     article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
             run = replay_assumed([page(rows)], CUTOFF, db, since=SINCE, assume_timezone="+07:00")
             claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
-                     "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                     "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                                                           for r, o in zip(rows, ("A", "B"))]}
             with self.assertRaisesRegex(ValueError, "asumsi"):
                 review_claims(db, run["run_id"], "Editor", [claim], reviewed=True)
@@ -829,7 +831,7 @@ class PlatformLimitTests(unittest.TestCase):
             db = Path(temp) / "runs.sqlite"
             run = replay([page(rows)], CUTOFF, db, since=SINCE, interpretation=dict(RULES))
             claim = {"text": "BBCA " + "a" * 501, "entity": "BBCA", "action": "pengumuman",
-                     "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o}
+                     "event_time": "2026-09-25", "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
                                                           for r, o in zip(rows, ("A", "B"))]}
             ronce.review_claims(db, run["run_id"], "Editor", [claim], reviewed=True)
             posts = ronce.render_draft(db, run["run_id"], "edisi", "threads", [0])
@@ -1189,6 +1191,750 @@ class FetchTests(unittest.TestCase):
         with patch("ronce.urlopen", return_value=Response()):
             with self.assertRaisesRegex(ValueError, "pagination|batas"):
                 fetch_news("2026-09-24", "2026-09-25", api_key="secret", max_pages=1)
+
+
+class NumericFactBindingTests(unittest.TestCase):
+    """F2: a reviewed number keeps its currency, kind, scale and period in every quote."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR"))
+        self.db = Path(self._tmp.name) / "runs.sqlite"
+        self.rows = [article("BBCA umumkan dividen tunai 100 juta rupiah", "https://one.test/a"),
+                     article("Dividen tunai BBCA diumumkan 100 juta rupiah", "https://two.test/b")]
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def reviewed(self, rows=None):
+        import ronce
+        return ronce.replay([page(rows or self.rows)], CUTOFF, self.db, since=SINCE,
+                            interpretation=dict(RULES))
+
+    def claim(self, text, value, unit, scale, metric, *, period="2026", event_time="2026-09-25",
+              action="umumkan"):
+        return {"text": text, "entity": "BBCA", "action": action, "event_time": event_time,
+                "value": value, "unit": unit, "scale": scale, "metric": metric, "period": period,
+                "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
+                             for r, o in zip(self.rows, ("A", "B"))]}
+
+    def test_currency_flip_rejected(self):
+        import ronce
+        run = self.reviewed()
+        claim = self.claim("BBCA mengumumkan dividen US$100 per saham.", "100", "US$ per saham",
+                           "unit", "dividen per saham")
+        with self.assertRaisesRegex(ValueError, "angka"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_scale_drop_rejected(self):
+        import ronce
+        run = self.reviewed()
+        claim = self.claim("BBCA mengumumkan dividen tunai 100 rupiah.", "100", "rupiah",
+                           "unit", "dividen tunai")
+        with self.assertRaisesRegex(ValueError, "angka"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_per_share_kind_mismatch_rejected(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai 100 rupiah per saham", "https://one.test/a"),
+                article("Dividen tunai BBCA diumumkan 100 rupiah per saham", "https://two.test/b")]
+        run = self.reviewed(rows)
+        claim = {"text": "BBCA mengumumkan dividen tunai 100 rupiah.", "entity": "BBCA",
+                 "action": "umumkan", "event_time": "2026-09-25", "value": "100", "unit": "rupiah",
+                 "scale": "unit", "metric": "dividen tunai",
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
+                              for r, o in zip(rows, ("A", "B"))]}
+        with self.assertRaisesRegex(ValueError, "angka"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_sign_flip_rejected(self):
+        import ronce
+        rows = [article("BBCA catat laba -100 juta rupiah", "https://one.test/a"),
+                article("Laba BBCA tercatat -100 juta rupiah", "https://two.test/b")]
+        run = self.reviewed(rows)
+        claim = {"text": "BBCA mencatat laba 100 juta rupiah.", "entity": "BBCA",
+                 "action": "pengumuman", "event_time": "2026-09-25", "value": "100", "unit": "rupiah",
+                 "scale": "juta", "metric": "laba bersih",
+                 "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
+                              for r, o in zip(rows, ("A", "B"))]}
+        with self.assertRaisesRegex(ValueError, "angka|cocok"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_period_must_match_claim_moment(self):
+        import ronce
+        run = self.reviewed()
+        claim = self.claim("BBCA mengumumkan dividen tunai 100 juta rupiah.", "100", "rupiah",
+                           "juta", "dividen tunai", period="2025")
+        with self.assertRaisesRegex(ValueError, "periode"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_bound_fact_is_accepted_with_counts(self):
+        import ronce
+        run = self.reviewed()
+        claim = self.claim("BBCA mengumumkan dividen tunai 100 juta rupiah.", "100", "rupiah",
+                           "juta", "dividen tunai")
+        record = ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+        stored = record["claims"][0]
+        self.assertEqual(stored["claim_type"], "reported_fact")
+        self.assertEqual(stored["source_counts"],
+                         {"articles": 2, "publishers": 2, "reviewed_origins": 2})
+
+
+class OriginIndependenceTests(unittest.TestCase):
+    """F3: labels are not sources; counts are reported separately; opinions are named."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR"))
+        self.db = Path(self._tmp.name) / "runs.sqlite"
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def test_two_labels_on_one_source_rejected(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai", "https://one.test/a"),
+                article("Dividen tunai BBCA diumumkan", "https://two.test/b")]
+        run = replay([page(rows)], CUTOFF, self.db, since=SINCE, interpretation=dict(RULES))
+        claim = {"text": "BBCA umumkan dividen.", "entity": "BBCA", "action": "umumkan",
+                 "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
+                 "evidence": [{"source": rows[0]["source"], "quote": rows[0]["title"], "origin": "laporan-A", "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."},
+                              {"source": rows[0]["source"], "quote": rows[0]["title"], "origin": "laporan-B"}]}
+        text = "BBCA umumkan dividen. Sumber: https://one.test/a https://two.test/b"
+        with self.assertRaisesRegex(ValueError, "dua label asal"):
+            approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
+
+    def test_opinion_claims_need_explicit_label_and_attribution(self):
+        import ronce
+        rows = [article("Analis pasang target dividen KLBF usai diumumkan 100 rupiah", "https://one.test/a", symbols=["KLBF"]),
+                article("Analis pasang target dividen KLBF setelah diumumkan 100 rupiah",
+                        "https://two.test/b", symbols=["KLBF"])]
+        run = replay([page(rows)], CUTOFF, self.db, since=SINCE, interpretation=dict(RULES))
+        base = {"text": "Analis pasang target 100 rupiah.", "entity": "KLBF", "action": "umumkan",
+                "event_time": "2026-09-25", "value": "100", "unit": "rupiah", "scale": "unit",
+                "metric": "target harga", "period": "2026",
+                "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
+                             for r, o in zip(rows, ("A", "B"))]}
+        with self.assertRaisesRegex(ValueError, "claim_type"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [dict(base)], reviewed=True)
+        labeled = dict(base, claim_type="analyst_opinion")
+        with self.assertRaisesRegex(ValueError, "atribusi"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [dict(labeled)], reviewed=True)
+        labeled["attribution"] = "Analis contoh; bukan nasihat investasi"
+        record = ronce.review_claims(self.db, run["run_id"], "Editor", [labeled], reviewed=True)
+        self.assertEqual(record["claims"][0]["claim_type"], "analyst_opinion")
+
+
+class ArtifactIdentityTests(unittest.TestCase):
+    """F4: durable identity is a canonical SHA256, and samples are never publishable."""
+
+    def test_canonical_hash_is_stable_across_processes(self):
+        import ronce
+        code = "import ronce; print(ronce.artifact_hash({'b': [1, 2], 'a': 'x'}))"
+        values = []
+        for seed in ("1", "2"):
+            env = dict(os.environ, PYTHONHASHSEED=seed)
+            result = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True,
+                                    env=env, cwd=Path(__file__).parent)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            values.append(result.stdout.strip())
+        self.assertEqual(values[0], values[1])
+        self.assertRegex(values[0], r"^[0-9a-f]{64}$")
+        self.assertEqual(values[0], ronce.artifact_hash({"a": "x", "b": [1, 2]}))
+
+    def test_sample_output_is_labelled_and_never_publishable(self):
+        import ronce
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            out = Path(tmp) / "sample.json"
+            result = subprocess.run([sys.executable, "draft/generate_drafts_v2.py", "--sample",
+                                     "--out", str(out)], capture_output=True, text=True,
+                                    cwd=Path(__file__).parent)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            artifact = json.loads(out.read_text(encoding="utf-8"))
+        self.assertIs(artifact["publishable"], False)
+        self.assertIsNone(artifact["review"])
+        self.assertTrue(artifact["sample_only"])
+        for post in artifact["posts"]:
+            self.assertRegex(post["text_hash"], r"^[0-9a-f]{64}$")
+        with self.assertRaisesRegex(ValueError, "disetujui"):
+            ronce.assert_publishable(artifact)
+
+    def test_sample_script_raises_instead_of_storing_rejection(self):
+        import importlib.util
+        import adapters
+        spec = importlib.util.spec_from_file_location(
+            "sample_drafts", Path(__file__).parent / "draft/generate_drafts_v2.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with self.assertRaises(SystemExit):
+            module.post("x" * (adapters.THREADS_MAX_BYTES + 1), topic="oversize", symbols=[])
+
+    def test_revision_approval_is_not_available_and_fails_closed(self):
+        """The engine deliberately offers no in-place revision approval; it must refuse, not guess."""
+        import ronce
+        with self.assertRaisesRegex(ValueError, "revisi non-identik"):
+            ronce.approve_revision("tidak-dipakai.sqlite", "run", "editor", "teks", [])
+
+
+class CliContractTests(unittest.TestCase):
+    """F5: the README and the parser describe the same commands."""
+
+    COMMANDS = {"fetch", "fetch-companion", "fetch-companion-independent", "replay",
+                "review-claims", "render-draft", "approve-edition", "preview-edition",
+                "export-edition", "schedule-once"}
+
+    def help_text(self):
+        return subprocess.run([sys.executable, "ronce.py", "--help"], capture_output=True,
+                              text=True, cwd=Path(__file__).parent).stdout
+
+    def test_help_lists_every_documented_command(self):
+        help_text = self.help_text()
+        for command in self.COMMANDS:
+            self.assertIn(command, help_text)
+
+    def test_readme_commands_match_the_parser(self):
+        readme = (Path(__file__).parent / "README.md").read_text(encoding="utf-8")
+        documented = set(re.findall(r"^\|\s*`([a-z][a-z-]+)`", readme, re.M))
+        self.assertTrue(documented, "README harus memuat tabel perintah")
+        self.assertEqual(documented - self.COMMANDS, set(), "perintah README tidak ada di parser")
+        self.assertEqual(self.COMMANDS - documented, set(), "perintah parser tidak ada di README")
+
+    def test_underscore_commands_are_no_longer_accepted(self):
+        result = subprocess.run([sys.executable, "ronce.py", "review_claims"], capture_output=True,
+                                text=True, cwd=Path(__file__).parent)
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_editor_flow_runs_end_to_end_and_refuses_tampering(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            temp = Path(tmp)
+            rows = [article("BBCA umumkan dividen tunai 100 rupiah", "https://one.test/a"),
+                    article("Dividen tunai BBCA diumumkan 100 rupiah", "https://two.test/b")]
+            pages = temp / "pages.json"
+            sidecar = temp / "interpretation.json"
+            db = temp / "runs.sqlite"
+            pages.write_text(json.dumps([page(rows)]), encoding="utf-8")
+            sidecar.write_text(json.dumps(RULES), encoding="utf-8")
+            replay_result = subprocess.run(
+                [sys.executable, "ronce.py", "replay", str(pages), "--cutoff", CUTOFF,
+                 "--since", SINCE, "--db", str(db), "--interpretation", str(sidecar)],
+                capture_output=True, text=True, cwd=Path(__file__).parent)
+            self.assertEqual(replay_result.returncode, 0, replay_result.stderr)
+            run_id = json.loads(replay_result.stdout)["run_id"]
+            claims = [{"text": "BBCA mengumumkan dividen tunai 100 rupiah.", "entity": "BBCA",
+                       "action": "umumkan", "event_time": "2026-09-25", "value": "100",
+                       "unit": "rupiah", "scale": "unit", "metric": "dividen tunai", "period": "2026",
+                       "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
+                                    for r, o in zip(rows, ("surat kabar A", "kantor berita B"))]}]
+            claims_path = temp / "claims.json"
+            claims_path.write_text(json.dumps(claims), encoding="utf-8")
+            reviewed = subprocess.run(
+                [sys.executable, "ronce.py", "review-claims", "--db", str(db), "--run-id", run_id,
+                 "--editor", "Editor Uji", "--claims", str(claims_path), "--reviewed"],
+                capture_output=True, text=True, cwd=Path(__file__).parent)
+            self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
+            posts_path = temp / "posts.json"
+            rendered = subprocess.run(
+                [sys.executable, "ronce.py", "render-draft", "--db", str(db), "--run-id", run_id,
+                 "--edition-id", "edisi-pagi", "--platform", "threads", "--indexes", "0",
+                 "--out", str(posts_path)], capture_output=True, text=True, cwd=Path(__file__).parent)
+            self.assertEqual(rendered.returncode, 0, rendered.stderr)
+            approved = subprocess.run(
+                [sys.executable, "ronce.py", "approve-edition", "--db", str(db), "--run-id", run_id,
+                 "--edition-id", "edisi-pagi", "--platform", "threads", "--editor", "Editor Uji",
+                 "--posts", str(posts_path)], capture_output=True, text=True, cwd=Path(__file__).parent)
+            self.assertEqual(approved.returncode, 0, approved.stderr)
+            preview = subprocess.run(
+                [sys.executable, "ronce.py", "preview-edition", "--db", str(db), "--run-id", run_id,
+                 "--edition-id", "edisi-pagi", "--platform", "threads"],
+                capture_output=True, text=True, cwd=Path(__file__).parent)
+            self.assertEqual(preview.returncode, 0, preview.stderr)
+            payload = json.loads(preview.stdout)
+            self.assertEqual(payload["limit_check"], "documented_rules_applied")
+            self.assertFalse(payload["api_write"])
+            tampered = json.loads(posts_path.read_text(encoding="utf-8"))
+            tampered[0] = tampered[0] + " tambahan tak disetujui"
+            tampered_path = temp / "tampered.json"
+            tampered_path.write_text(json.dumps(tampered), encoding="utf-8")
+            refused = subprocess.run(
+                [sys.executable, "ronce.py", "approve-edition", "--db", str(db), "--run-id", run_id,
+                 "--edition-id", "edisi-lain", "--platform", "threads", "--editor", "Editor Uji",
+                 "--posts", str(tampered_path)], capture_output=True, text=True, cwd=Path(__file__).parent)
+            self.assertNotEqual(refused.returncode, 0, "teks tamper tidak boleh disetujui")
+            self.assertIn("klaim ditinjau", refused.stderr)
+            mismatch = subprocess.run(
+                [sys.executable, "ronce.py", "preview-edition", "--db", str(db), "--run-id", run_id,
+                 "--edition-id", "edisi-pagi", "--platform", "threads", "--posts", str(tampered_path)],
+                capture_output=True, text=True, cwd=Path(__file__).parent)
+            self.assertNotEqual(mismatch.returncode, 0)
+            self.assertIn("persetujuan", mismatch.stderr)
+
+
+class ScheduleWindowTests(unittest.TestCase):
+    """F7: the slot, the news window and the snapshot completion are separate moments."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR"))
+        self.db = Path(self._tmp.name) / "runs.sqlite"
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def rows(self, timestamp):
+        return [article("BBCA umumkan dividen tunai", "https://one.test/a", timestamp),
+                article("Dividen tunai BBCA diumumkan", "https://two.test/b", timestamp)]
+
+    def test_fetch_completing_after_the_slot_is_accepted(self):
+        from ronce import draft_schedule
+        pages = [page(self.rows("2026-09-25T05:00:00+07:00"), fetched_at="2026-09-25T06:05:00+07:00")]
+        outcome = draft_schedule(pages, "2026-09-25T06:00:00+07:00", self.db, since=SINCE,
+                                 interpretation=dict(RULES), processed_at="2026-09-25T06:05:00+07:00")
+        self.assertEqual(outcome["status"], "draft_only")
+        self.assertEqual(outcome["review_status"], "review")
+        self.assertEqual(outcome["processed_at"], "2026-09-25T06:05:00+07:00")
+
+    def test_article_after_window_end_is_excluded(self):
+        from ronce import draft_schedule
+        pages = [page(self.rows("2026-09-25T06:30:00+07:00"), fetched_at="2026-09-25T06:40:00+07:00")]
+        outcome = draft_schedule(pages, "2026-09-25T06:00:00+07:00", self.db, since=SINCE,
+                                 interpretation=dict(RULES), processed_at="2026-09-25T06:40:00+07:00")
+        self.assertEqual(outcome["review_status"], "abstain")
+
+    def test_historical_replay_still_refuses_pages_after_its_cutoff(self):
+        pages = [page(self.rows("2026-09-25T05:00:00+07:00"), fetched_at="2026-09-25T06:05:00+07:00")]
+        with self.assertRaisesRegex(ValueError, "masa depan"):
+            replay(pages, "2026-09-25T06:00:00+07:00", self.db, since=SINCE,
+                   interpretation=dict(RULES))
+
+    def test_editorial_window_monday_lookback(self):
+        import ronce
+        monday = ronce.editorial_window("2026-09-28T06:00:00+07:00")
+        self.assertEqual(monday["coverage_hours"], 72)
+        self.assertEqual(monday["window_start"], "2026-09-25T06:00:00+07:00")
+        tuesday = ronce.editorial_window("2026-09-29T06:00:00+07:00")
+        self.assertEqual(tuesday["coverage_hours"], 24)
+        self.assertEqual(tuesday["window_start"], "2026-09-28T06:00:00+07:00")
+
+    def test_edition_moment_ordering_is_enforced(self):
+        import ronce
+        pages = [page(self.rows("2026-09-25T05:00:00+07:00"), fetched_at="2026-09-25T05:30:00+07:00")]
+        with self.assertRaisesRegex(ValueError, "urutan waktu"):
+            ronce.replay_edition(pages, self.db, window_start="2026-09-25T07:00:00+07:00",
+                                 window_end="2026-09-25T06:00:00+07:00",
+                                 snapshot_cutoff="2026-09-25T07:00:00+07:00",
+                                 interpretation=dict(RULES))
+
+
+class CompanionIndependenceTests(unittest.TestCase):
+    """F8: an unavailable endpoint must not hide the endpoints that answered."""
+
+    def fixtures(self):
+        return {"top_changes": {"top_gainers": {"1d": []}, "top_losers": {}},
+                "foreign_flow": {"symbol": "BBCA.JK", "data": []},
+                "quarterly": [{"symbol": "BBCA.JK", "date": "2026-06-30", "revenue": None}]}
+
+    def test_partial_failure_archives_the_rest_and_reports_status(self):
+        from urllib.error import HTTPError
+        from ronce import fetch_companion_independent
+        fixtures = self.fixtures()
+
+        class Response:
+            def __init__(self, payload):
+                self.payload = payload
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                pass
+
+            def read(self):
+                return json.dumps(self.payload).encode()
+
+        def fake_open(request, timeout):
+            if "foreign-flow" in request.full_url:
+                raise HTTPError(request.full_url, 403, "Forbidden", {}, None)
+            kind = "top_changes" if "top-changes" in request.full_url else "quarterly"
+            return Response(fixtures[kind])
+
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            out_dir = Path(tmp) / "companion"
+            with patch("ronce.urlopen", side_effect=fake_open):
+                report = fetch_companion_independent("BBCA", "2026-09-24", "2026-09-25", out_dir,
+                                                     api_key="secret")
+            statuses = {row["endpoint"]: row["status"] for row in report["status"]}
+            self.assertEqual(statuses, {"top_changes": "archived", "foreign_flow": "unavailable",
+                                        "quarterly": "archived"})
+            self.assertTrue((out_dir / "top_changes.json").exists())
+            self.assertTrue((out_dir / "quarterly.json").exists())
+            self.assertFalse((out_dir / "foreign_flow.json").exists())
+            self.assertEqual(json.loads((out_dir / "status.json").read_text(encoding="utf-8")), report)
+            with self.assertRaises(FileExistsError):
+                fetch_companion_independent("BBCA", "2026-09-24", "2026-09-25", out_dir,
+                                            api_key="secret")
+
+
+class PublicationManifestTests(unittest.TestCase):
+    """F10 (engine side): the manifest binds exact posts, hashes and the account."""
+
+    def test_manifest_requires_account_and_binds_posts(self):
+        import hashlib
+        import ronce
+        with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
+            db = Path(tmp) / "runs.sqlite"
+            rows = [article("BBCA umumkan dividen tunai 100 rupiah", "https://one.test/a"),
+                    article("Dividen tunai BBCA diumumkan 100 rupiah", "https://two.test/b")]
+            run = replay([page(rows)], CUTOFF, db, since=SINCE, interpretation=dict(RULES))
+            claim = {"text": "BBCA mengumumkan dividen tunai 100 rupiah.", "entity": "BBCA",
+                     "action": "umumkan", "event_time": "2026-09-25", "value": "100", "unit": "rupiah",
+                     "scale": "unit", "metric": "dividen tunai", "period": "2026",
+                     "evidence": [{"source": r["source"], "quote": r["title"], "origin": o, "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
+                                  for r, o in zip(rows, ("A", "B"))]}
+            ronce.review_claims(db, run["run_id"], "Editor", [claim], reviewed=True)
+            posts = ronce.render_draft(db, run["run_id"], "edisi-pagi", "threads", [0])
+            ronce.approve_edition(db, run["run_id"], "edisi-pagi", "threads", "Editor", posts)
+            with self.assertRaisesRegex(ValueError, "akun"):
+                ronce.publication_manifest(db, run["run_id"], "edisi-pagi", "threads", account=" ")
+            manifest = ronce.publication_manifest(db, run["run_id"], "edisi-pagi", "threads",
+                                                  account="threads-ronce")
+            self.assertEqual(manifest["posts"][0]["text"], posts[0])
+            self.assertEqual(manifest["posts"][0]["text_hash"],
+                             hashlib.sha256(posts[0].encode("utf-8")).hexdigest())
+            self.assertFalse(manifest["api_write"])
+            with self.assertRaisesRegex(ValueError, "disetujui"):
+                ronce.publication_manifest(db, run["run_id"], "edisi-hantu", "threads",
+                                           account="threads-ronce")
+
+
+class RankingTests(unittest.TestCase):
+    """F11: ranking consults explicit rule signals and never invents them."""
+
+    def candidates(self):
+        base = {"action": "pengumuman", "date": "2026-09-25", "source_count": 2,
+                "publisher_count": 2, "article_count": 2, "sources": ["a", "b"],
+                "decision": "review", "reason": "dua penerbit"}
+        return [dict(base, symbol="AAAA", topic="dividen"),
+                dict(base, symbol="BBBB", topic="dividen"),
+                dict(base, symbol="CCCC", topic="obligasi")]
+
+    def test_explicit_signals_reorder_and_explain(self):
+        import ronce
+        signals = {("AAAA", "dividen"): {"rules": [{"rule": "foreign_streak", "streak": 5}]}}
+        ranked = ronce.rank_candidates(self.candidates(), signals=signals)
+        self.assertEqual(ranked[0]["symbol"], "AAAA")
+        self.assertEqual(ranked[0]["score"], 10)
+        self.assertEqual(ranked[0]["score_detail"][0]["rule"], "foreign_streak")
+
+    def test_without_signals_order_is_deterministic_and_zero_scored(self):
+        import ronce
+        first = ronce.rank_candidates(self.candidates())
+        second = ronce.rank_candidates(self.candidates())
+        self.assertEqual(first, second)
+        self.assertTrue(all(row["score"] == 0 and row["score_detail"] == [] for row in first))
+
+    def test_abstain_is_never_upgraded_by_signals(self):
+        import ronce
+        candidates = self.candidates()
+        candidates[0] = dict(candidates[0], decision="abstain", reason="angka bentrok")
+        signals = {("AAAA", "dividen"): {"rules": [{"rule": "foreign_streak", "streak": 5}]}}
+        ranked = ronce.rank_candidates(candidates, signals=signals)
+        self.assertEqual(ranked[0]["symbol"], "AAAA")
+        self.assertEqual(ranked[0]["decision"], "abstain")
+
+    def test_diversity_separates_equal_topics(self):
+        import ronce
+        ranked = ronce.rank_candidates(self.candidates())
+        self.assertEqual([row["symbol"] for row in ranked], ["AAAA", "CCCC", "BBBB"])
+
+
+class PlatformTextConsolidationTests(unittest.TestCase):
+    """F10: one Threads rule, used by both the engine and the adapter."""
+
+    def test_threads_limit_agrees_between_engine_and_adapter(self):
+        import adapters
+        import ronce
+        for size in (adapters.THREADS_MAX_BYTES - 1, adapters.THREADS_MAX_BYTES,
+                     adapters.THREADS_MAX_BYTES + 1):
+            text = "a" * size
+            engine = ronce.check_platform_text("threads", text)
+            valid, _ = adapters.validate_threads_text(text)
+            self.assertEqual(engine["valid"], valid, f"size {size}")
+            self.assertEqual(engine["valid"], size <= adapters.THREADS_MAX_BYTES)
+
+
+class PublicTreeTests(unittest.TestCase):
+    """F6: the tracked tree matches the declared public allowlist and excludes credentials."""
+
+    def checker(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "check_public_tree", Path(__file__).parent / "scripts/check_public_tree.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_checker_reports_no_drift_for_the_current_tree(self):
+        result = subprocess.run([sys.executable, "scripts/check_public_tree.py"], capture_output=True,
+                                text=True, cwd=Path(__file__).parent)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(json.loads(result.stdout)["ok"])
+
+    def test_checker_flags_drift_and_credentials(self):
+        module = self.checker()
+        report = module.check(["README.md", "draft/posts-draft-v2.json", ".mcp.json", "notes.md"])
+        self.assertFalse(report["ok"])
+        self.assertEqual(report["drift"], ["notes.md"])
+        self.assertEqual(report["forbidden"], [".mcp.json"])
+        clean = module.check(["README.md", "ronce.py", "scripts/check_public_tree.py",
+                              "draft/posts-draft-v2.json"])
+        self.assertTrue(clean["ok"], clean)
+
+    def test_gitignore_states_the_policy(self):
+        text = (Path(__file__).parent / ".gitignore").read_text(encoding="utf-8")
+        for entry in ("!", ".mcp.json", ".env*", "*.key"):
+            self.assertIn(entry, text)
+
+
+class ValidatorControlMatrixTests(unittest.TestCase):
+    """Step-2 paired controls: every refusal is paired with a control that must be accepted.
+
+    Fixtures are synthetic (title == body) so the amounts are comparable; nothing here is a
+    market fact. A validator that rejects everything cannot pass this class.
+    """
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR"))
+        self.db = Path(self._tmp.name) / "runs.sqlite"
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def review(self, titles):
+        rows = [article(title, f"https://source{index}.test/{index}")
+                for index, title in enumerate(titles)]
+        run = replay([page(rows)], CUTOFF, self.db, since=SINCE, interpretation=dict(RULES))
+        return rows, run
+
+    def claim(self, rows, text, **fields):
+        base = {"text": text, "entity": "BBCA", "action": "umumkan", "event_time": "2026-09-25",
+                "value": None, "unit": None, "scale": None, "metric": "dividen", "period": "2026",
+                "evidence": [{"source": row["source"], "quote": row["title"], "origin": f"A{index}",
+                              "origin_basis": "independent_review", "origin_note": "Tinjauan editorial: asal terpisah dari rilis atau laporan lain."}
+                             for index, row in enumerate(rows)]}
+        base.update(fields)
+        return base
+
+    def test_english_scale_form_is_accepted(self):
+        import ronce
+        rows, run = self.review(["BBCA announces dividend of 100 million rupiah",
+                                 "BBCA declares dividend of 100 million rupiah"])
+        self.assertEqual(run["candidates"][0]["decision"], "review")
+        claim = self.claim(rows, "BBCA announces dividend of 100 million rupiah.",
+                           value="100", unit="rupiah", scale="million", action="umumkan")
+        record = ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+        self.assertEqual(record["claims"][0]["source_counts"]["publishers"], 2)
+
+    def test_decimal_comma_amount_is_accepted(self):
+        import ronce
+        rows, run = self.review(["BBCA umumkan dividen tunai 1,5 miliar rupiah",
+                                 "Dividen tunai BBCA diumumkan 1,5 miliar rupiah"])
+        self.assertEqual(run["candidates"][0]["decision"], "review")
+        claim = self.claim(rows, "BBCA umumkan dividen tunai 1,5 miliar rupiah.",
+                           value="1,5", unit="rupiah", scale="miliar")
+        ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_percentage_point_is_not_percent(self):
+        import ronce
+        rows, run = self.review(["BBCA umumkan dividen tunai 2 persen",
+                                 "Dividen tunai BBCA diumumkan naik 2 persen"])
+        flipped = self.claim(rows, "BBCA umumkan dividen tunai 2 poin persentase.",
+                             value="2", unit="poin persentase", scale="unit")
+        with self.assertRaisesRegex(ValueError, "angka|cocok"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [flipped], reviewed=True)
+        percent = self.claim(rows, "BBCA umumkan dividen tunai 2 persen.",
+                             value="2", unit="persen", scale="unit")
+        ronce.review_claims(self.db, run["run_id"], "Editor", [percent], reviewed=True)
+
+    def test_percentage_point_claim_accepts_percentage_point_sources(self):
+        import ronce
+        rows, run = self.review(["BBCA umumkan dividen naik 2 poin persentase",
+                                 "Dividen BBCA diumumkan naik 2 poin persentase"])
+        claim = self.claim(rows, "BBCA umumkan dividen naik 2 poin persentase.",
+                           value="2", unit="poin persentase", scale="unit")
+        ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_total_claim_against_per_share_sources_is_refused(self):
+        import ronce
+        rows, run = self.review(["BBCA umumkan dividen tunai 100 rupiah per saham",
+                                 "Dividen tunai BBCA diumumkan 100 rupiah per saham"])
+        total = self.claim(rows, "BBCA umumkan dividen tunai 100 rupiah.",
+                           value="100", unit="rupiah", scale="unit")
+        with self.assertRaisesRegex(ValueError, "angka|cocok"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [total], reviewed=True)
+        per_share = self.claim(rows, "BBCA umumkan dividen tunai 100 rupiah per saham.",
+                               value="100", unit="rupiah per saham", scale="unit")
+        ronce.review_claims(self.db, run["run_id"], "Editor", [per_share], reviewed=True)
+
+    def test_entity_must_match_the_review_candidate(self):
+        import ronce
+        rows, run = self.review(["BBCA umumkan dividen tunai",
+                                 "Dividen tunai BBCA diumumkan"])
+        wrong = self.claim(rows, "ASII umumkan dividen.", entity="ASII")
+        with self.assertRaisesRegex(ValueError, "entitas|entity"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [wrong], reviewed=True)
+        right = self.claim(rows, "BBCA umumkan dividen.")
+        ronce.review_claims(self.db, run["run_id"], "Editor", [right], reviewed=True)
+
+    def test_conflicting_amounts_hold_the_candidate(self):
+        import ronce
+        rows, run = self.review(["BBCA umumkan dividen tunai 100 juta rupiah",
+                                 "Dividen tunai BBCA diumumkan 200 juta rupiah"])
+        self.assertEqual(run["candidates"][0]["decision"], "abstain")
+        claim = self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.",
+                           value="100", unit="rupiah", scale="juta")
+        with self.assertRaisesRegex(ValueError, "kandidat review"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+
+class EntityMetricOriginBasisTests(unittest.TestCase):
+    """Foundation questions: the evidence span must support entity, metric and origin basis.
+
+    All fixtures synthetic. Negative cases must be held; the paired positives must pass,
+    so a validator that simply refuses everything cannot satisfy this class.
+    """
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR"))
+        self.db = Path(self._tmp.name) / "runs.sqlite"
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def run_rows(self, rows):
+        return replay([page(rows)], CUTOFF, self.db, since=SINCE, interpretation=dict(RULES))
+
+    def claim(self, rows, text, *, entity="BBCA", metric="dividen", basis="independent_review",
+              value="100", unit="rupiah", scale="juta"):
+        note = ("Tinjauan editorial: asal terpisah dari rilis atau laporan lain."
+                if basis == "independent_review" else None)
+        return {"text": text, "entity": entity, "action": "umumkan", "event_time": "2026-09-25",
+                "value": value, "unit": unit, "scale": scale, "metric": metric, "period": "2026",
+                "evidence": [{"source": row["source"], "quote": row["title"], "origin": f"asal-{index}",
+                              "origin_basis": basis, **({"origin_note": note} if note else {})}
+                             for index, row in enumerate(rows)]}
+
+    def test_same_value_and_unit_for_a_different_company_is_held(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai 100 juta rupiah", "https://one.test/a", symbols=["BBCA"]),
+                article("Dividen tunai BBCA diumumkan 100 juta rupiah", "https://two.test/b", symbols=["BBCA"])]
+        run = self.run_rows(rows)
+        wrong_company = self.claim(rows, "ASII umumkan dividen tunai 100 juta rupiah.", entity="ASII")
+        with self.assertRaisesRegex(ValueError, "entitas|entity"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [wrong_company], reviewed=True)
+        right_company = self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.")
+        ronce.review_claims(self.db, run["run_id"], "Editor", [right_company], reviewed=True)
+
+    def test_same_value_and_unit_for_revenue_versus_net_profit_is_held(self):
+        import ronce
+        rows = [article("BBCA catat laba bersih 100 juta rupiah", "https://one.test/a", symbols=["BBCA"]),
+                article("Laba bersih BBCA tercatat 100 juta rupiah", "https://two.test/b", symbols=["BBCA"])]
+        run = self.run_rows(rows)
+        self.assertEqual(run["candidates"][0]["decision"], "review")
+        wrong_metric = self.claim(rows, "BBCA catat pendapatan 100 juta rupiah.", metric="pendapatan")
+        with self.assertRaisesRegex(ValueError, "metrik"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [wrong_metric], reviewed=True)
+        right_metric = self.claim(rows, "BBCA catat laba bersih 100 juta rupiah.", metric="laba bersih")
+        ronce.review_claims(self.db, run["run_id"], "Editor", [right_metric], reviewed=True)
+
+    def test_unknown_provenance_cannot_pass_the_two_publisher_threshold(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai 100 juta rupiah", "https://one.test/a", symbols=["BBCA"]),
+                article("Dividen tunai BBCA diumumkan 100 juta rupiah", "https://two.test/b", symbols=["BBCA"])]
+        run = self.run_rows(rows)
+        # Two different publishers, two different bodies, but the origin is not established:
+        # a paraphrase of one press release still counts as one origin.
+        paraphrase = self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.", basis="unknown")
+        with self.assertRaisesRegex(ValueError, "asal tinjauan"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [paraphrase], reviewed=True)
+        mixed = self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.")
+        mixed["evidence"][1]["origin_basis"] = "unknown"
+        with self.assertRaisesRegex(ValueError, "asal tinjauan"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [mixed], reviewed=True)
+
+    def test_separately_established_origins_are_accepted_and_counted_separately(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai 100 juta rupiah", "https://one.test/a", symbols=["BBCA"]),
+                article("Dividen tunai BBCA diumumkan 100 juta rupiah", "https://two.test/b", symbols=["BBCA"])]
+        run = self.run_rows(rows)
+        record = ronce.review_claims(self.db, run["run_id"], "Editor",
+                                     [self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.")],
+                                     reviewed=True)
+        counts = record["claims"][0]["source_counts"]
+        self.assertEqual(counts, {"articles": 2, "publishers": 2, "reviewed_origins": 2})
+        bases = {item["origin_basis"] for item in record["claims"][0]["evidence"]}
+        self.assertEqual(bases, {"independent_review"})
+
+    def test_basis_must_be_a_known_value(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai 100 juta rupiah", "https://one.test/a", symbols=["BBCA"]),
+                article("Dividen tunai BBCA diumumkan 100 juta rupiah", "https://two.test/b", symbols=["BBCA"])]
+        run = self.run_rows(rows)
+        claim = self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.")
+        claim["evidence"][0]["origin_basis"] = "trust-me"
+        with self.assertRaisesRegex(ValueError, "origin_basis"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+
+    def test_basis_flag_without_a_recorded_rationale_is_held(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai 100 juta rupiah", "https://one.test/a", symbols=["BBCA"]),
+                article("Dividen tunai BBCA diumumkan 100 juta rupiah", "https://two.test/b", symbols=["BBCA"])]
+        run = self.run_rows(rows)
+        claim = self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.")
+        for item in claim["evidence"]:
+            item.pop("origin_note")  # two caller-supplied flags alone must not be enough
+        with self.assertRaisesRegex(ValueError, "origin_note"):
+            ronce.review_claims(self.db, run["run_id"], "Editor", [claim], reviewed=True)
+
+    def test_origin_decision_is_persisted_and_edits_invalidate_approval(self):
+        import ronce
+        rows = [article("BBCA umumkan dividen tunai 100 juta rupiah", "https://one.test/a", symbols=["BBCA"]),
+                article("Dividen tunai BBCA diumumkan 100 juta rupiah", "https://two.test/b", symbols=["BBCA"])]
+        run = self.run_rows(rows)
+        ronce.review_claims(self.db, run["run_id"], "Editor Satu",
+                            [self.claim(rows, "BBCA umumkan dividen tunai 100 juta rupiah.")], reviewed=True)
+        with closing(sqlite3.connect(self.db)) as con:
+            rows_out = con.execute("SELECT source, entity, reviewer, content_hash, rationale FROM origin_reviews").fetchall()
+        self.assertEqual(len(rows_out), 2)
+        self.assertTrue(all(row[2] == "Editor Satu" and len(row[3]) == 64 and len(row[4]) >= 12 for row in rows_out))
+        posts = ronce.render_draft(self.db, run["run_id"], "edisi-pagi", "threads", [0])
+        ronce.approve_edition(self.db, run["run_id"], "edisi-pagi", "threads", "Editor Satu", posts)
+        # The reviewed content changes after approval: the decision no longer matches.
+        with closing(sqlite3.connect(self.db)) as con, con:
+            payload = json.loads(con.execute("SELECT payload FROM articles WHERE run_id=? AND source=?",
+                                            (run["run_id"], rows[0]["source"])).fetchone()[0])
+            payload["body"] = payload["body"] + " (diperbarui)"
+            con.execute("UPDATE articles SET payload=? WHERE run_id=? AND source=?",
+                        (json.dumps(payload), run["run_id"], rows[0]["source"]))
+        with self.assertRaisesRegex(ValueError, "berubah|persetujuan"):
+            ronce.preview_edition(self.db, run["run_id"], "edisi-pagi", "threads")
+
+    def test_legacy_packet_path_cannot_reach_export_or_publication(self):
+        import export as export_module
+        import ronce
+        rows = [article("IDX umumkan dividen tunai", "https://one.test/a", symbols=[]),
+                article("Dividen tunai diumumkan IDX", "https://two.test/b", symbols=[])]
+        run = self.run_rows(rows)
+        claim = {"text": "IDX umumkan dividen.", "entity": "Bursa", "action": "umumkan",
+                 "event_time": "2026-09-25", "value": None, "unit": None, "period": None,
+                 "evidence": [{"source": row["source"], "quote": row["title"], "origin": f"A{index}",
+                               "origin_basis": "independent_review"}
+                              for index, row in enumerate(rows)]}
+        text = "IDX umumkan dividen. Sumber: https://one.test/a https://two.test/b"
+        ronce.approve_packet(self.db, run["run_id"], "Editor", text, [claim], reviewed=True)
+        with self.assertRaisesRegex(ValueError, "disetujui"):
+            export_module.export_edition(self.db, run["run_id"], "edisi-legacy", "threads",
+                                         Path(self._tmp.name) / "legacy-export")
+        with self.assertRaisesRegex(ValueError, "disetujui"):
+            ronce.publication_manifest(self.db, run["run_id"], "edisi-legacy", "threads",
+                                       account="akun-lama")
 
 
 if __name__ == "__main__":

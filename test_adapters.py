@@ -1,6 +1,7 @@
 import json
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import adapters
 
@@ -181,30 +182,111 @@ class ClassifyTests(unittest.TestCase):
         self.assertEqual(adapters.classify_response(503, {})["outcome"], "ambiguous")
 
 
+class PlatformParserTests(unittest.TestCase):
+    """F9: each platform's documented success envelope is parsed explicitly."""
+
+    def test_x_live_envelope_is_created(self):
+        payload = {"data": {"id": "55", "text": "Halo"}}
+        parsed = adapters.parse_x_create(201, payload)
+        self.assertEqual((parsed["state"], parsed["external_id"], parsed["envelope"]),
+                         ("created", "55", "data.id"))
+        classified = adapters.classify_response(201, payload, platform="x")
+        self.assertEqual(classified["outcome"], "created")
+        self.assertEqual(classified["state"], "created")
+        self.assertEqual(classified["external_id"], "55")
+
+    def test_x_success_without_id_is_ambiguous(self):
+        parsed = adapters.parse_x_create(200, {"data": {}})
+        self.assertEqual(parsed["state"], "ambiguous")
+        self.assertIn("data.id", parsed["reason"])
+        classified = adapters.classify_response(200, {"data": {}}, platform="x")
+        self.assertEqual(classified["outcome"], "ambiguous")
+
+    def test_x_rate_limit_keeps_reset_header(self):
+        classified = adapters.classify_response(429, {}, headers={"x-rate-limit-reset": "99"},
+                                                platform="x")
+        self.assertEqual(classified["outcome"], "rate_limited")
+        self.assertEqual(classified["retry_after"], "99")
+
+    def test_x_client_error_is_failed(self):
+        self.assertEqual(adapters.parse_x_create(403, {"errors": []})["state"], "failed")
+
+    def test_threads_container_and_publish_are_separate_states(self):
+        container = adapters.parse_threads_container(200, {"id": "creation-1"})
+        published = adapters.parse_threads_publish(200, {"id": "media-1"})
+        self.assertEqual(container["state"], "container_created")
+        self.assertEqual(published["state"], "published")
+        classified = adapters.classify_response(200, {"id": "creation-1"},
+                                                platform="threads-container")
+        self.assertEqual(classified["state"], "container_created")
+        self.assertEqual(classified["outcome"], "created")
+
+    def test_legacy_envelope_stays_compatible(self):
+        self.assertEqual(adapters.classify_response(201, {"id": "55"}),
+                         {"outcome": "created", "external_id": "55"})
+
+
 class SubmitTests(unittest.TestCase):
+    @staticmethod
+    def approval(text):
+        return {"platform": "x", "account": "akun-x",
+                "posts": [{"ordinal": 1, "text": text}]}
+
+    def test_submit_refuses_while_live_publishing_is_off(self):
+        def transport(request, headers):
+            raise AssertionError("transport tidak boleh dipanggil")
+
+        with self.assertRaisesRegex(adapters.PublicationRefused, "LIVE_PUBLISHING"):
+            adapters.submit(transport, adapters.build_x_post("Halo"), token="tok", account="akun-x")
+
+    def test_submit_requires_approved_edition_and_matching_account(self):
+        def transport(request, headers):
+            raise AssertionError("transport tidak boleh dipanggil")
+
+        with patch.object(adapters, "LIVE_PUBLISHING", True):
+            with self.assertRaisesRegex(adapters.PublicationRefused, "disetujui"):
+                adapters.submit(transport, adapters.build_x_post("Halo"), token="tok", account="akun-x")
+            wrong_platform = {"platform": "threads", "account": "akun-x", "posts": [{"text": "Halo"}]}
+            with self.assertRaisesRegex(adapters.PublicationRefused, "platform"):
+                adapters.submit(transport, adapters.build_x_post("Halo"), token="tok",
+                                approval=wrong_platform, account="akun-x")
+            with self.assertRaisesRegex(adapters.PublicationRefused, "akun approval"):
+                adapters.submit(transport, adapters.build_x_post("Halo"), token="tok",
+                                approval=self.approval("Halo"), account="akun-lain")
+            with self.assertRaisesRegex(adapters.PublicationRefused, "bukan bagian"):
+                adapters.submit(transport, adapters.build_x_post("Teks lain"), token="tok",
+                                approval=self.approval("Halo"), account="akun-x")
+
     def test_submit_success_through_fake_transport(self):
         seen = {}
 
         def transport(request, headers):
             seen["auth"] = headers["Authorization"]
-            return 201, {"id": "77"}, {}
+            return 201, {"data": {"id": "77"}}, {}
 
-        result = adapters.submit(transport, adapters.build_x_post("Halo"), token="tok")
+        with patch.object(adapters, "LIVE_PUBLISHING", True):
+            result = adapters.submit(transport, adapters.build_x_post("Halo"), token="tok",
+                                     approval=self.approval("Halo"), account="akun-x")
         self.assertEqual(result["outcome"], "created")
+        self.assertEqual(result["external_id"], "77")
         self.assertEqual(seen["auth"], "Bearer tok")
 
     def test_submit_timeout_is_ambiguous(self):
         def transport(request, headers):
             raise TimeoutError()
 
-        result = adapters.submit(transport, adapters.build_x_post("Halo"), token="tok")
+        with patch.object(adapters, "LIVE_PUBLISHING", True):
+            result = adapters.submit(transport, adapters.build_x_post("Halo"), token="tok",
+                                     approval=self.approval("Halo"), account="akun-x")
         self.assertEqual(result, {"outcome": "ambiguous", "reason": "timeout"})
 
     def test_submit_transport_error_never_raises(self):
         def transport(request, headers):
             raise ConnectionResetError("boom")
 
-        result = adapters.submit(transport, adapters.build_x_post("Halo"), token="tok")
+        with patch.object(adapters, "LIVE_PUBLISHING", True):
+            result = adapters.submit(transport, adapters.build_x_post("Halo"), token="tok",
+                                     approval=self.approval("Halo"), account="akun-x")
         self.assertEqual(result["outcome"], "ambiguous")
         self.assertIn("ConnectionResetError", result["reason"])
 
