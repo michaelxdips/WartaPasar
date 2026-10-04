@@ -24,11 +24,13 @@ class RequestBuilderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reply_to"):
             adapters.build_x_post("Halo", reply_to="")
 
-    def test_x_readback_uses_post_fields(self):
+    def test_x_readback_uses_post_fields_and_author_expansion(self):
         request = adapters.build_x_readback("999")
         self.assertEqual(request["method"], "GET")
         self.assertTrue(request["url"].endswith("/2/tweets/999"))
         self.assertEqual(request["params"]["post.fields"], "author_id,created_at,text")
+        self.assertEqual(request["params"]["expansions"], "author_id")
+        self.assertEqual(request["params"]["user.fields"], "username")
 
     def test_threads_create_shape(self):
         request = adapters.build_threads_create("Halo threads", user_id="u1")
@@ -304,7 +306,22 @@ class PlanTests(unittest.TestCase):
 
 
 class ReadbackTests(unittest.TestCase):
-    def test_x_readback_match(self):
+    def test_x_readback_match_by_expanded_username(self):
+        payload = {"data": {"text": "Halo", "author_id": "42"},
+                   "includes": {"users": [{"id": "42", "username": "ronce_owner"}]}}
+        ok, reason = adapters.verify_readback("x", payload,
+                                             expected_account="ronce_owner", expected_text="Halo")
+        self.assertTrue(ok)
+        self.assertEqual(reason, "cocok")
+
+    def test_x_readback_handle_without_expansion_fails_closed(self):
+        payload = {"data": {"text": "Halo", "author_id": "42"}}
+        ok, reason = adapters.verify_readback("x", payload,
+                                             expected_account="ronce_owner", expected_text="Halo")
+        self.assertFalse(ok)
+        self.assertEqual(reason, "akun tidak cocok")
+
+    def test_x_readback_numeric_id_remains_compatible(self):
         payload = {"data": {"text": "Halo", "author_id": "42"}}
         ok, reason = adapters.verify_readback("x", payload, expected_account="42", expected_text="Halo")
         self.assertTrue(ok)

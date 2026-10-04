@@ -11,9 +11,12 @@ Dokumen resmi diperiksa 2026-09-27:
   balasan via `reply.in_reply_to_tweet_id`; auth OAuth 1.0a User Context atau
   OAuth 2.0 user context (scope tweet.read, tweet.write, users.read).
   https://docs.x.com/x-api/posts/manage-tweets/integrate.md
-- X readback: GET /2/tweets/{id}; parameter field resmi `post.fields` (contoh
-  dokumentasi lama memakai `tweet.fields`); auth OAuth2 user (tweet.read,
-  users.read), OAuth 1.0a, atau BearerToken.
+- X readback: GET /2/tweets/{id}; `post.fields=author_id,created_at,text`,
+  `expansions=author_id`, dan `user.fields=username`. `author_id` pada data post
+  dicocokkan ke `includes.users[].id`, lalu username hasil ekspansi dibandingkan dengan
+  account handle yang diharapkan. Auth OAuth2 user (tweet.read, users.read), OAuth 1.0a,
+  atau BearerToken.
+
   https://docs.x.com/x-api/posts/get-post-by-id.md
 - X rate limit: POST /2/tweets 10.000/24 jam per app dan 100/15 menit per user;
   DELETE /2/tweets/:id 50/15 menit per user; GET /2/tweets/:id 450/15 menit per
@@ -49,6 +52,8 @@ THREADS_MAX_BYTES = 500
 
 X_API = "https://api.x.com/2"
 X_READBACK_FIELDS = "author_id,created_at,text"
+X_READBACK_EXPANSIONS = "author_id"
+X_READBACK_USER_FIELDS = "username"
 THREADS_GRAPH = "https://graph.threads.com/v1.0"
 THREADS_READBACK_FIELDS = "id,text,username,permalink,link_attachment_url,timestamp"
 
@@ -99,7 +104,9 @@ def build_x_post(text, *, reply_to=None):
 def build_x_readback(post_id):
     post_id = _nonempty(post_id, "post_id")
     return {"platform": "x", "method": "GET", "url": f"{X_API}/tweets/{post_id}",
-            "params": {"post.fields": X_READBACK_FIELDS}, "json": None}
+            "params": {"post.fields": X_READBACK_FIELDS,
+                        "expansions": X_READBACK_EXPANSIONS,
+                        "user.fields": X_READBACK_USER_FIELDS}, "json": None}
 
 
 def build_threads_create(text, *, user_id, graph=THREADS_GRAPH):
@@ -292,6 +299,11 @@ def verify_readback(platform, payload, *, expected_account, expected_text, expec
         data = (payload or {}).get("data") or {}
         got_text = data.get("text")
         got_account = data.get("author_id")
+        users = ((payload or {}).get("includes") or {}).get("users") or []
+        for user in users:
+            if str(user.get("id")) == str(got_account) and user.get("username"):
+                got_account = user["username"]
+                break
     elif platform == "threads":
         data = payload or {}
         got_text = data.get("text")
