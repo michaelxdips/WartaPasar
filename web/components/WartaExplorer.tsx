@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useMemo, useRef } from 'react';
 import { Counts, DecisionChip } from '@/components/Chips';
 import { PreviewSheet } from '@/components/PreviewSheet';
-import { dateLabel, filterQuery, parseFilters, type StoryFilters } from '@/lib/filters';
+import { dateLabel, filterQuery, parseFilters, storyMatchesQuery, type StoryFilters } from '@/lib/filters';
 import { displayTimestamp } from '@/lib/format';
 import type { Story } from '@/lib/data';
 
@@ -68,18 +68,14 @@ export function WartaExplorer({ stories, dataset, generatedAt, windowSince, poli
   }, [next, router]);
 
   const filtered = useMemo(() => {
-    const needle = filters.q.toLowerCase();
+    const needle = filters.q;
     return stories.filter((story) => {
       if (filters.decision !== 'semua' && story.decision !== filters.decision) return false;
       if (filters.topic && story.topic.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') !== filters.topic) return false;
       if (filters.symbol && story.symbol !== filters.symbol) return false;
       if (filters.from && story.date < filters.from) return false;
       if (filters.to && story.date > filters.to) return false;
-      if (needle) {
-        const haystack = `${story.symbol} ${story.topic} ${story.reason ?? ''} ` +
-          story.sources.map((source) => source.title ?? '').join(' ').toLowerCase();
-        if (!haystack.includes(needle)) return false;
-      }
+      if (needle && !storyMatchesQuery(story, needle)) return false;
       return true;
     });
   }, [stories, filters]);

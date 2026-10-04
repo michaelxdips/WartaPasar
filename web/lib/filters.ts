@@ -73,6 +73,19 @@ export function filterQuery(filters: StoryFilters, omit: (keyof StoryFilters)[] 
   return text ? `?${text}` : '';
 }
 
+export function storyMatchesQuery(story: {
+  symbol: string;
+  topic: string;
+  reason: string | null;
+  sources: { title: string | null }[];
+}, query: string): boolean {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return true;
+  const haystack = `${story.symbol} ${story.topic} ${story.reason ?? ''} ` +
+    story.sources.map((source) => source.title ?? '').join(' ');
+  return haystack.toLowerCase().includes(needle);
+}
+
 export function dateLabel(from: string, to: string): string {
   if (!from && !to) return 'semua tanggal pada jendela arsip';
   if (from && to && from === to) return `tanggal terbit ${from}`;

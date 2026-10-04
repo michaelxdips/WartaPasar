@@ -5,6 +5,7 @@
   "scripts": {
     "prepare-data": "node scripts/prepare-data.mjs",
     "typecheck": "tsc --noEmit",
+    "test:filters": "node scripts/test-filters.mjs",
     "dev": "next dev",
     "build": "node scripts/prepare-data.mjs && next build",
     "start": "next start"
