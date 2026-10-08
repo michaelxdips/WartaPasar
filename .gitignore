@@ -23,6 +23,9 @@
 !/scripts/**
 !/web/
 !/web/**
+# Ronce OS — mesin Warta mandiri (offline-first, pustaka bawaan Python saja).
+!/ronce-os/
+!/ronce-os/**
 # Web build output, dependency trees and the exported data are never published.
 /web/node_modules/
 /web/.next/
@@ -30,6 +33,13 @@
 /web/.data/
 /web/public/data/
 /web/tsconfig.tsbuildinfo
+
+# Ronce OS: hasil, arsip, tangkapan layar, dan cache tidak pernah publish.
+/ronce-os/output/
+/ronce-os/archive/
+/ronce-os/shots/
+/ronce-os/_backup-web-lama/
+/ronce-os/**/__pycache__/
 
 # Byte-compiled and dependency trees never publish.
 __pycache__/

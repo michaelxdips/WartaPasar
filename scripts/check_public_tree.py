@@ -17,7 +17,9 @@ ALLOWLIST = (".gitignore", "README.md", "ronce.py", "adapters.py", "companion.py
              "outbox.py", "workbench.py", "workbench_page.html", "test_ronce.py",
              "test_adapters.py", "test_companion.py", "test_export.py", "test_outbox.py",
              "test_workbench.py", "package.json", "package-lock.json", "x_length.mjs")
-ALLOW_PREFIXES = ("scripts/", "web/")
+# `ronce-os/` is the standalone Warta engine (offline-first, Python stdlib only).
+# It ships its own config reader and its own security audit (ronce-os/audit.py).
+ALLOW_PREFIXES = ("scripts/", "web/", "ronce-os/")
 EXCEPTIONS = {
     "draft/generate_drafts.py": "legacy sample script tracked before the allowlist policy; owner decision Q1 pending",
     "draft/generate_drafts_v2.py": "legacy sample script tracked before the allowlist policy; owner decision Q1 pending",
