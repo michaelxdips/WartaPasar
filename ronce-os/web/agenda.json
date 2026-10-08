@@ -1,0 +1,217 @@
+{
+  "right_issue": {
+    "nama": "Rights issue",
+    "agenda": [
+      {
+        "simbol": "BMAS.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-11-23",
+            "label": "cum"
+          },
+          {
+            "tanggal": "2026-11-24",
+            "label": "ex"
+          },
+          {
+            "tanggal": "2026-11-25",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-27",
+            "label": "mulai perdagangan"
+          },
+          {
+            "tanggal": "2026-12-03",
+            "label": "akhir perdagangan"
+          },
+          {
+            "tanggal": "2026-12-03",
+            "label": "penebusan"
+          }
+        ],
+        "keterangan": "",
+        "angka": {
+          "price": 350.0,
+          "old_ratio": 655.0,
+          "new_ratio": 104.0
+        }
+      }
+    ]
+  },
+  "agm": {
+    "nama": "RUPS",
+    "agenda": [
+      {
+        "simbol": "KETR.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-12",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-12",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "BRIS.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-14",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-06",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "GIAA.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-14",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-06",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "KDTN.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-14",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-06",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "MTFN.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-14",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-06",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "DOOH.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-15",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-09",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "ITIC.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-15",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-09",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "UNTD.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-15",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-09",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "UNTR.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-15",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-09",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "RIGS.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-16",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-10",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      },
+      {
+        "simbol": "BMBL.JK",
+        "tanggal": [
+          {
+            "tanggal": "2026-10-19",
+            "label": "pencatatan"
+          },
+          {
+            "tanggal": "2026-11-11",
+            "label": "agm"
+          }
+        ],
+        "keterangan": "",
+        "angka": {}
+      }
+    ]
+  },
+  "_rentang": [
+    "2026-11-06",
+    "2027-02-04"
+  ],
+  "_diperbarui": "2026-10-07T17:33:57"
+}

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ronce — Ruang editorial pasar</title>
+<meta name="description" content="Masuk dari satu pertanyaan. Temukan satu cerita. Telusuri sampai sumbernya.">
+<meta name="theme-color" content="#090e13">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="lompati" href="#utama">Lewati ke konten</a>
+
+<!-- ==================================================== latar
+     Aurora bergerak + kisi titik + taburan bintang.
+     Ditiru dari React Bits (Aurora, Dot Grid) tanpa dependensi WebGL.
+     Bintang memberi tema ruang angkasa tanpa mengganggu bacaan. -->
+<div class="latar" aria-hidden="true">
+  <div class="latar-aurora"></div>
+  <div class="latar-titik"></div>
+  <div class="latar-bintang"></div>
+</div>
+
+<!-- ==================================================== sprite ikon
+     Satu set: garis 24px, tebal 1.75, tanpa isian. -->
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <symbol id="i-orbit" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <circle cx="12" cy="12" r="2.6"/>
+      <path d="M12 3v2M12 19v2M3 12h2M19 12h2"/>
+    </symbol>
+    <symbol id="i-warta" viewBox="0 0 24 24">
+      <path d="M4 19V6a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v13"/>
+      <path d="M17 19h3a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-3"/>
+      <path d="M2 19h15M7 8h6M7 12h6M7 15h3"/>
+    </symbol>
+    <symbol id="i-jelajah" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"/>
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+    </symbol>
+    <symbol id="i-kalender" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="18" rx="2"/>
+      <path d="M8 2v4M16 2v4M3 10h18"/>
+    </symbol>
+    <symbol id="i-emiten" viewBox="0 0 24 24">
+      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+      <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/>
+      <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/>
+      <path d="M10 6h4M10 10h4M10 14h4M10 18h4"/>
+    </symbol>
+    <symbol id="i-disimpan" viewBox="0 0 24 24">
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+    </symbol>
+    <symbol id="i-profil" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>
+    </symbol>
+    <symbol id="i-tutup-kiri" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <path d="M9 3v18"/>
+      <path d="m16 9-3 3 3 3"/>
+    </symbol>
+    <symbol id="i-buka-kiri" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <path d="M9 3v18"/>
+      <path d="m13 9 3 3-3 3"/>
+    </symbol>
+    <symbol id="i-email" viewBox="0 0 24 24">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <path d="m2 7 10 6 10-6"/>
+    </symbol>
+    <symbol id="i-kode" viewBox="0 0 24 24">
+      <path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>
+    </symbol>
+    <symbol id="i-dokumen" viewBox="0 0 24 24">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/>
+      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app" id="app">
+
+  <!-- ==================================================== sidebar
+       Bisa dibuka-tutup. Saat tertutup hanya ikon yang tampak,
+       dengan tooltip saat kursor mendekat. -->
+  <aside class="sidebar" id="sidebar" aria-label="Navigasi Ronce">
+    <div class="sidebar-kepala">
+      <a class="sidebar-brand" href="#" data-halaman="orbit">
+        Ronce<span class="titik">.</span>
+      </a>
+      <button class="sidebar-tombol" id="sidebar-tombol" type="button"
+              aria-expanded="true" aria-controls="sidebar"
+              aria-label="Tutup menu">
+        <svg class="ikon" aria-hidden="true"><use href="#i-tutup-kiri"/></svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item" data-halaman="orbit" data-tip="Orbit">
+        <span class="nav-ikon-kotak"><svg class="nav-orbit" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13.4" ry="13.4"/><circle cx="15" cy="1.6" r="1.5"/></svg><svg class="ikon" aria-hidden="true"><use href="#i-orbit"/></svg></span><span class="teks">Orbit</span>
+      </a>
+      <a href="#" class="nav-item" data-halaman="warta" data-tip="Warta">
+        <span class="nav-ikon-kotak"><svg class="nav-orbit" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13.4" ry="13.4"/><circle cx="15" cy="1.6" r="1.5"/></svg><svg class="ikon" aria-hidden="true"><use href="#i-warta"/></svg></span><span class="teks">Warta</span>
+      </a>
+      <a href="#" class="nav-item" data-halaman="jelajah" data-tip="Jelajah">
+        <span class="nav-ikon-kotak"><svg class="nav-orbit" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13.4" ry="13.4"/><circle cx="15" cy="1.6" r="1.5"/></svg><svg class="ikon" aria-hidden="true"><use href="#i-jelajah"/></svg></span><span class="teks">Jelajah</span>
+      </a>
+      <a href="#" class="nav-item" data-halaman="kalender" data-tip="Kalender">
+        <span class="nav-ikon-kotak"><svg class="nav-orbit" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13.4" ry="13.4"/><circle cx="15" cy="1.6" r="1.5"/></svg><svg class="ikon" aria-hidden="true"><use href="#i-kalender"/></svg></span><span class="teks">Kalender</span>
+      </a>
+      <a href="#" class="nav-item" data-halaman="emiten" data-tip="Emiten">
+        <span class="nav-ikon-kotak"><svg class="nav-orbit" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13.4" ry="13.4"/><circle cx="15" cy="1.6" r="1.5"/></svg><svg class="ikon" aria-hidden="true"><use href="#i-emiten"/></svg></span><span class="teks">Emiten</span>
+      </a>
+
+      <div class="sidebar-pemisah" role="presentation"></div>
+
+      <a href="#" class="nav-item" data-halaman="disimpan" data-tip="Disimpan">
+        <span class="nav-ikon-kotak"><svg class="nav-orbit" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13.4" ry="13.4"/><circle cx="15" cy="1.6" r="1.5"/></svg><svg class="ikon" aria-hidden="true"><use href="#i-disimpan"/></svg></span><span class="teks">Disimpan</span>
+      </a>
+      <a href="#" class="nav-item" data-halaman="profil" data-tip="Profil proyek">
+        <span class="nav-ikon-kotak"><svg class="nav-orbit" viewBox="0 0 30 30" aria-hidden="true"><ellipse cx="15" cy="15" rx="13.4" ry="13.4"/><circle cx="15" cy="1.6" r="1.5"/></svg><svg class="ikon" aria-hidden="true"><use href="#i-profil"/></svg></span><span class="teks">Profil proyek</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ==================================================== konten -->
+  <div class="konten">
+
+    <!-- Progres baca — garis tipis di paling atas -->
+    <div class="progres" id="progres" aria-hidden="true"><span></span></div>
+
+    <main id="utama">
+
+      <!-- ==================================================== ORBIT
+           Pintu masuk. Sengaja bersih: satu pertanyaan, satu textbox,
+           beberapa chip. -->
+      <section class="halaman" id="hal-orbit">
+        <div class="orbit">
+          <span class="orbit-status" id="orbit-status">Memuat edisi…</span>
+
+          <h1 class="orbit-sapa" id="orbit-sapa">Selamat pagi.</h1>
+          <p class="orbit-ajak">
+            Pasar sedang bergerak ke banyak arah.
+            Mulai dari satu tema, emiten, atau berita.
+          </p>
+
+          <form class="orbit-cari" id="orbit-cari" role="search" autocomplete="off">
+            <span class="orbit-cari-ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </span>
+            <input type="text" id="orbit-input"
+                   placeholder="Cari emiten, topik, atau berita…"
+                   aria-label="Cari emiten, topik, atau berita"
+                   role="combobox" aria-expanded="false" aria-controls="orbit-saran"
+                   aria-autocomplete="list">
+            <kbd class="orbit-pintasan" id="orbit-pintasan" aria-hidden="true">Ctrl K</kbd>
+            <button type="submit" class="orbit-kirim" aria-label="Buka hasil pencarian">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <div class="orbit-saran" id="orbit-saran" role="listbox" aria-label="Saran pencarian" hidden></div>
+          </form>
+
+          <div class="orbit-chip" id="orbit-chip" role="list" aria-label="Saran cepat"></div>
+        </div>
+      </section>
+
+      <!-- ==================================================== WARTA
+           Memuat edisi terbaru dan edisi-edisi sebelumnya lewat
+           pemilih edisi. Halaman Arsip dihapus karena fungsinya
+           sudah ada di sini. -->
+      <section class="halaman" id="hal-warta" hidden>
+        <div class="wrap seksi" style="border-top:none">
+          <div class="seksi-kepala">
+            <span class="label">Warta</span>
+            <h2 id="warta-judul">—</h2>
+            <p id="warta-ringkas" class="redup"></p>
+          </div>
+
+          <div class="edisi-baris">
+            <label class="edisi-label" for="pilih-edisi">Edisi</label>
+            <select class="edisi-pilih" id="pilih-edisi" aria-label="Pilih edisi Warta"></select>
+            <span class="edisi-catatan" id="edisi-catatan"></span>
+          </div>
+
+          <p class="meta-baris" id="stats"></p>
+
+          <div class="tab" role="tablist" aria-label="Bagian Warta" id="warta-tab"></div>
+          <div id="warta-panel"></div>
+
+          <!-- Batas data edisi ini -->
+          <div class="galat" id="galat">
+            <div class="galat-kepala">
+              <h3>Yang belum dapat dibuktikan</h3>
+              <button class="tombol kecil" id="galat-tombol" type="button"
+                      aria-expanded="false" aria-controls="galat-isi">Buka</button>
+            </div>
+            <div class="galat-isi" id="galat-isi" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== JELAJAH -->
+      <section class="halaman" id="hal-jelajah" hidden>
+        <div class="wrap seksi" style="border-top:none">
+          <div class="seksi-kepala">
+            <span class="label">Jelajah</span>
+            <h2>Apa yang terhubung dengan tema ini?</h2>
+            <p>Peta tema dua dimensi. Hanya relasi yang tersedia di data yang ditampilkan.</p>
+          </div>
+
+          <div class="jelajah">
+            <div class="jelajah-peta" id="jelajah-peta"></div>
+            <div class="jelajah-panel" id="jelajah-panel">
+              <p class="redup kecil">Pilih satu tema untuk melihat hubungannya.</p>
+            </div>
+          </div>
+
+          <div class="catatan" style="margin-top:32px">
+            <b>Aturan relasi:</b> Ronce hanya menampilkan hubungan yang benar-benar ada
+            di data. Ronce tidak menggambar garis &ldquo;berita menyebabkan harga
+            bergerak&rdquo; tanpa bukti.
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== KALENDER
+           Agenda ke depan: aksi korporasi dan RUPS dari Sectors.
+           Tata letak mengikuti pola shapeofintelligence: spine vertikal
+           dengan titik di kiri, konten tanggal terpilih di kanan. -->
+      <section class="halaman" id="hal-kalender" hidden>
+        <div class="wrap seksi" style="border-top:none">
+          <div class="seksi-kepala">
+            <span class="label">Kalender</span>
+            <h2>Apa yang akan terjadi?</h2>
+            <p>Jadwal yang tercatat di Sectors: aksi korporasi dan RUPS.</p>
+          </div>
+
+          <div class="kalender-navigasi" id="kalender-navigasi"></div>
+
+          <div class="kalender-panggung">
+            <nav class="spine" id="kalender-spine" aria-label="Pilih tanggal"></nav>
+            <div class="panggung-isi" id="kalender-isi"></div>
+          </div>
+
+          <div class="kalender-daftar" id="kalender-daftar"></div>
+        </div>
+      </section>
+
+      <!-- ==================================================== EMITEN -->
+      <section class="halaman" id="hal-emiten" hidden>
+        <div class="wrap seksi" style="border-top:none">
+          <div class="seksi-kepala">
+            <span class="label">Emiten</span>
+            <h2>Perusahaan yang muncul edisi ini</h2>
+            <p>Jumlah catatan yang tercatat untuk tiap emiten.</p>
+          </div>
+          <div class="tabel-kotak"><table id="tabel-emiten">
+            <thead><tr><th>Kode</th><th>Cerita</th><th>Catatan</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+
+          <div class="seksi-kepala" style="margin-top:56px">
+            <span class="label">Pergerakan</span>
+            <h3 style="font-size:var(--text-h2)">Harga penutupan emiten sorotan</h3>
+            <p id="catatan-grafik" class="samar kecil"></p>
+          </div>
+          <div class="grafik-kotak">
+            <div class="grafik-kepala">
+              <h3 id="grafik-judul">—</h3>
+            </div>
+            <div class="grafik" id="grafik"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== DISIMPAN -->
+      <section class="halaman" id="hal-disimpan" hidden>
+        <div class="wrap seksi" style="border-top:none">
+          <div class="seksi-kepala">
+            <span class="label">Disimpan</span>
+            <h2>Yang kamu tandai</h2>
+            <p>Bukan portofolio dan bukan watchlist trading. Hanya penanda bacaan.</p>
+          </div>
+          <div id="disimpan-isi"></div>
+        </div>
+      </section>
+
+      <!-- ==================================================== PROFIL PROYEK
+           Satu-satunya halaman yang punya footer. -->
+      <section class="halaman" id="hal-profil" hidden>
+        <div class="wrap seksi" style="border-top:none">
+          <div class="seksi-kepala">
+            <span class="label">Profil proyek</span>
+            <h2>Ronce</h2>
+            <p>Ruang editorial pasar untuk pembaca Indonesia yang belum akrab dengan laporan keuangan.</p>
+          </div>
+
+          <div id="profil-isi"></div>
+        </div>
+      </section>
+
+      <!-- ==================================================== CARI
+           Halaman hasil. Dibuka dari textbox Orbit, bukan dari menu. -->
+      <section class="halaman" id="hal-cari" hidden>
+        <div class="wrap seksi" style="border-top:none">
+          <div class="seksi-kepala">
+            <span class="label">Hasil pencarian</span>
+            <h2>Cari di seluruh edisi</h2>
+            <p>Ketik nama emiten, topik, atau angka. Huruf besar-kecil tidak berpengaruh.</p>
+          </div>
+          <div class="cari-kotak">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" id="input-cari" placeholder="Contoh: dividen, GOTO, RUPS" autocomplete="off" aria-label="Kata kunci pencarian">
+          </div>
+          <div class="hasil-cari" id="hasil-cari">
+            <p class="kosong">Mulai mengetik untuk mencari.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================================================== footer
+         Hanya tampil di halaman Profil proyek. -->
+    <footer class="footer" id="footer" hidden>
+      <div class="wrap">
+        <div class="footer-atas">
+          <div class="tentang">
+            <div class="brand">Ronce<span class="titik">.</span></div>
+            <p>Warta pasar harian dari data terbuka. Ditulis ulang jadi bahasa yang
+               mudah dipahami, diperiksa editor, dan selalu menyertakan sumbernya.</p>
+          </div>
+          <div>
+            <h4>Halaman</h4>
+            <ul>
+              <li><a href="#" data-halaman="orbit">Orbit</a></li>
+              <li><a href="#" data-halaman="warta">Warta</a></li>
+              <li><a href="#" data-halaman="jelajah">Jelajah</a></li>
+              <li><a href="#" data-halaman="kalender">Kalender</a></li>
+              <li><a href="#" data-halaman="emiten">Emiten</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Sumber data</h4>
+            <ul>
+              <li><span>Sectors API</span></li>
+              <li><span>IDX</span></li>
+              <li><span id="footer-sumber">—</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Catatan</h4>
+            <ul>
+              <li><span>Bukan nasihat investasi</span></li>
+              <li><span>Data bisa tertunda</span></li>
+              <li><span>Periksa sumber asli</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bawah">
+          <span class="tim">Dibuat oleh <b>That team name is already taken</b></span>
+          <span id="footer-tanggal">—</span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /konten -->
+
+  <!-- ==================================================== nav bawah (mobile) -->
+  <nav class="nav-bawah" aria-label="Navigasi utama (mobile)">
+    <a href="#" class="nb-item" data-halaman="orbit"><svg class="ikon" aria-hidden="true"><use href="#i-orbit"/></svg><span class="teks">Orbit</span></a>
+    <a href="#" class="nb-item" data-halaman="warta"><svg class="ikon" aria-hidden="true"><use href="#i-warta"/></svg><span class="teks">Warta</span></a>
+    <a href="#" class="nb-item" data-halaman="jelajah"><svg class="ikon" aria-hidden="true"><use href="#i-jelajah"/></svg><span class="teks">Jelajah</span></a>
+    <a href="#" class="nb-item" data-halaman="kalender"><svg class="ikon" aria-hidden="true"><use href="#i-kalender"/></svg><span class="teks">Kalender</span></a>
+    <a href="#" class="nb-item" data-halaman="disimpan"><svg class="ikon" aria-hidden="true"><use href="#i-disimpan"/></svg><span class="teks">Disimpan</span></a>
+  </nav>
+
+</div><!-- /app -->
+
+<!-- ==================================================== panel detail -->
+<div class="overlay" id="overlay"></div>
+<aside class="panel-detail" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-judul" aria-hidden="true">
+  <div class="kepala">
+    <h2 id="panel-judul">Rincian</h2>
+    <button class="tutup" id="panel-tutup" aria-label="Tutup rincian">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="isi" id="panel-isi"></div>
+</aside>
+
+<script src="app.js"></script>
+</body>
+</html>
