@@ -1,0 +1,35 @@
+# Diabaikan git — jangan pernah commit berkas ini.
+
+# Rahasia
+.env
+*.key
+*.pem
+credentials.json
+secrets.json
+
+# Hasil dan data mentah
+output/
+archive/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Sistem operasi
+.DS_Store
+Thumbs.db
+
+# Berkas kerja lokal (tangkapan layar, cadangan, halaman uji)
+shots/
+_backup-web-lama/
+web/_*
+
+# Data mentah sensor pasar
+data-*.json
